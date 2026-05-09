@@ -13,6 +13,7 @@ datasource db {
 }
 
 // ================== USER ======================
+
 model User {
   id        String   @id @default(uuid())
 
@@ -29,10 +30,73 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // relations
+  studentTasks     Task[] @relation("StudentTasks")
+  supervisorTasks  Task[] @relation("SupervisorTasks")
+  opponentTasks    Task[] @relation("OpponentTasks")
 }
 
 enum Role {
   STUDENT
   TEACHER
+  GUEST
 }
-// ==============================================
+
+// ================== TASKS ======================
+
+model Task {
+  id            String   @id @default(uuid())
+
+  topic         String   @unique
+  status        Status
+  type          Type
+
+  annotation    String?
+  literature    String?
+
+  faculty       Faculty
+  department    Department
+
+  // FOREIGN KEYS
+  studentId     String
+  supervisorId  String
+  opponentId    String
+
+  // RELATIONS
+  student       User @relation("StudentTasks", fields: [studentId], references: [id])
+  supervisor    User @relation("SupervisorTasks", fields: [supervisorId], references: [id])
+  opponent      User @relation("OpponentTasks", fields: [opponentId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissionDate DateTime?
+  assignmentDate DateTime
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  IN_PROGRESS
+}
+
+enum Type {
+  bachelor
+  master
+  phd
+  other
+}
+
+enum Faculty {
+  PRF
+  CHEM
+}
+
+enum Department {
+  Informatics
+  Mathematics
+  Physics
+  Chemistry
+}
+
