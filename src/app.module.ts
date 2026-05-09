@@ -10,7 +10,17 @@ import { TasksModule } from './tasks/tasks.module';
 import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, AuthModule, UsersModule, TasksModule, ReviewsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      expandVariables: true,
+    }),
+    PrismaModule,
+    AuthModule,
+    UsersModule,
+    TasksModule,
+    ReviewsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

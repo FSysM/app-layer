@@ -47,12 +47,17 @@ export class AuthService  {
         }
 
         // 4. generate token
-        const access_token =
-            await this.jwtService.signAsync(payload)
+        const accessToken = await this.jwtService.signAsync(payload)
 
-        // 5. return token
+        // 5. return token and user
         return {
-            access_token
+            accessToken,
+            user: {
+                id: user.id,
+                username: user.username,
+                name: user.name,
+                role: user.role
+            }
         }
     }
 }
