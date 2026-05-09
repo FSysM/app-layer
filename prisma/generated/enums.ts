@@ -11,7 +11,45 @@
 
 export const Role = {
   STUDENT: 'STUDENT',
-  TEACHER: 'TEACHER'
+  TEACHER: 'TEACHER',
+  GUEST: 'GUEST'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const Status = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  IN_PROGRESS: 'IN_PROGRESS'
+} as const
+
+export type Status = (typeof Status)[keyof typeof Status]
+
+
+export const Type = {
+  bachelor: 'bachelor',
+  master: 'master',
+  phd: 'phd',
+  other: 'other'
+} as const
+
+export type Type = (typeof Type)[keyof typeof Type]
+
+
+export const Faculty = {
+  PRF: 'PRF',
+  CHEM: 'CHEM'
+} as const
+
+export type Faculty = (typeof Faculty)[keyof typeof Faculty]
+
+
+export const Department = {
+  Informatics: 'Informatics',
+  Mathematics: 'Mathematics',
+  Physics: 'Physics',
+  Chemistry: 'Chemistry'
+} as const
+
+export type Department = (typeof Department)[keyof typeof Department]
