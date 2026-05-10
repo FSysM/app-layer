@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Task: 'Task'
+  Assignment: 'Assignment',
+  Submission: 'Submission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -87,7 +88,24 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const TaskScalarFieldEnum = {
+export const AssignmentScalarFieldEnum = {
+  id: 'id',
+  topic: 'topic',
+  type: 'type',
+  annotation: 'annotation',
+  faculty: 'faculty',
+  department: 'department',
+  studentId: 'studentId',
+  supervisorId: 'supervisorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  assignmentDate: 'assignmentDate'
+} as const
+
+export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
+
+
+export const SubmissionScalarFieldEnum = {
   id: 'id',
   topic: 'topic',
   status: 'status',
@@ -96,16 +114,16 @@ export const TaskScalarFieldEnum = {
   literature: 'literature',
   faculty: 'faculty',
   department: 'department',
+  assignmentId: 'assignmentId',
   studentId: 'studentId',
   supervisorId: 'supervisorId',
   opponentId: 'opponentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  submissionDate: 'submissionDate',
-  assignmentDate: 'assignmentDate'
+  submissionDate: 'submissionDate'
 } as const
 
-export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+export type SubmissionScalarFieldEnum = (typeof SubmissionScalarFieldEnum)[keyof typeof SubmissionScalarFieldEnum]
 
 
 export const SortOrder = {

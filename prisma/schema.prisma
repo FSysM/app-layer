@@ -32,9 +32,14 @@ model User {
   updatedAt DateTime @updatedAt
 
   // relations
-  studentTasks     Task[] @relation("StudentTasks")
-  supervisorTasks  Task[] @relation("SupervisorTasks")
-  opponentTasks    Task[] @relation("OpponentTasks")
+  // assignments
+  studentAssignments     Assignment[] @relation("StudentAssignments")
+  supervisorAssignments  Assignment[] @relation("SupervisorAssignments")
+
+  // submissions
+  studentSubmissions     Submission[] @relation("StudentSubmissions")
+  supervisorSubmissions  Submission[] @relation("SupervisorSubmissions")
+  opponentSubmissions    Submission[] @relation("OpponentSubmissions")
 }
 
 enum Role {
@@ -43,9 +48,38 @@ enum Role {
   GUEST
 }
 
-// ================== TASKS ======================
+// ================== ASSIGNMENTS ======================
 
-model Task {
+model Assignment {
+  id            String   @id @default(uuid())
+
+  topic         String   @unique
+  type          Type
+
+  annotation    String?
+
+  faculty       Faculty
+  department    Department
+
+  // FK
+  studentId     String
+  supervisorId  String
+
+  // RELATIONS
+  student       User @relation("StudentAssignments", fields: [studentId], references: [id])
+  supervisor    User @relation("SupervisorAssignments", fields: [supervisorId], references: [id])
+
+  submissions   Submission[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  assignmentDate DateTime @default(now())
+}
+
+// ================== SUBMISSIONS  ======================
+
+model Submission {
   id            String   @id @default(uuid())
 
   topic         String   @unique
@@ -58,21 +92,26 @@ model Task {
   faculty       Faculty
   department    Department
 
-  // FOREIGN KEYS
+  // FK
+  assignmentId  String
+
   studentId     String
   supervisorId  String
   opponentId    String
 
   // RELATIONS
-  student       User @relation("StudentTasks", fields: [studentId], references: [id])
-  supervisor    User @relation("SupervisorTasks", fields: [supervisorId], references: [id])
-  opponent      User @relation("OpponentTasks", fields: [opponentId], references: [id])
+  assignment    Assignment @relation(fields: [assignmentId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  student       User @relation("StudentSubmissions", fields: [studentId], references: [id])
+
+  supervisor    User @relation("SupervisorSubmissions", fields: [supervisorId], references: [id])
+
+  opponent      User @relation("OpponentSubmissions", fields: [opponentId], references: [id])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   submissionDate DateTime?
-  assignmentDate DateTime
 }
 
 enum Status {
