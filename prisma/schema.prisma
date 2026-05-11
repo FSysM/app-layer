@@ -15,64 +15,66 @@ datasource db {
 // ================== USER ======================
 
 model User {
-  id        String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  username  String   @unique
-  email     String   @unique
-  password  String
+  username String @unique
+  email    String @unique
+  password String
 
-  name      String?
+  name String?
 
-  role      Role
+  role Role
 
-  phone     String?
-  address   String?
+  phone   String?
+  address String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // relations
-  // assignments
-  studentAssignments     Assignment[] @relation("StudentAssignments")
-  supervisorAssignments  Assignment[] @relation("SupervisorAssignments")
+  // ASSIGNMENTS
+  studentAssignments    Assignment[] @relation("StudentAssignments")
+  supervisorAssignments Assignment[] @relation("SupervisorAssignments")
 
-  // submissions
-  studentSubmissions     Submission[] @relation("StudentSubmissions")
-  supervisorSubmissions  Submission[] @relation("SupervisorSubmissions")
-  opponentSubmissions    Submission[] @relation("OpponentSubmissions")
+  // SUBMISSIONS
+  opponentSubmissions Submission[] @relation("OpponentSubmissions")
+
+  // REVIEWS
+  reviews Review[]
 }
 
 enum Role {
   STUDENT
   TEACHER
-  GUEST
 }
 
 // ================== ASSIGNMENTS ======================
 
 model Assignment {
-  id            String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  topic         String   @unique
-  type          Type
+  topic String @unique
+  type  Type
 
-  annotation    String?
+  annotation String?
 
-  faculty       Faculty
-  department    Department
+  faculty    Faculty
+  department Department
+
+  taken Boolean @default(false)
 
   // FK
-  studentId     String
-  supervisorId  String
+  studentId    String
+  supervisorId String
 
   // RELATIONS
-  student       User @relation("StudentAssignments", fields: [studentId], references: [id])
-  supervisor    User @relation("SupervisorAssignments", fields: [supervisorId], references: [id])
+  student User @relation("StudentAssignments", fields: [studentId], references: [id])
 
-  submissions   Submission[]
+  supervisor User @relation("SupervisorAssignments", fields: [supervisorId], references: [id])
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  submissions Submission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   assignmentDate DateTime @default(now())
 }
@@ -80,38 +82,29 @@ model Assignment {
 // ================== SUBMISSIONS  ======================
 
 model Submission {
-  id            String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  topic         String   @unique
-  status        Status
-  type          Type
+  status Status
 
-  annotation    String?
-  literature    String?
+  literature String?
 
-  faculty       Faculty
-  department    Department
+  fileUrl String?
+
+  submissionDate DateTime @default(now())
 
   // FK
-  assignmentId  String
-
-  studentId     String
-  supervisorId  String
-  opponentId    String
+  assignmentId String
+  opponentId   String
 
   // RELATIONS
-  assignment    Assignment @relation(fields: [assignmentId], references: [id])
+  assignment Assignment @relation(fields: [assignmentId], references: [id])
 
-  student       User @relation("StudentSubmissions", fields: [studentId], references: [id])
+  opponent User @relation("OpponentSubmissions", fields: [opponentId], references: [id])
 
-  supervisor    User @relation("SupervisorSubmissions", fields: [supervisorId], references: [id])
+  review Review?
 
-  opponent      User @relation("OpponentSubmissions", fields: [opponentId], references: [id])
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  submissionDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Status {
@@ -139,3 +132,39 @@ enum Department {
   Chemistry
 }
 
+// ================== REVIEWS ======================
+model Review {
+  id String @id @default(uuid())
+
+  grade Grade
+
+  comment String?
+
+  type ReviewType?
+
+  // FK
+  submissionId String @unique
+  reviewerId   String
+
+  // RELATIONS
+  submission Submission @relation(fields: [submissionId], references: [id])
+
+  reviewer User @relation(fields: [reviewerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Grade {
+  A
+  B
+  C
+  D
+  E
+  F
+}
+
+enum ReviewType {
+  SUPERVISOR
+  OPPONENT
+}

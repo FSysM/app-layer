@@ -53,3 +53,23 @@ export const Department = {
 } as const
 
 export type Department = (typeof Department)[keyof typeof Department]
+
+
+export const Grade = {
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+  E: 'E',
+  F: 'F'
+} as const
+
+export type Grade = (typeof Grade)[keyof typeof Grade]
+
+
+export const ReviewType = {
+  SUPERVISOR: 'SUPERVISOR',
+  OPPONENT: 'OPPONENT'
+} as const
+
+export type ReviewType = (typeof ReviewType)[keyof typeof ReviewType]

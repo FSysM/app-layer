@@ -26,112 +26,76 @@ export type AggregateSubmission = {
 
 export type SubmissionMinAggregateOutputType = {
   id: string | null
-  topic: string | null
   status: $Enums.Status | null
-  type: $Enums.Type | null
-  annotation: string | null
   literature: string | null
-  faculty: $Enums.Faculty | null
-  department: $Enums.Department | null
+  fileUrl: string | null
+  submissionDate: Date | null
   assignmentId: string | null
-  studentId: string | null
-  supervisorId: string | null
   opponentId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  submissionDate: Date | null
 }
 
 export type SubmissionMaxAggregateOutputType = {
   id: string | null
-  topic: string | null
   status: $Enums.Status | null
-  type: $Enums.Type | null
-  annotation: string | null
   literature: string | null
-  faculty: $Enums.Faculty | null
-  department: $Enums.Department | null
+  fileUrl: string | null
+  submissionDate: Date | null
   assignmentId: string | null
-  studentId: string | null
-  supervisorId: string | null
   opponentId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  submissionDate: Date | null
 }
 
 export type SubmissionCountAggregateOutputType = {
   id: number
-  topic: number
   status: number
-  type: number
-  annotation: number
   literature: number
-  faculty: number
-  department: number
+  fileUrl: number
+  submissionDate: number
   assignmentId: number
-  studentId: number
-  supervisorId: number
   opponentId: number
   createdAt: number
   updatedAt: number
-  submissionDate: number
   _all: number
 }
 
 
 export type SubmissionMinAggregateInputType = {
   id?: true
-  topic?: true
   status?: true
-  type?: true
-  annotation?: true
   literature?: true
-  faculty?: true
-  department?: true
+  fileUrl?: true
+  submissionDate?: true
   assignmentId?: true
-  studentId?: true
-  supervisorId?: true
   opponentId?: true
   createdAt?: true
   updatedAt?: true
-  submissionDate?: true
 }
 
 export type SubmissionMaxAggregateInputType = {
   id?: true
-  topic?: true
   status?: true
-  type?: true
-  annotation?: true
   literature?: true
-  faculty?: true
-  department?: true
+  fileUrl?: true
+  submissionDate?: true
   assignmentId?: true
-  studentId?: true
-  supervisorId?: true
   opponentId?: true
   createdAt?: true
   updatedAt?: true
-  submissionDate?: true
 }
 
 export type SubmissionCountAggregateInputType = {
   id?: true
-  topic?: true
   status?: true
-  type?: true
-  annotation?: true
   literature?: true
-  faculty?: true
-  department?: true
+  fileUrl?: true
+  submissionDate?: true
   assignmentId?: true
-  studentId?: true
-  supervisorId?: true
   opponentId?: true
   createdAt?: true
   updatedAt?: true
-  submissionDate?: true
   _all?: true
 }
 
@@ -209,20 +173,14 @@ export type SubmissionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type SubmissionGroupByOutputType = {
   id: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation: string | null
   literature: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl: string | null
+  submissionDate: Date
   assignmentId: string
-  studentId: string
-  supervisorId: string
   opponentId: string
   createdAt: Date
   updatedAt: Date
-  submissionDate: Date | null
   _count: SubmissionCountAggregateOutputType | null
   _min: SubmissionMinAggregateOutputType | null
   _max: SubmissionMaxAggregateOutputType | null
@@ -248,89 +206,62 @@ export type SubmissionWhereInput = {
   OR?: Prisma.SubmissionWhereInput[]
   NOT?: Prisma.SubmissionWhereInput | Prisma.SubmissionWhereInput[]
   id?: Prisma.StringFilter<"Submission"> | string
-  topic?: Prisma.StringFilter<"Submission"> | string
   status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
-  type?: Prisma.EnumTypeFilter<"Submission"> | $Enums.Type
-  annotation?: Prisma.StringNullableFilter<"Submission"> | string | null
   literature?: Prisma.StringNullableFilter<"Submission"> | string | null
-  faculty?: Prisma.EnumFacultyFilter<"Submission"> | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFilter<"Submission"> | $Enums.Department
+  fileUrl?: Prisma.StringNullableFilter<"Submission"> | string | null
+  submissionDate?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringFilter<"Submission"> | string
-  studentId?: Prisma.StringFilter<"Submission"> | string
-  supervisorId?: Prisma.StringFilter<"Submission"> | string
   opponentId?: Prisma.StringFilter<"Submission"> | string
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
-  submissionDate?: Prisma.DateTimeNullableFilter<"Submission"> | Date | string | null
   assignment?: Prisma.XOR<Prisma.AssignmentScalarRelationFilter, Prisma.AssignmentWhereInput>
-  student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  supervisor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   opponent?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
 }
 
 export type SubmissionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  annotation?: Prisma.SortOrderInput | Prisma.SortOrder
   literature?: Prisma.SortOrderInput | Prisma.SortOrder
-  faculty?: Prisma.SortOrder
-  department?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  supervisorId?: Prisma.SortOrder
   opponentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  submissionDate?: Prisma.SortOrderInput | Prisma.SortOrder
   assignment?: Prisma.AssignmentOrderByWithRelationInput
-  student?: Prisma.UserOrderByWithRelationInput
-  supervisor?: Prisma.UserOrderByWithRelationInput
   opponent?: Prisma.UserOrderByWithRelationInput
+  review?: Prisma.ReviewOrderByWithRelationInput
 }
 
 export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  topic?: string
   AND?: Prisma.SubmissionWhereInput | Prisma.SubmissionWhereInput[]
   OR?: Prisma.SubmissionWhereInput[]
   NOT?: Prisma.SubmissionWhereInput | Prisma.SubmissionWhereInput[]
   status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
-  type?: Prisma.EnumTypeFilter<"Submission"> | $Enums.Type
-  annotation?: Prisma.StringNullableFilter<"Submission"> | string | null
   literature?: Prisma.StringNullableFilter<"Submission"> | string | null
-  faculty?: Prisma.EnumFacultyFilter<"Submission"> | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFilter<"Submission"> | $Enums.Department
+  fileUrl?: Prisma.StringNullableFilter<"Submission"> | string | null
+  submissionDate?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringFilter<"Submission"> | string
-  studentId?: Prisma.StringFilter<"Submission"> | string
-  supervisorId?: Prisma.StringFilter<"Submission"> | string
   opponentId?: Prisma.StringFilter<"Submission"> | string
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
-  submissionDate?: Prisma.DateTimeNullableFilter<"Submission"> | Date | string | null
   assignment?: Prisma.XOR<Prisma.AssignmentScalarRelationFilter, Prisma.AssignmentWhereInput>
-  student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  supervisor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   opponent?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "topic">
+  review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
+}, "id">
 
 export type SubmissionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  annotation?: Prisma.SortOrderInput | Prisma.SortOrder
   literature?: Prisma.SortOrderInput | Prisma.SortOrder
-  faculty?: Prisma.SortOrder
-  department?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  supervisorId?: Prisma.SortOrder
   opponentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  submissionDate?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SubmissionCountOrderByAggregateInput
   _max?: Prisma.SubmissionMaxOrderByAggregateInput
   _min?: Prisma.SubmissionMinOrderByAggregateInput
@@ -341,142 +272,100 @@ export type SubmissionScalarWhereWithAggregatesInput = {
   OR?: Prisma.SubmissionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SubmissionScalarWhereWithAggregatesInput | Prisma.SubmissionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Submission"> | string
-  topic?: Prisma.StringWithAggregatesFilter<"Submission"> | string
   status?: Prisma.EnumStatusWithAggregatesFilter<"Submission"> | $Enums.Status
-  type?: Prisma.EnumTypeWithAggregatesFilter<"Submission"> | $Enums.Type
-  annotation?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
   literature?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
-  faculty?: Prisma.EnumFacultyWithAggregatesFilter<"Submission"> | $Enums.Faculty
-  department?: Prisma.EnumDepartmentWithAggregatesFilter<"Submission"> | $Enums.Department
+  fileUrl?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
+  submissionDate?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
-  studentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
-  supervisorId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
   opponentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
-  submissionDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Submission"> | Date | string | null
 }
 
 export type SubmissionCreateInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  student: Prisma.UserCreateNestedOneWithoutStudentSubmissionsInput
-  supervisor: Prisma.UserCreateNestedOneWithoutSupervisorSubmissionsInput
   opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
+  review?: Prisma.ReviewCreateNestedOneWithoutSubmissionInput
 }
 
 export type SubmissionUncheckedCreateInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   assignmentId: string
-  studentId: string
-  supervisorId: string
   opponentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutSubmissionInput
 }
 
 export type SubmissionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentSubmissionsNestedInput
-  supervisor?: Prisma.UserUpdateOneRequiredWithoutSupervisorSubmissionsNestedInput
   opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   opponentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutSubmissionNestedInput
 }
 
 export type SubmissionCreateManyInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   assignmentId: string
-  studentId: string
-  supervisorId: string
   opponentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
 }
 
 export type SubmissionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SubmissionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   opponentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SubmissionListRelationFilter = {
@@ -491,70 +380,43 @@ export type SubmissionOrderByRelationAggregateInput = {
 
 export type SubmissionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  annotation?: Prisma.SortOrder
   literature?: Prisma.SortOrder
-  faculty?: Prisma.SortOrder
-  department?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
+  submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  supervisorId?: Prisma.SortOrder
   opponentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  submissionDate?: Prisma.SortOrder
 }
 
 export type SubmissionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  annotation?: Prisma.SortOrder
   literature?: Prisma.SortOrder
-  faculty?: Prisma.SortOrder
-  department?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
+  submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  supervisorId?: Prisma.SortOrder
   opponentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  submissionDate?: Prisma.SortOrder
 }
 
 export type SubmissionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  annotation?: Prisma.SortOrder
   literature?: Prisma.SortOrder
-  faculty?: Prisma.SortOrder
-  department?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
+  submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  supervisorId?: Prisma.SortOrder
   opponentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  submissionDate?: Prisma.SortOrder
 }
 
-export type SubmissionCreateNestedManyWithoutStudentInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutStudentInput, Prisma.SubmissionUncheckedCreateWithoutStudentInput> | Prisma.SubmissionCreateWithoutStudentInput[] | Prisma.SubmissionUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutStudentInput | Prisma.SubmissionCreateOrConnectWithoutStudentInput[]
-  createMany?: Prisma.SubmissionCreateManyStudentInputEnvelope
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-}
-
-export type SubmissionCreateNestedManyWithoutSupervisorInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutSupervisorInput, Prisma.SubmissionUncheckedCreateWithoutSupervisorInput> | Prisma.SubmissionCreateWithoutSupervisorInput[] | Prisma.SubmissionUncheckedCreateWithoutSupervisorInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutSupervisorInput | Prisma.SubmissionCreateOrConnectWithoutSupervisorInput[]
-  createMany?: Prisma.SubmissionCreateManySupervisorInputEnvelope
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
+export type SubmissionScalarRelationFilter = {
+  is?: Prisma.SubmissionWhereInput
+  isNot?: Prisma.SubmissionWhereInput
 }
 
 export type SubmissionCreateNestedManyWithoutOpponentInput = {
@@ -564,53 +426,11 @@ export type SubmissionCreateNestedManyWithoutOpponentInput = {
   connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
 }
 
-export type SubmissionUncheckedCreateNestedManyWithoutStudentInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutStudentInput, Prisma.SubmissionUncheckedCreateWithoutStudentInput> | Prisma.SubmissionCreateWithoutStudentInput[] | Prisma.SubmissionUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutStudentInput | Prisma.SubmissionCreateOrConnectWithoutStudentInput[]
-  createMany?: Prisma.SubmissionCreateManyStudentInputEnvelope
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-}
-
-export type SubmissionUncheckedCreateNestedManyWithoutSupervisorInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutSupervisorInput, Prisma.SubmissionUncheckedCreateWithoutSupervisorInput> | Prisma.SubmissionCreateWithoutSupervisorInput[] | Prisma.SubmissionUncheckedCreateWithoutSupervisorInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutSupervisorInput | Prisma.SubmissionCreateOrConnectWithoutSupervisorInput[]
-  createMany?: Prisma.SubmissionCreateManySupervisorInputEnvelope
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-}
-
 export type SubmissionUncheckedCreateNestedManyWithoutOpponentInput = {
   create?: Prisma.XOR<Prisma.SubmissionCreateWithoutOpponentInput, Prisma.SubmissionUncheckedCreateWithoutOpponentInput> | Prisma.SubmissionCreateWithoutOpponentInput[] | Prisma.SubmissionUncheckedCreateWithoutOpponentInput[]
   connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutOpponentInput | Prisma.SubmissionCreateOrConnectWithoutOpponentInput[]
   createMany?: Prisma.SubmissionCreateManyOpponentInputEnvelope
   connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-}
-
-export type SubmissionUpdateManyWithoutStudentNestedInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutStudentInput, Prisma.SubmissionUncheckedCreateWithoutStudentInput> | Prisma.SubmissionCreateWithoutStudentInput[] | Prisma.SubmissionUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutStudentInput | Prisma.SubmissionCreateOrConnectWithoutStudentInput[]
-  upsert?: Prisma.SubmissionUpsertWithWhereUniqueWithoutStudentInput | Prisma.SubmissionUpsertWithWhereUniqueWithoutStudentInput[]
-  createMany?: Prisma.SubmissionCreateManyStudentInputEnvelope
-  set?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  disconnect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  delete?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  update?: Prisma.SubmissionUpdateWithWhereUniqueWithoutStudentInput | Prisma.SubmissionUpdateWithWhereUniqueWithoutStudentInput[]
-  updateMany?: Prisma.SubmissionUpdateManyWithWhereWithoutStudentInput | Prisma.SubmissionUpdateManyWithWhereWithoutStudentInput[]
-  deleteMany?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
-}
-
-export type SubmissionUpdateManyWithoutSupervisorNestedInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutSupervisorInput, Prisma.SubmissionUncheckedCreateWithoutSupervisorInput> | Prisma.SubmissionCreateWithoutSupervisorInput[] | Prisma.SubmissionUncheckedCreateWithoutSupervisorInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutSupervisorInput | Prisma.SubmissionCreateOrConnectWithoutSupervisorInput[]
-  upsert?: Prisma.SubmissionUpsertWithWhereUniqueWithoutSupervisorInput | Prisma.SubmissionUpsertWithWhereUniqueWithoutSupervisorInput[]
-  createMany?: Prisma.SubmissionCreateManySupervisorInputEnvelope
-  set?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  disconnect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  delete?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  update?: Prisma.SubmissionUpdateWithWhereUniqueWithoutSupervisorInput | Prisma.SubmissionUpdateWithWhereUniqueWithoutSupervisorInput[]
-  updateMany?: Prisma.SubmissionUpdateManyWithWhereWithoutSupervisorInput | Prisma.SubmissionUpdateManyWithWhereWithoutSupervisorInput[]
-  deleteMany?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
 }
 
 export type SubmissionUpdateManyWithoutOpponentNestedInput = {
@@ -624,34 +444,6 @@ export type SubmissionUpdateManyWithoutOpponentNestedInput = {
   connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
   update?: Prisma.SubmissionUpdateWithWhereUniqueWithoutOpponentInput | Prisma.SubmissionUpdateWithWhereUniqueWithoutOpponentInput[]
   updateMany?: Prisma.SubmissionUpdateManyWithWhereWithoutOpponentInput | Prisma.SubmissionUpdateManyWithWhereWithoutOpponentInput[]
-  deleteMany?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
-}
-
-export type SubmissionUncheckedUpdateManyWithoutStudentNestedInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutStudentInput, Prisma.SubmissionUncheckedCreateWithoutStudentInput> | Prisma.SubmissionCreateWithoutStudentInput[] | Prisma.SubmissionUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutStudentInput | Prisma.SubmissionCreateOrConnectWithoutStudentInput[]
-  upsert?: Prisma.SubmissionUpsertWithWhereUniqueWithoutStudentInput | Prisma.SubmissionUpsertWithWhereUniqueWithoutStudentInput[]
-  createMany?: Prisma.SubmissionCreateManyStudentInputEnvelope
-  set?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  disconnect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  delete?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  update?: Prisma.SubmissionUpdateWithWhereUniqueWithoutStudentInput | Prisma.SubmissionUpdateWithWhereUniqueWithoutStudentInput[]
-  updateMany?: Prisma.SubmissionUpdateManyWithWhereWithoutStudentInput | Prisma.SubmissionUpdateManyWithWhereWithoutStudentInput[]
-  deleteMany?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
-}
-
-export type SubmissionUncheckedUpdateManyWithoutSupervisorNestedInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutSupervisorInput, Prisma.SubmissionUncheckedCreateWithoutSupervisorInput> | Prisma.SubmissionCreateWithoutSupervisorInput[] | Prisma.SubmissionUncheckedCreateWithoutSupervisorInput[]
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutSupervisorInput | Prisma.SubmissionCreateOrConnectWithoutSupervisorInput[]
-  upsert?: Prisma.SubmissionUpsertWithWhereUniqueWithoutSupervisorInput | Prisma.SubmissionUpsertWithWhereUniqueWithoutSupervisorInput[]
-  createMany?: Prisma.SubmissionCreateManySupervisorInputEnvelope
-  set?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  disconnect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  delete?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  connect?: Prisma.SubmissionWhereUniqueInput | Prisma.SubmissionWhereUniqueInput[]
-  update?: Prisma.SubmissionUpdateWithWhereUniqueWithoutSupervisorInput | Prisma.SubmissionUpdateWithWhereUniqueWithoutSupervisorInput[]
-  updateMany?: Prisma.SubmissionUpdateManyWithWhereWithoutSupervisorInput | Prisma.SubmissionUpdateManyWithWhereWithoutSupervisorInput[]
   deleteMany?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
 }
 
@@ -715,130 +507,42 @@ export type EnumStatusFieldUpdateOperationsInput = {
   set?: $Enums.Status
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type SubmissionCreateNestedOneWithoutReviewInput = {
+  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
+  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutReviewInput
+  connect?: Prisma.SubmissionWhereUniqueInput
 }
 
-export type SubmissionCreateWithoutStudentInput = {
-  id?: string
-  topic: string
-  status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
-  literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  submissionDate?: Date | string | null
-  assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  supervisor: Prisma.UserCreateNestedOneWithoutSupervisorSubmissionsInput
-  opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
-}
-
-export type SubmissionUncheckedCreateWithoutStudentInput = {
-  id?: string
-  topic: string
-  status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
-  literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  assignmentId: string
-  supervisorId: string
-  opponentId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  submissionDate?: Date | string | null
-}
-
-export type SubmissionCreateOrConnectWithoutStudentInput = {
-  where: Prisma.SubmissionWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubmissionCreateWithoutStudentInput, Prisma.SubmissionUncheckedCreateWithoutStudentInput>
-}
-
-export type SubmissionCreateManyStudentInputEnvelope = {
-  data: Prisma.SubmissionCreateManyStudentInput | Prisma.SubmissionCreateManyStudentInput[]
-  skipDuplicates?: boolean
-}
-
-export type SubmissionCreateWithoutSupervisorInput = {
-  id?: string
-  topic: string
-  status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
-  literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  submissionDate?: Date | string | null
-  assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  student: Prisma.UserCreateNestedOneWithoutStudentSubmissionsInput
-  opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
-}
-
-export type SubmissionUncheckedCreateWithoutSupervisorInput = {
-  id?: string
-  topic: string
-  status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
-  literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  assignmentId: string
-  studentId: string
-  opponentId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  submissionDate?: Date | string | null
-}
-
-export type SubmissionCreateOrConnectWithoutSupervisorInput = {
-  where: Prisma.SubmissionWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubmissionCreateWithoutSupervisorInput, Prisma.SubmissionUncheckedCreateWithoutSupervisorInput>
-}
-
-export type SubmissionCreateManySupervisorInputEnvelope = {
-  data: Prisma.SubmissionCreateManySupervisorInput | Prisma.SubmissionCreateManySupervisorInput[]
-  skipDuplicates?: boolean
+export type SubmissionUpdateOneRequiredWithoutReviewNestedInput = {
+  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
+  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutReviewInput
+  upsert?: Prisma.SubmissionUpsertWithoutReviewInput
+  connect?: Prisma.SubmissionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SubmissionUpdateToOneWithWhereWithoutReviewInput, Prisma.SubmissionUpdateWithoutReviewInput>, Prisma.SubmissionUncheckedUpdateWithoutReviewInput>
 }
 
 export type SubmissionCreateWithoutOpponentInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  student: Prisma.UserCreateNestedOneWithoutStudentSubmissionsInput
-  supervisor: Prisma.UserCreateNestedOneWithoutSupervisorSubmissionsInput
+  review?: Prisma.ReviewCreateNestedOneWithoutSubmissionInput
 }
 
 export type SubmissionUncheckedCreateWithoutOpponentInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   assignmentId: string
-  studentId: string
-  supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutSubmissionInput
 }
 
 export type SubmissionCreateOrConnectWithoutOpponentInput = {
@@ -849,59 +553,6 @@ export type SubmissionCreateOrConnectWithoutOpponentInput = {
 export type SubmissionCreateManyOpponentInputEnvelope = {
   data: Prisma.SubmissionCreateManyOpponentInput | Prisma.SubmissionCreateManyOpponentInput[]
   skipDuplicates?: boolean
-}
-
-export type SubmissionUpsertWithWhereUniqueWithoutStudentInput = {
-  where: Prisma.SubmissionWhereUniqueInput
-  update: Prisma.XOR<Prisma.SubmissionUpdateWithoutStudentInput, Prisma.SubmissionUncheckedUpdateWithoutStudentInput>
-  create: Prisma.XOR<Prisma.SubmissionCreateWithoutStudentInput, Prisma.SubmissionUncheckedCreateWithoutStudentInput>
-}
-
-export type SubmissionUpdateWithWhereUniqueWithoutStudentInput = {
-  where: Prisma.SubmissionWhereUniqueInput
-  data: Prisma.XOR<Prisma.SubmissionUpdateWithoutStudentInput, Prisma.SubmissionUncheckedUpdateWithoutStudentInput>
-}
-
-export type SubmissionUpdateManyWithWhereWithoutStudentInput = {
-  where: Prisma.SubmissionScalarWhereInput
-  data: Prisma.XOR<Prisma.SubmissionUpdateManyMutationInput, Prisma.SubmissionUncheckedUpdateManyWithoutStudentInput>
-}
-
-export type SubmissionScalarWhereInput = {
-  AND?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
-  OR?: Prisma.SubmissionScalarWhereInput[]
-  NOT?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
-  id?: Prisma.StringFilter<"Submission"> | string
-  topic?: Prisma.StringFilter<"Submission"> | string
-  status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
-  type?: Prisma.EnumTypeFilter<"Submission"> | $Enums.Type
-  annotation?: Prisma.StringNullableFilter<"Submission"> | string | null
-  literature?: Prisma.StringNullableFilter<"Submission"> | string | null
-  faculty?: Prisma.EnumFacultyFilter<"Submission"> | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFilter<"Submission"> | $Enums.Department
-  assignmentId?: Prisma.StringFilter<"Submission"> | string
-  studentId?: Prisma.StringFilter<"Submission"> | string
-  supervisorId?: Prisma.StringFilter<"Submission"> | string
-  opponentId?: Prisma.StringFilter<"Submission"> | string
-  createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
-  submissionDate?: Prisma.DateTimeNullableFilter<"Submission"> | Date | string | null
-}
-
-export type SubmissionUpsertWithWhereUniqueWithoutSupervisorInput = {
-  where: Prisma.SubmissionWhereUniqueInput
-  update: Prisma.XOR<Prisma.SubmissionUpdateWithoutSupervisorInput, Prisma.SubmissionUncheckedUpdateWithoutSupervisorInput>
-  create: Prisma.XOR<Prisma.SubmissionCreateWithoutSupervisorInput, Prisma.SubmissionUncheckedCreateWithoutSupervisorInput>
-}
-
-export type SubmissionUpdateWithWhereUniqueWithoutSupervisorInput = {
-  where: Prisma.SubmissionWhereUniqueInput
-  data: Prisma.XOR<Prisma.SubmissionUpdateWithoutSupervisorInput, Prisma.SubmissionUncheckedUpdateWithoutSupervisorInput>
-}
-
-export type SubmissionUpdateManyWithWhereWithoutSupervisorInput = {
-  where: Prisma.SubmissionScalarWhereInput
-  data: Prisma.XOR<Prisma.SubmissionUpdateManyMutationInput, Prisma.SubmissionUncheckedUpdateManyWithoutSupervisorInput>
 }
 
 export type SubmissionUpsertWithWhereUniqueWithoutOpponentInput = {
@@ -920,38 +571,43 @@ export type SubmissionUpdateManyWithWhereWithoutOpponentInput = {
   data: Prisma.XOR<Prisma.SubmissionUpdateManyMutationInput, Prisma.SubmissionUncheckedUpdateManyWithoutOpponentInput>
 }
 
+export type SubmissionScalarWhereInput = {
+  AND?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
+  OR?: Prisma.SubmissionScalarWhereInput[]
+  NOT?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
+  id?: Prisma.StringFilter<"Submission"> | string
+  status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
+  literature?: Prisma.StringNullableFilter<"Submission"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Submission"> | string | null
+  submissionDate?: Prisma.DateTimeFilter<"Submission"> | Date | string
+  assignmentId?: Prisma.StringFilter<"Submission"> | string
+  opponentId?: Prisma.StringFilter<"Submission"> | string
+  createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
+}
+
 export type SubmissionCreateWithoutAssignmentInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
-  student: Prisma.UserCreateNestedOneWithoutStudentSubmissionsInput
-  supervisor: Prisma.UserCreateNestedOneWithoutSupervisorSubmissionsInput
   opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
+  review?: Prisma.ReviewCreateNestedOneWithoutSubmissionInput
 }
 
 export type SubmissionUncheckedCreateWithoutAssignmentInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  studentId: string
-  supervisorId: string
+  fileUrl?: string | null
+  submissionDate?: Date | string
   opponentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutSubmissionInput
 }
 
 export type SubmissionCreateOrConnectWithoutAssignmentInput = {
@@ -980,381 +636,231 @@ export type SubmissionUpdateManyWithWhereWithoutAssignmentInput = {
   data: Prisma.XOR<Prisma.SubmissionUpdateManyMutationInput, Prisma.SubmissionUncheckedUpdateManyWithoutAssignmentInput>
 }
 
-export type SubmissionCreateManyStudentInput = {
+export type SubmissionCreateWithoutReviewInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  assignmentId: string
-  supervisorId: string
-  opponentId: string
+  fileUrl?: string | null
+  submissionDate?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
+  assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
+  opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
 }
 
-export type SubmissionCreateManySupervisorInput = {
+export type SubmissionUncheckedCreateWithoutReviewInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   assignmentId: string
-  studentId: string
   opponentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
+}
+
+export type SubmissionCreateOrConnectWithoutReviewInput = {
+  where: Prisma.SubmissionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
+}
+
+export type SubmissionUpsertWithoutReviewInput = {
+  update: Prisma.XOR<Prisma.SubmissionUpdateWithoutReviewInput, Prisma.SubmissionUncheckedUpdateWithoutReviewInput>
+  create: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
+  where?: Prisma.SubmissionWhereInput
+}
+
+export type SubmissionUpdateToOneWithWhereWithoutReviewInput = {
+  where?: Prisma.SubmissionWhereInput
+  data: Prisma.XOR<Prisma.SubmissionUpdateWithoutReviewInput, Prisma.SubmissionUncheckedUpdateWithoutReviewInput>
+}
+
+export type SubmissionUpdateWithoutReviewInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
+  opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
+}
+
+export type SubmissionUncheckedUpdateWithoutReviewInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubmissionCreateManyOpponentInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
+  fileUrl?: string | null
+  submissionDate?: Date | string
   assignmentId: string
-  studentId: string
-  supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
-}
-
-export type SubmissionUpdateWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  supervisor?: Prisma.UserUpdateOneRequiredWithoutSupervisorSubmissionsNestedInput
-  opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
-}
-
-export type SubmissionUncheckedUpdateWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type SubmissionUncheckedUpdateManyWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type SubmissionUpdateWithoutSupervisorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentSubmissionsNestedInput
-  opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
-}
-
-export type SubmissionUncheckedUpdateWithoutSupervisorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type SubmissionUncheckedUpdateManyWithoutSupervisorInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SubmissionUpdateWithoutOpponentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentSubmissionsNestedInput
-  supervisor?: Prisma.UserUpdateOneRequiredWithoutSupervisorSubmissionsNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateWithoutOpponentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateManyWithoutOpponentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SubmissionCreateManyAssignmentInput = {
   id?: string
-  topic: string
   status: $Enums.Status
-  type: $Enums.Type
-  annotation?: string | null
   literature?: string | null
-  faculty: $Enums.Faculty
-  department: $Enums.Department
-  studentId: string
-  supervisorId: string
+  fileUrl?: string | null
+  submissionDate?: Date | string
   opponentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  submissionDate?: Date | string | null
 }
 
 export type SubmissionUpdateWithoutAssignmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentSubmissionsNestedInput
-  supervisor?: Prisma.UserUpdateOneRequiredWithoutSupervisorSubmissionsNestedInput
   opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateWithoutAssignmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   opponentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateManyWithoutAssignmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
-  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   opponentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
 
 export type SubmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  topic?: boolean
   status?: boolean
-  type?: boolean
-  annotation?: boolean
   literature?: boolean
-  faculty?: boolean
-  department?: boolean
+  fileUrl?: boolean
+  submissionDate?: boolean
   assignmentId?: boolean
-  studentId?: boolean
-  supervisorId?: boolean
   opponentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  submissionDate?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  review?: boolean | Prisma.Submission$reviewArgs<ExtArgs>
 }, ExtArgs["result"]["submission"]>
 
 export type SubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  topic?: boolean
   status?: boolean
-  type?: boolean
-  annotation?: boolean
   literature?: boolean
-  faculty?: boolean
-  department?: boolean
+  fileUrl?: boolean
+  submissionDate?: boolean
   assignmentId?: boolean
-  studentId?: boolean
-  supervisorId?: boolean
   opponentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  submissionDate?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["submission"]>
 
 export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  topic?: boolean
   status?: boolean
-  type?: boolean
-  annotation?: boolean
   literature?: boolean
-  faculty?: boolean
-  department?: boolean
+  fileUrl?: boolean
+  submissionDate?: boolean
   assignmentId?: boolean
-  studentId?: boolean
-  supervisorId?: boolean
   opponentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  submissionDate?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["submission"]>
 
 export type SubmissionSelectScalar = {
   id?: boolean
-  topic?: boolean
   status?: boolean
-  type?: boolean
-  annotation?: boolean
   literature?: boolean
-  faculty?: boolean
-  department?: boolean
+  fileUrl?: boolean
+  submissionDate?: boolean
   assignmentId?: boolean
-  studentId?: boolean
-  supervisorId?: boolean
   opponentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  submissionDate?: boolean
 }
 
-export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "topic" | "status" | "type" | "annotation" | "literature" | "faculty" | "department" | "assignmentId" | "studentId" | "supervisorId" | "opponentId" | "createdAt" | "updatedAt" | "submissionDate", ExtArgs["result"]["submission"]>
+export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "literature" | "fileUrl" | "submissionDate" | "assignmentId" | "opponentId" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
 export type SubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  review?: boolean | Prisma.Submission$reviewArgs<ExtArgs>
 }
 export type SubmissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type SubmissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -1362,26 +868,19 @@ export type $SubmissionPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Submission"
   objects: {
     assignment: Prisma.$AssignmentPayload<ExtArgs>
-    student: Prisma.$UserPayload<ExtArgs>
-    supervisor: Prisma.$UserPayload<ExtArgs>
     opponent: Prisma.$UserPayload<ExtArgs>
+    review: Prisma.$ReviewPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    topic: string
     status: $Enums.Status
-    type: $Enums.Type
-    annotation: string | null
     literature: string | null
-    faculty: $Enums.Faculty
-    department: $Enums.Department
+    fileUrl: string | null
+    submissionDate: Date
     assignmentId: string
-    studentId: string
-    supervisorId: string
     opponentId: string
     createdAt: Date
     updatedAt: Date
-    submissionDate: Date | null
   }, ExtArgs["result"]["submission"]>
   composites: {}
 }
@@ -1777,9 +1276,8 @@ readonly fields: SubmissionFieldRefs;
 export interface Prisma__SubmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assignment<T extends Prisma.AssignmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssignmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AssignmentClient<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  student<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  supervisor<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   opponent<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  review<T extends Prisma.Submission$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Submission$reviewArgs<ExtArgs>>): Prisma.Prisma__ReviewClient<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1810,20 +1308,14 @@ export interface Prisma__SubmissionClient<T, Null = never, ExtArgs extends runti
  */
 export interface SubmissionFieldRefs {
   readonly id: Prisma.FieldRef<"Submission", 'String'>
-  readonly topic: Prisma.FieldRef<"Submission", 'String'>
   readonly status: Prisma.FieldRef<"Submission", 'Status'>
-  readonly type: Prisma.FieldRef<"Submission", 'Type'>
-  readonly annotation: Prisma.FieldRef<"Submission", 'String'>
   readonly literature: Prisma.FieldRef<"Submission", 'String'>
-  readonly faculty: Prisma.FieldRef<"Submission", 'Faculty'>
-  readonly department: Prisma.FieldRef<"Submission", 'Department'>
+  readonly fileUrl: Prisma.FieldRef<"Submission", 'String'>
+  readonly submissionDate: Prisma.FieldRef<"Submission", 'DateTime'>
   readonly assignmentId: Prisma.FieldRef<"Submission", 'String'>
-  readonly studentId: Prisma.FieldRef<"Submission", 'String'>
-  readonly supervisorId: Prisma.FieldRef<"Submission", 'String'>
   readonly opponentId: Prisma.FieldRef<"Submission", 'String'>
   readonly createdAt: Prisma.FieldRef<"Submission", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Submission", 'DateTime'>
-  readonly submissionDate: Prisma.FieldRef<"Submission", 'DateTime'>
 }
     
 
@@ -2222,6 +1714,25 @@ export type SubmissionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Submissions to delete.
    */
   limit?: number
+}
+
+/**
+ * Submission.review
+ */
+export type Submission$reviewArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
 }
 
 /**

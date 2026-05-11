@@ -13,6 +13,9 @@ CREATE TYPE "Faculty" AS ENUM ('PRF', 'CHEM');
 -- CreateEnum
 CREATE TYPE "Department" AS ENUM ('Informatics', 'Mathematics', 'Physics', 'Chemistry');
 
+-- CreateEnum
+CREATE TYPE "Grade" AS ENUM ('A', 'B', 'C', 'D', 'E', 'F');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -37,6 +40,7 @@ CREATE TABLE "Assignment" (
     "annotation" TEXT,
     "faculty" "Faculty" NOT NULL,
     "department" "Department" NOT NULL,
+    "taken" BOOLEAN NOT NULL DEFAULT false,
     "studentId" TEXT NOT NULL,
     "supervisorId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -49,22 +53,29 @@ CREATE TABLE "Assignment" (
 -- CreateTable
 CREATE TABLE "Submission" (
     "id" TEXT NOT NULL,
-    "topic" TEXT NOT NULL,
     "status" "Status" NOT NULL,
-    "type" "Type" NOT NULL,
-    "annotation" TEXT,
     "literature" TEXT,
-    "faculty" "Faculty" NOT NULL,
-    "department" "Department" NOT NULL,
+    "fileUrl" TEXT,
+    "submissionDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "assignmentId" TEXT NOT NULL,
-    "studentId" TEXT NOT NULL,
-    "supervisorId" TEXT NOT NULL,
     "opponentId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "submissionDate" TIMESTAMP(3),
 
     CONSTRAINT "Submission_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Review" (
+    "id" TEXT NOT NULL,
+    "grade" "Grade" NOT NULL,
+    "comment" TEXT,
+    "submissionId" TEXT NOT NULL,
+    "reviewerId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -77,7 +88,7 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "Assignment_topic_key" ON "Assignment"("topic");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Submission_topic_key" ON "Submission"("topic");
+CREATE UNIQUE INDEX "Review_submissionId_key" ON "Review"("submissionId");
 
 -- AddForeignKey
 ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -89,10 +100,10 @@ ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_supervisorId_fkey" FOREIGN K
 ALTER TABLE "Submission" ADD CONSTRAINT "Submission_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Submission" ADD CONSTRAINT "Submission_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Submission" ADD CONSTRAINT "Submission_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Submission" ADD CONSTRAINT "Submission_opponentId_fkey" FOREIGN KEY ("opponentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_submissionId_fkey" FOREIGN KEY ("submissionId") REFERENCES "Submission"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_reviewerId_fkey" FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

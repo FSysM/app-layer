@@ -32,3 +32,8 @@ export type Assignment = Prisma.AssignmentModel
  * 
  */
 export type Submission = Prisma.SubmissionModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel

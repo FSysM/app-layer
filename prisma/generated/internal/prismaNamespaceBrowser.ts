@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Assignment: 'Assignment',
-  Submission: 'Submission'
+  Submission: 'Submission',
+  Review: 'Review'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -95,6 +96,7 @@ export const AssignmentScalarFieldEnum = {
   annotation: 'annotation',
   faculty: 'faculty',
   department: 'department',
+  taken: 'taken',
   studentId: 'studentId',
   supervisorId: 'supervisorId',
   createdAt: 'createdAt',
@@ -107,23 +109,31 @@ export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof
 
 export const SubmissionScalarFieldEnum = {
   id: 'id',
-  topic: 'topic',
   status: 'status',
-  type: 'type',
-  annotation: 'annotation',
   literature: 'literature',
-  faculty: 'faculty',
-  department: 'department',
+  fileUrl: 'fileUrl',
+  submissionDate: 'submissionDate',
   assignmentId: 'assignmentId',
-  studentId: 'studentId',
-  supervisorId: 'supervisorId',
   opponentId: 'opponentId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  submissionDate: 'submissionDate'
+  updatedAt: 'updatedAt'
 } as const
 
 export type SubmissionScalarFieldEnum = (typeof SubmissionScalarFieldEnum)[keyof typeof SubmissionScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  grade: 'grade',
+  comment: 'comment',
+  type: 'type',
+  submissionId: 'submissionId',
+  reviewerId: 'reviewerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -31,6 +31,7 @@ export type AssignmentMinAggregateOutputType = {
   annotation: string | null
   faculty: $Enums.Faculty | null
   department: $Enums.Department | null
+  taken: boolean | null
   studentId: string | null
   supervisorId: string | null
   createdAt: Date | null
@@ -45,6 +46,7 @@ export type AssignmentMaxAggregateOutputType = {
   annotation: string | null
   faculty: $Enums.Faculty | null
   department: $Enums.Department | null
+  taken: boolean | null
   studentId: string | null
   supervisorId: string | null
   createdAt: Date | null
@@ -59,6 +61,7 @@ export type AssignmentCountAggregateOutputType = {
   annotation: number
   faculty: number
   department: number
+  taken: number
   studentId: number
   supervisorId: number
   createdAt: number
@@ -75,6 +78,7 @@ export type AssignmentMinAggregateInputType = {
   annotation?: true
   faculty?: true
   department?: true
+  taken?: true
   studentId?: true
   supervisorId?: true
   createdAt?: true
@@ -89,6 +93,7 @@ export type AssignmentMaxAggregateInputType = {
   annotation?: true
   faculty?: true
   department?: true
+  taken?: true
   studentId?: true
   supervisorId?: true
   createdAt?: true
@@ -103,6 +108,7 @@ export type AssignmentCountAggregateInputType = {
   annotation?: true
   faculty?: true
   department?: true
+  taken?: true
   studentId?: true
   supervisorId?: true
   createdAt?: true
@@ -190,6 +196,7 @@ export type AssignmentGroupByOutputType = {
   annotation: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken: boolean
   studentId: string
   supervisorId: string
   createdAt: Date
@@ -225,6 +232,7 @@ export type AssignmentWhereInput = {
   annotation?: Prisma.StringNullableFilter<"Assignment"> | string | null
   faculty?: Prisma.EnumFacultyFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentFilter<"Assignment"> | $Enums.Department
+  taken?: Prisma.BoolFilter<"Assignment"> | boolean
   studentId?: Prisma.StringFilter<"Assignment"> | string
   supervisorId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -242,6 +250,7 @@ export type AssignmentOrderByWithRelationInput = {
   annotation?: Prisma.SortOrderInput | Prisma.SortOrder
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  taken?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -262,6 +271,7 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   annotation?: Prisma.StringNullableFilter<"Assignment"> | string | null
   faculty?: Prisma.EnumFacultyFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentFilter<"Assignment"> | $Enums.Department
+  taken?: Prisma.BoolFilter<"Assignment"> | boolean
   studentId?: Prisma.StringFilter<"Assignment"> | string
   supervisorId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -279,6 +289,7 @@ export type AssignmentOrderByWithAggregationInput = {
   annotation?: Prisma.SortOrderInput | Prisma.SortOrder
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  taken?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -299,6 +310,7 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   annotation?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
   faculty?: Prisma.EnumFacultyWithAggregatesFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentWithAggregatesFilter<"Assignment"> | $Enums.Department
+  taken?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   studentId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   supervisorId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
@@ -313,6 +325,7 @@ export type AssignmentCreateInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
@@ -328,6 +341,7 @@ export type AssignmentUncheckedCreateInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   studentId: string
   supervisorId: string
   createdAt?: Date | string
@@ -343,6 +357,7 @@ export type AssignmentUpdateInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -358,6 +373,7 @@ export type AssignmentUncheckedUpdateInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -373,6 +389,7 @@ export type AssignmentCreateManyInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   studentId: string
   supervisorId: string
   createdAt?: Date | string
@@ -387,6 +404,7 @@ export type AssignmentUpdateManyMutationInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -399,6 +417,7 @@ export type AssignmentUncheckedUpdateManyInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -423,6 +442,7 @@ export type AssignmentCountOrderByAggregateInput = {
   annotation?: Prisma.SortOrder
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  taken?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -437,6 +457,7 @@ export type AssignmentMaxOrderByAggregateInput = {
   annotation?: Prisma.SortOrder
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  taken?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -451,6 +472,7 @@ export type AssignmentMinOrderByAggregateInput = {
   annotation?: Prisma.SortOrder
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  taken?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -559,6 +581,10 @@ export type EnumDepartmentFieldUpdateOperationsInput = {
   set?: $Enums.Department
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type AssignmentCreateNestedOneWithoutSubmissionsInput = {
   create?: Prisma.XOR<Prisma.AssignmentCreateWithoutSubmissionsInput, Prisma.AssignmentUncheckedCreateWithoutSubmissionsInput>
   connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutSubmissionsInput
@@ -580,6 +606,7 @@ export type AssignmentCreateWithoutStudentInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
@@ -594,6 +621,7 @@ export type AssignmentUncheckedCreateWithoutStudentInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -618,6 +646,7 @@ export type AssignmentCreateWithoutSupervisorInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
@@ -632,6 +661,7 @@ export type AssignmentUncheckedCreateWithoutSupervisorInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   studentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -675,6 +705,7 @@ export type AssignmentScalarWhereInput = {
   annotation?: Prisma.StringNullableFilter<"Assignment"> | string | null
   faculty?: Prisma.EnumFacultyFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentFilter<"Assignment"> | $Enums.Department
+  taken?: Prisma.BoolFilter<"Assignment"> | boolean
   studentId?: Prisma.StringFilter<"Assignment"> | string
   supervisorId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -705,6 +736,7 @@ export type AssignmentCreateWithoutSubmissionsInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
@@ -719,6 +751,7 @@ export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   studentId: string
   supervisorId: string
   createdAt?: Date | string
@@ -749,6 +782,7 @@ export type AssignmentUpdateWithoutSubmissionsInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -763,6 +797,7 @@ export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -777,6 +812,7 @@ export type AssignmentCreateManyStudentInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -790,6 +826,7 @@ export type AssignmentCreateManySupervisorInput = {
   annotation?: string | null
   faculty: $Enums.Faculty
   department: $Enums.Department
+  taken?: boolean
   studentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -803,6 +840,7 @@ export type AssignmentUpdateWithoutStudentInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -817,6 +855,7 @@ export type AssignmentUncheckedUpdateWithoutStudentInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -831,6 +870,7 @@ export type AssignmentUncheckedUpdateManyWithoutStudentInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -844,6 +884,7 @@ export type AssignmentUpdateWithoutSupervisorInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -858,6 +899,7 @@ export type AssignmentUncheckedUpdateWithoutSupervisorInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -872,6 +914,7 @@ export type AssignmentUncheckedUpdateManyWithoutSupervisorInput = {
   annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -916,6 +959,7 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   annotation?: boolean
   faculty?: boolean
   department?: boolean
+  taken?: boolean
   studentId?: boolean
   supervisorId?: boolean
   createdAt?: boolean
@@ -934,6 +978,7 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   annotation?: boolean
   faculty?: boolean
   department?: boolean
+  taken?: boolean
   studentId?: boolean
   supervisorId?: boolean
   createdAt?: boolean
@@ -950,6 +995,7 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   annotation?: boolean
   faculty?: boolean
   department?: boolean
+  taken?: boolean
   studentId?: boolean
   supervisorId?: boolean
   createdAt?: boolean
@@ -966,6 +1012,7 @@ export type AssignmentSelectScalar = {
   annotation?: boolean
   faculty?: boolean
   department?: boolean
+  taken?: boolean
   studentId?: boolean
   supervisorId?: boolean
   createdAt?: boolean
@@ -973,7 +1020,7 @@ export type AssignmentSelectScalar = {
   assignmentDate?: boolean
 }
 
-export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "topic" | "type" | "annotation" | "faculty" | "department" | "studentId" | "supervisorId" | "createdAt" | "updatedAt" | "assignmentDate", ExtArgs["result"]["assignment"]>
+export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "topic" | "type" | "annotation" | "faculty" | "department" | "taken" | "studentId" | "supervisorId" | "createdAt" | "updatedAt" | "assignmentDate", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1003,6 +1050,7 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     annotation: string | null
     faculty: $Enums.Faculty
     department: $Enums.Department
+    taken: boolean
     studentId: string
     supervisorId: string
     createdAt: Date
@@ -1440,6 +1488,7 @@ export interface AssignmentFieldRefs {
   readonly annotation: Prisma.FieldRef<"Assignment", 'String'>
   readonly faculty: Prisma.FieldRef<"Assignment", 'Faculty'>
   readonly department: Prisma.FieldRef<"Assignment", 'Department'>
+  readonly taken: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly studentId: Prisma.FieldRef<"Assignment", 'String'>
   readonly supervisorId: Prisma.FieldRef<"Assignment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Assignment", 'DateTime'>

@@ -224,9 +224,8 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   studentAssignments?: Prisma.AssignmentListRelationFilter
   supervisorAssignments?: Prisma.AssignmentListRelationFilter
-  studentSubmissions?: Prisma.SubmissionListRelationFilter
-  supervisorSubmissions?: Prisma.SubmissionListRelationFilter
   opponentSubmissions?: Prisma.SubmissionListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -242,9 +241,8 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   studentAssignments?: Prisma.AssignmentOrderByRelationAggregateInput
   supervisorAssignments?: Prisma.AssignmentOrderByRelationAggregateInput
-  studentSubmissions?: Prisma.SubmissionOrderByRelationAggregateInput
-  supervisorSubmissions?: Prisma.SubmissionOrderByRelationAggregateInput
   opponentSubmissions?: Prisma.SubmissionOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -263,9 +261,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   studentAssignments?: Prisma.AssignmentListRelationFilter
   supervisorAssignments?: Prisma.AssignmentListRelationFilter
-  studentSubmissions?: Prisma.SubmissionListRelationFilter
-  supervisorSubmissions?: Prisma.SubmissionListRelationFilter
   opponentSubmissions?: Prisma.SubmissionListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -313,9 +310,8 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
   supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -331,9 +327,8 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
   supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
 }
 
 export type UserUpdateInput = {
@@ -349,9 +344,8 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
   supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -367,9 +361,8 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
   supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -499,38 +492,10 @@ export type UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSupervisorAssignmentsInput, Prisma.UserUpdateWithoutSupervisorAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutSupervisorAssignmentsInput>
 }
 
-export type UserCreateNestedOneWithoutStudentSubmissionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutStudentSubmissionsInput, Prisma.UserUncheckedCreateWithoutStudentSubmissionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudentSubmissionsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutSupervisorSubmissionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSupervisorSubmissionsInput, Prisma.UserUncheckedCreateWithoutSupervisorSubmissionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupervisorSubmissionsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
 export type UserCreateNestedOneWithoutOpponentSubmissionsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutOpponentSubmissionsInput, Prisma.UserUncheckedCreateWithoutOpponentSubmissionsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutOpponentSubmissionsInput
   connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutStudentSubmissionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutStudentSubmissionsInput, Prisma.UserUncheckedCreateWithoutStudentSubmissionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudentSubmissionsInput
-  upsert?: Prisma.UserUpsertWithoutStudentSubmissionsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStudentSubmissionsInput, Prisma.UserUpdateWithoutStudentSubmissionsInput>, Prisma.UserUncheckedUpdateWithoutStudentSubmissionsInput>
-}
-
-export type UserUpdateOneRequiredWithoutSupervisorSubmissionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSupervisorSubmissionsInput, Prisma.UserUncheckedCreateWithoutSupervisorSubmissionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupervisorSubmissionsInput
-  upsert?: Prisma.UserUpsertWithoutSupervisorSubmissionsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSupervisorSubmissionsInput, Prisma.UserUpdateWithoutSupervisorSubmissionsInput>, Prisma.UserUncheckedUpdateWithoutSupervisorSubmissionsInput>
 }
 
 export type UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput = {
@@ -539,6 +504,20 @@ export type UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutOpponentSubmissionsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOpponentSubmissionsInput, Prisma.UserUpdateWithoutOpponentSubmissionsInput>, Prisma.UserUncheckedUpdateWithoutOpponentSubmissionsInput>
+}
+
+export type UserCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsInput, Prisma.UserUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsInput, Prisma.UserUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.UserUpsertWithoutReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
 export type UserCreateWithoutStudentAssignmentsInput = {
@@ -553,9 +532,8 @@ export type UserCreateWithoutStudentAssignmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
 }
 
 export type UserUncheckedCreateWithoutStudentAssignmentsInput = {
@@ -570,9 +548,8 @@ export type UserUncheckedCreateWithoutStudentAssignmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
 }
 
 export type UserCreateOrConnectWithoutStudentAssignmentsInput = {
@@ -592,9 +569,8 @@ export type UserCreateWithoutSupervisorAssignmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
-  studentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
 }
 
 export type UserUncheckedCreateWithoutSupervisorAssignmentsInput = {
@@ -609,9 +585,8 @@ export type UserUncheckedCreateWithoutSupervisorAssignmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
-  studentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
 }
 
 export type UserCreateOrConnectWithoutSupervisorAssignmentsInput = {
@@ -642,9 +617,8 @@ export type UserUpdateWithoutStudentAssignmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentAssignmentsInput = {
@@ -659,9 +633,8 @@ export type UserUncheckedUpdateWithoutStudentAssignmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserUpsertWithoutSupervisorAssignmentsInput = {
@@ -687,9 +660,8 @@ export type UserUpdateWithoutSupervisorAssignmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
-  studentSubmissions?: Prisma.SubmissionUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupervisorAssignmentsInput = {
@@ -704,87 +676,8 @@ export type UserUncheckedUpdateWithoutSupervisorAssignmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
-  studentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
-}
-
-export type UserCreateWithoutStudentSubmissionsInput = {
-  id?: string
-  username: string
-  email: string
-  password: string
-  name?: string | null
-  role: $Enums.Role
-  phone?: string | null
-  address?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
-  supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
-  supervisorSubmissions?: Prisma.SubmissionCreateNestedManyWithoutSupervisorInput
-  opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
-}
-
-export type UserUncheckedCreateWithoutStudentSubmissionsInput = {
-  id?: string
-  username: string
-  email: string
-  password: string
-  name?: string | null
-  role: $Enums.Role
-  phone?: string | null
-  address?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
-  supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutSupervisorInput
-  opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
-}
-
-export type UserCreateOrConnectWithoutStudentSubmissionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutStudentSubmissionsInput, Prisma.UserUncheckedCreateWithoutStudentSubmissionsInput>
-}
-
-export type UserCreateWithoutSupervisorSubmissionsInput = {
-  id?: string
-  username: string
-  email: string
-  password: string
-  name?: string | null
-  role: $Enums.Role
-  phone?: string | null
-  address?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
-  supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutStudentInput
-  opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
-}
-
-export type UserUncheckedCreateWithoutSupervisorSubmissionsInput = {
-  id?: string
-  username: string
-  email: string
-  password: string
-  name?: string | null
-  role: $Enums.Role
-  phone?: string | null
-  address?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
-  supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutStudentInput
-  opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
-}
-
-export type UserCreateOrConnectWithoutSupervisorSubmissionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSupervisorSubmissionsInput, Prisma.UserUncheckedCreateWithoutSupervisorSubmissionsInput>
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserCreateWithoutOpponentSubmissionsInput = {
@@ -800,8 +693,7 @@ export type UserCreateWithoutOpponentSubmissionsInput = {
   updatedAt?: Date | string
   studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
   supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionCreateNestedManyWithoutSupervisorInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
 }
 
 export type UserUncheckedCreateWithoutOpponentSubmissionsInput = {
@@ -817,103 +709,12 @@ export type UserUncheckedCreateWithoutOpponentSubmissionsInput = {
   updatedAt?: Date | string
   studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
   supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
-  studentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutStudentInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutSupervisorInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
 }
 
 export type UserCreateOrConnectWithoutOpponentSubmissionsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutOpponentSubmissionsInput, Prisma.UserUncheckedCreateWithoutOpponentSubmissionsInput>
-}
-
-export type UserUpsertWithoutStudentSubmissionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutStudentSubmissionsInput, Prisma.UserUncheckedUpdateWithoutStudentSubmissionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutStudentSubmissionsInput, Prisma.UserUncheckedCreateWithoutStudentSubmissionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutStudentSubmissionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutStudentSubmissionsInput, Prisma.UserUncheckedUpdateWithoutStudentSubmissionsInput>
-}
-
-export type UserUpdateWithoutStudentSubmissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
-  supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUpdateManyWithoutSupervisorNestedInput
-  opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
-}
-
-export type UserUncheckedUpdateWithoutStudentSubmissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
-  supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutSupervisorNestedInput
-  opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
-}
-
-export type UserUpsertWithoutSupervisorSubmissionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSupervisorSubmissionsInput, Prisma.UserUncheckedUpdateWithoutSupervisorSubmissionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSupervisorSubmissionsInput, Prisma.UserUncheckedCreateWithoutSupervisorSubmissionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSupervisorSubmissionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSupervisorSubmissionsInput, Prisma.UserUncheckedUpdateWithoutSupervisorSubmissionsInput>
-}
-
-export type UserUpdateWithoutSupervisorSubmissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
-  supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUpdateManyWithoutStudentNestedInput
-  opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSupervisorSubmissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
-  supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutStudentNestedInput
-  opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
 }
 
 export type UserUpsertWithoutOpponentSubmissionsInput = {
@@ -940,8 +741,7 @@ export type UserUpdateWithoutOpponentSubmissionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
   supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUpdateManyWithoutSupervisorNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOpponentSubmissionsInput = {
@@ -957,8 +757,87 @@ export type UserUncheckedUpdateWithoutOpponentSubmissionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
   supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
-  studentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutStudentNestedInput
-  supervisorSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutSupervisorNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+}
+
+export type UserCreateWithoutReviewsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  name?: string | null
+  role: $Enums.Role
+  phone?: string | null
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
+  supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
+  opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
+}
+
+export type UserUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  name?: string | null
+  role: $Enums.Role
+  phone?: string | null
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
+  supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+  opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
+}
+
+export type UserCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsInput, Prisma.UserUncheckedCreateWithoutReviewsInput>
+}
+
+export type UserUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsInput, Prisma.UserUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsInput, Prisma.UserUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsInput, Prisma.UserUncheckedUpdateWithoutReviewsInput>
+}
+
+export type UserUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
+  supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
+  opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
+  supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+  opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
 }
 
 
@@ -969,17 +848,15 @@ export type UserUncheckedUpdateWithoutOpponentSubmissionsInput = {
 export type UserCountOutputType = {
   studentAssignments: number
   supervisorAssignments: number
-  studentSubmissions: number
-  supervisorSubmissions: number
   opponentSubmissions: number
+  reviews: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   studentAssignments?: boolean | UserCountOutputTypeCountStudentAssignmentsArgs
   supervisorAssignments?: boolean | UserCountOutputTypeCountSupervisorAssignmentsArgs
-  studentSubmissions?: boolean | UserCountOutputTypeCountStudentSubmissionsArgs
-  supervisorSubmissions?: boolean | UserCountOutputTypeCountSupervisorSubmissionsArgs
   opponentSubmissions?: boolean | UserCountOutputTypeCountOpponentSubmissionsArgs
+  reviews?: boolean | UserCountOutputTypeCountReviewsArgs
 }
 
 /**
@@ -1009,22 +886,15 @@ export type UserCountOutputTypeCountSupervisorAssignmentsArgs<ExtArgs extends ru
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountStudentSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubmissionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSupervisorSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubmissionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountOpponentSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SubmissionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
 }
 
 
@@ -1041,9 +911,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   studentAssignments?: boolean | Prisma.User$studentAssignmentsArgs<ExtArgs>
   supervisorAssignments?: boolean | Prisma.User$supervisorAssignmentsArgs<ExtArgs>
-  studentSubmissions?: boolean | Prisma.User$studentSubmissionsArgs<ExtArgs>
-  supervisorSubmissions?: boolean | Prisma.User$supervisorSubmissionsArgs<ExtArgs>
   opponentSubmissions?: boolean | Prisma.User$opponentSubmissionsArgs<ExtArgs>
+  reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1090,9 +959,8 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   studentAssignments?: boolean | Prisma.User$studentAssignmentsArgs<ExtArgs>
   supervisorAssignments?: boolean | Prisma.User$supervisorAssignmentsArgs<ExtArgs>
-  studentSubmissions?: boolean | Prisma.User$studentSubmissionsArgs<ExtArgs>
-  supervisorSubmissions?: boolean | Prisma.User$supervisorSubmissionsArgs<ExtArgs>
   opponentSubmissions?: boolean | Prisma.User$opponentSubmissionsArgs<ExtArgs>
+  reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1103,9 +971,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     studentAssignments: Prisma.$AssignmentPayload<ExtArgs>[]
     supervisorAssignments: Prisma.$AssignmentPayload<ExtArgs>[]
-    studentSubmissions: Prisma.$SubmissionPayload<ExtArgs>[]
-    supervisorSubmissions: Prisma.$SubmissionPayload<ExtArgs>[]
     opponentSubmissions: Prisma.$SubmissionPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1514,9 +1381,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   studentAssignments<T extends Prisma.User$studentAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studentAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supervisorAssignments<T extends Prisma.User$supervisorAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supervisorAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  studentSubmissions<T extends Prisma.User$studentSubmissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studentSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  supervisorSubmissions<T extends Prisma.User$supervisorSubmissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supervisorSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   opponentSubmissions<T extends Prisma.User$opponentSubmissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$opponentSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1997,54 +1863,6 @@ export type User$supervisorAssignmentsArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * User.studentSubmissions
- */
-export type User$studentSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Submission
-   */
-  select?: Prisma.SubmissionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Submission
-   */
-  omit?: Prisma.SubmissionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubmissionInclude<ExtArgs> | null
-  where?: Prisma.SubmissionWhereInput
-  orderBy?: Prisma.SubmissionOrderByWithRelationInput | Prisma.SubmissionOrderByWithRelationInput[]
-  cursor?: Prisma.SubmissionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubmissionScalarFieldEnum | Prisma.SubmissionScalarFieldEnum[]
-}
-
-/**
- * User.supervisorSubmissions
- */
-export type User$supervisorSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Submission
-   */
-  select?: Prisma.SubmissionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Submission
-   */
-  omit?: Prisma.SubmissionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubmissionInclude<ExtArgs> | null
-  where?: Prisma.SubmissionWhereInput
-  orderBy?: Prisma.SubmissionOrderByWithRelationInput | Prisma.SubmissionOrderByWithRelationInput[]
-  cursor?: Prisma.SubmissionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubmissionScalarFieldEnum | Prisma.SubmissionScalarFieldEnum[]
-}
-
-/**
  * User.opponentSubmissions
  */
 export type User$opponentSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2066,6 +1884,30 @@ export type User$opponentSubmissionsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.SubmissionScalarFieldEnum | Prisma.SubmissionScalarFieldEnum[]
+}
+
+/**
+ * User.reviews
+ */
+export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

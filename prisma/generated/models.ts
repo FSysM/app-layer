@@ -11,4 +11,5 @@
 export type * from './models/User'
 export type * from './models/Assignment'
 export type * from './models/Submission'
+export type * from './models/Review'
 export type * from './commonInputTypes'
