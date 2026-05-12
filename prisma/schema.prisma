@@ -63,11 +63,11 @@ model Assignment {
   taken Boolean @default(false)
 
   // FK
-  studentId    String
+  studentId    String?
   supervisorId String
 
   // RELATIONS
-  student User @relation("StudentAssignments", fields: [studentId], references: [id])
+  student User? @relation("StudentAssignments", fields: [studentId], references: [id])
 
   supervisor User @relation("SupervisorAssignments", fields: [supervisorId], references: [id])
 

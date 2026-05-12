@@ -28,4 +28,17 @@ export class AssignmentsService {
 
     return this.prisma.assignment.findMany({ select: BASE_SELECT });
   }
+  createAssignment(data: any, supervisorId: string) {
+    return this.prisma.assignment.create({
+      data: {
+        topic: data.topic,
+        type: data.type,
+        faculty: data.faculty,
+        department: data.department,
+        annotation: data.annotation,
+
+        supervisorId,
+      },
+    });
+  }
 }

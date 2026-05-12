@@ -443,6 +443,11 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
@@ -476,10 +481,12 @@ export type UserCreateNestedOneWithoutSupervisorAssignmentsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutStudentAssignmentsNestedInput = {
+export type UserUpdateOneWithoutStudentAssignmentsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutStudentAssignmentsInput, Prisma.UserUncheckedCreateWithoutStudentAssignmentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudentAssignmentsInput
   upsert?: Prisma.UserUpsertWithoutStudentAssignmentsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStudentAssignmentsInput, Prisma.UserUpdateWithoutStudentAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutStudentAssignmentsInput>
 }

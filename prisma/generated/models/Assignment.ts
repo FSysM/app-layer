@@ -197,7 +197,7 @@ export type AssignmentGroupByOutputType = {
   faculty: $Enums.Faculty
   department: $Enums.Department
   taken: boolean
-  studentId: string
+  studentId: string | null
   supervisorId: string
   createdAt: Date
   updatedAt: Date
@@ -233,12 +233,12 @@ export type AssignmentWhereInput = {
   faculty?: Prisma.EnumFacultyFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentFilter<"Assignment"> | $Enums.Department
   taken?: Prisma.BoolFilter<"Assignment"> | boolean
-  studentId?: Prisma.StringFilter<"Assignment"> | string
+  studentId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   supervisorId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   assignmentDate?: Prisma.DateTimeFilter<"Assignment"> | Date | string
-  student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  student?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   supervisor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   submissions?: Prisma.SubmissionListRelationFilter
 }
@@ -251,7 +251,7 @@ export type AssignmentOrderByWithRelationInput = {
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
   taken?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -272,12 +272,12 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   faculty?: Prisma.EnumFacultyFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentFilter<"Assignment"> | $Enums.Department
   taken?: Prisma.BoolFilter<"Assignment"> | boolean
-  studentId?: Prisma.StringFilter<"Assignment"> | string
+  studentId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   supervisorId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   assignmentDate?: Prisma.DateTimeFilter<"Assignment"> | Date | string
-  student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  student?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   supervisor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   submissions?: Prisma.SubmissionListRelationFilter
 }, "id" | "topic">
@@ -290,7 +290,7 @@ export type AssignmentOrderByWithAggregationInput = {
   faculty?: Prisma.SortOrder
   department?: Prisma.SortOrder
   taken?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -311,7 +311,7 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   faculty?: Prisma.EnumFacultyWithAggregatesFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentWithAggregatesFilter<"Assignment"> | $Enums.Department
   taken?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
-  studentId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
+  studentId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
   supervisorId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
@@ -329,7 +329,7 @@ export type AssignmentCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
-  student: Prisma.UserCreateNestedOneWithoutStudentAssignmentsInput
+  student?: Prisma.UserCreateNestedOneWithoutStudentAssignmentsInput
   supervisor: Prisma.UserCreateNestedOneWithoutSupervisorAssignmentsInput
   submissions?: Prisma.SubmissionCreateNestedManyWithoutAssignmentInput
 }
@@ -342,7 +342,7 @@ export type AssignmentUncheckedCreateInput = {
   faculty: $Enums.Faculty
   department: $Enums.Department
   taken?: boolean
-  studentId: string
+  studentId?: string | null
   supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -361,7 +361,7 @@ export type AssignmentUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentAssignmentsNestedInput
+  student?: Prisma.UserUpdateOneWithoutStudentAssignmentsNestedInput
   supervisor?: Prisma.UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput
   submissions?: Prisma.SubmissionUpdateManyWithoutAssignmentNestedInput
 }
@@ -374,7 +374,7 @@ export type AssignmentUncheckedUpdateInput = {
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
   taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -390,7 +390,7 @@ export type AssignmentCreateManyInput = {
   faculty: $Enums.Faculty
   department: $Enums.Department
   taken?: boolean
-  studentId: string
+  studentId?: string | null
   supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -418,7 +418,7 @@ export type AssignmentUncheckedUpdateManyInput = {
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
   taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -650,7 +650,7 @@ export type AssignmentCreateWithoutSupervisorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
-  student: Prisma.UserCreateNestedOneWithoutStudentAssignmentsInput
+  student?: Prisma.UserCreateNestedOneWithoutStudentAssignmentsInput
   submissions?: Prisma.SubmissionCreateNestedManyWithoutAssignmentInput
 }
 
@@ -662,7 +662,7 @@ export type AssignmentUncheckedCreateWithoutSupervisorInput = {
   faculty: $Enums.Faculty
   department: $Enums.Department
   taken?: boolean
-  studentId: string
+  studentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
@@ -706,7 +706,7 @@ export type AssignmentScalarWhereInput = {
   faculty?: Prisma.EnumFacultyFilter<"Assignment"> | $Enums.Faculty
   department?: Prisma.EnumDepartmentFilter<"Assignment"> | $Enums.Department
   taken?: Prisma.BoolFilter<"Assignment"> | boolean
-  studentId?: Prisma.StringFilter<"Assignment"> | string
+  studentId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   supervisorId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -740,7 +740,7 @@ export type AssignmentCreateWithoutSubmissionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
-  student: Prisma.UserCreateNestedOneWithoutStudentAssignmentsInput
+  student?: Prisma.UserCreateNestedOneWithoutStudentAssignmentsInput
   supervisor: Prisma.UserCreateNestedOneWithoutSupervisorAssignmentsInput
 }
 
@@ -752,7 +752,7 @@ export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
   faculty: $Enums.Faculty
   department: $Enums.Department
   taken?: boolean
-  studentId: string
+  studentId?: string | null
   supervisorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -786,7 +786,7 @@ export type AssignmentUpdateWithoutSubmissionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentAssignmentsNestedInput
+  student?: Prisma.UserUpdateOneWithoutStudentAssignmentsNestedInput
   supervisor?: Prisma.UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput
 }
 
@@ -798,7 +798,7 @@ export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
   taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supervisorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -827,7 +827,7 @@ export type AssignmentCreateManySupervisorInput = {
   faculty: $Enums.Faculty
   department: $Enums.Department
   taken?: boolean
-  studentId: string
+  studentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   assignmentDate?: Date | string
@@ -888,7 +888,7 @@ export type AssignmentUpdateWithoutSupervisorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.UserUpdateOneRequiredWithoutStudentAssignmentsNestedInput
+  student?: Prisma.UserUpdateOneWithoutStudentAssignmentsNestedInput
   submissions?: Prisma.SubmissionUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -900,7 +900,7 @@ export type AssignmentUncheckedUpdateWithoutSupervisorInput = {
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
   taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -915,7 +915,7 @@ export type AssignmentUncheckedUpdateManyWithoutSupervisorInput = {
   faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
   department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
   taken?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -965,7 +965,7 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   assignmentDate?: boolean
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Assignment$studentArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
   _count?: boolean | Prisma.AssignmentCountOutputTypeDefaultArgs<ExtArgs>
@@ -984,7 +984,7 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   assignmentDate?: boolean
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Assignment$studentArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assignment"]>
 
@@ -1001,7 +1001,7 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   assignmentDate?: boolean
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Assignment$studentArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assignment"]>
 
@@ -1022,24 +1022,24 @@ export type AssignmentSelectScalar = {
 
 export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "topic" | "type" | "annotation" | "faculty" | "department" | "taken" | "studentId" | "supervisorId" | "createdAt" | "updatedAt" | "assignmentDate", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Assignment$studentArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
   _count?: boolean | Prisma.AssignmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Assignment$studentArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type AssignmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Assignment$studentArgs<ExtArgs>
   supervisor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Assignment"
   objects: {
-    student: Prisma.$UserPayload<ExtArgs>
+    student: Prisma.$UserPayload<ExtArgs> | null
     supervisor: Prisma.$UserPayload<ExtArgs>
     submissions: Prisma.$SubmissionPayload<ExtArgs>[]
   }
@@ -1051,7 +1051,7 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     faculty: $Enums.Faculty
     department: $Enums.Department
     taken: boolean
-    studentId: string
+    studentId: string | null
     supervisorId: string
     createdAt: Date
     updatedAt: Date
@@ -1450,7 +1450,7 @@ readonly fields: AssignmentFieldRefs;
  */
 export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  student<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.Assignment$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$studentArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   supervisor<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   submissions<T extends Prisma.Assignment$submissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1892,6 +1892,25 @@ export type AssignmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Assignments to delete.
    */
   limit?: number
+}
+
+/**
+ * Assignment.student
+ */
+export type Assignment$studentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
