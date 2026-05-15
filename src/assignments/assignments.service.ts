@@ -68,4 +68,42 @@ export class AssignmentsService {
       where: { id: data.id },
     });
   }
+
+  async pickAssignment(id: string, studentId: string) {
+    const assignment = await this.prisma.assignment.findUnique({
+      where: { id },
+    });
+
+    if (!assignment) {
+      throw new Error('Assignment not found');
+    }
+
+    if (assignment.taken) {
+      throw new Error('Assignment already taken');
+    }
+
+    return this.prisma.assignment.update({
+      where: { id },
+      data: { taken: true, studentId },
+    });
+  }
+
+  async unpickAssignment(id: string, studentId: string) {
+    const assignment = await this.prisma.assignment.findUnique({
+      where: { id },
+    });
+
+    if (!assignment) {
+      throw new Error('Assignment not found');
+    }
+
+    if (!assignment.taken) {
+      throw new Error('Assignment is not taken');
+    }
+
+    return this.prisma.assignment.update({
+      where: { id },
+      data: { taken: false, studentId: null },
+    });
+  }
 }

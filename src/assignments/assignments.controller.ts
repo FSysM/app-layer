@@ -43,4 +43,22 @@ export class AssignmentsController {
   async deleteAssignment(@Body() data: any, @Req() req) {
     return this.assignmentsService.deleteAssignment(data, req.user.userId);
   }
+
+  @Post(':id/pick')
+  @UseGuards(JwtAuthGuard)
+  async pickAssignment(@Req() req) {
+    return this.assignmentsService.pickAssignment(
+      req.params.id,
+      req.user.userId,
+    );
+  }
+
+  @Post(':id/unpick')
+  @UseGuards(JwtAuthGuard)
+  async unpickAssignment(@Req() req) {
+    return this.assignmentsService.unpickAssignment(
+      req.params.id,
+      req.user.userId,
+    );
+  }
 }
