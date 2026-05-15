@@ -20,15 +20,16 @@ export type Role = (typeof Role)[keyof typeof Role]
 export const Status = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
-  IN_PROGRESS: 'IN_PROGRESS'
+  IN_PROGRESS: 'IN_PROGRESS',
+  REJECTED: 'REJECTED'
 } as const
 
 export type Status = (typeof Status)[keyof typeof Status]
 
 
 export const Type = {
-  bachelor: 'bachelor',
-  master: 'master',
+  bc: 'bc',
+  mgr: 'mgr',
   phd: 'phd',
   other: 'other'
 } as const

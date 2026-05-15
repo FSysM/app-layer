@@ -48,6 +48,12 @@ const BASE_SELECT = {
 export class SubmissionsService {
   constructor(private prisma: PrismaService) {}
 
+  async getAllSubmissions() {
+    return this.prisma.submission.findMany({
+      select: BASE_SELECT,
+    });
+  }
+
   async getSubmissions(user?: { userId: string; role: string }) {
     if (!user) {
       return this.prisma.submission.findMany({

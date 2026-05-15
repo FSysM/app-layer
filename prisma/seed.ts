@@ -111,7 +111,7 @@ async function main() {
   const assignment1 = await prisma.assignment.create({
     data: {
       topic: 'Artificial Intelligence in Healthcare',
-      type: 'bachelor',
+      type: 'bc',
       annotation: 'AI diagnostics and prediction systems',
       faculty: 'PRF',
       department: 'Informatics',
@@ -125,7 +125,7 @@ async function main() {
   const assignment2 = await prisma.assignment.create({
     data: {
       topic: 'Quantum Computing Algorithms',
-      type: 'master',
+      type: 'mgr',
       annotation: 'Quantum optimization methods',
       faculty: 'PRF',
       department: 'Physics',
@@ -139,7 +139,7 @@ async function main() {
   const assignment3 = await prisma.assignment.create({
     data: {
       topic: 'Organic Chemistry Structures',
-      type: 'master',
+      type: 'mgr',
       annotation: 'Analysis of organic compounds',
       faculty: 'CHEM',
       department: 'Chemistry',
@@ -153,7 +153,7 @@ async function main() {
   const assignment4 = await prisma.assignment.create({
     data: {
       topic: 'Distributed Cloud Systems',
-      type: 'bachelor',
+      type: 'bc',
       annotation: 'Cloud scalability research',
       faculty: 'PRF',
       department: 'Informatics',

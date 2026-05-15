@@ -111,11 +111,12 @@ enum Status {
   PENDING
   COMPLETED
   IN_PROGRESS
+  REJECTED
 }
 
 enum Type {
-  bachelor
-  master
+  bc
+  mgr
   phd
   other
 }

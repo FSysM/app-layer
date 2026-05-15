@@ -18,6 +18,10 @@ const BASE_SELECT = {
 export class AssignmentsService {
   constructor(private prisma: PrismaService) {}
 
+  getAllAssignments() {
+    return this.prisma.assignment.findMany({ select: BASE_SELECT });
+  }
+
   getAssignments(user?: { userId: string; role: string }) {
     if (user?.role === 'TEACHER') {
       return this.prisma.assignment.findMany({
@@ -28,6 +32,7 @@ export class AssignmentsService {
 
     return this.prisma.assignment.findMany({ select: BASE_SELECT });
   }
+
   createAssignment(data: any, supervisorId: string) {
     return this.prisma.assignment.create({
       data: {
@@ -39,6 +44,28 @@ export class AssignmentsService {
 
         supervisorId,
       },
+    });
+  }
+
+  updateAssignment(data: any, supervisorId: string) {
+    return this.prisma.assignment.update({
+      where: { id: data.id },
+      data: {
+        topic: data.topic,
+        type: data.type,
+        faculty: data.faculty,
+        department: data.department,
+        annotation: data.annotation,
+        assignmentDate: data.assignmentDate,
+        taken: data.taken,
+        supervisorId,
+      },
+    });
+  }
+
+  deleteAssignment(data: any, supervisorId: string) {
+    return this.prisma.assignment.delete({
+      where: { id: data.id },
     });
   }
 }

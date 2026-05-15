@@ -5,6 +5,12 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @Controller('submissions')
 export class SubmissionsController {
   constructor(private readonly submissionsService: SubmissionsService) {}
+
+  @Get('all')
+  async getAllSubmissions() {
+    return this.submissionsService.getAllSubmissions();
+  }
+
   @Get()
   @UseGuards(new JwtAuthGuard({ optional: true }))
   async getSubmissions(@Req() req) {
