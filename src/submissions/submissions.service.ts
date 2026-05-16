@@ -102,4 +102,39 @@ export class SubmissionsService {
       },
     });
   }
+
+  updateSubmission(data: any, studentId: string) {
+    const { id, ...updateData } = data;
+
+    return this.prisma.submission.update({
+      where: { id },
+      data: updateData,
+      select: BASE_SELECT,
+    });
+  }
+  deleteSubmission(data: any, studentId: string) {
+    return this.prisma.submission.delete({
+      where: { id: data.id },
+    });
+  }
+
+  approveSubmission(id: string, teacherId: string) {
+    return this.prisma.submission.update({
+      where: { id },
+      data: {
+        status: 'COMPLETED',
+        opponentId: teacherId,
+      },
+    });
+  }
+
+  rejectSubmission(id: string, teacherId: string) {
+    return this.prisma.submission.update({
+      where: { id },
+      data: {
+        status: 'REJECTED',
+        opponentId: teacherId,
+      },
+    });
+  }
 }
