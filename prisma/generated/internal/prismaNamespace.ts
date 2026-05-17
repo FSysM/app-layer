@@ -778,6 +778,11 @@ export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof
 
 export const SubmissionScalarFieldEnum = {
   id: 'id',
+  topic: 'topic',
+  type: 'type',
+  faculty: 'faculty',
+  department: 'department',
+  annotation: 'annotation',
   status: 'status',
   literature: 'literature',
   fileUrl: 'fileUrl',

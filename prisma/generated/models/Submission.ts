@@ -26,6 +26,11 @@ export type AggregateSubmission = {
 
 export type SubmissionMinAggregateOutputType = {
   id: string | null
+  topic: string | null
+  type: $Enums.Type | null
+  faculty: $Enums.Faculty | null
+  department: $Enums.Department | null
+  annotation: string | null
   status: $Enums.Status | null
   literature: string | null
   fileUrl: string | null
@@ -38,6 +43,11 @@ export type SubmissionMinAggregateOutputType = {
 
 export type SubmissionMaxAggregateOutputType = {
   id: string | null
+  topic: string | null
+  type: $Enums.Type | null
+  faculty: $Enums.Faculty | null
+  department: $Enums.Department | null
+  annotation: string | null
   status: $Enums.Status | null
   literature: string | null
   fileUrl: string | null
@@ -50,6 +60,11 @@ export type SubmissionMaxAggregateOutputType = {
 
 export type SubmissionCountAggregateOutputType = {
   id: number
+  topic: number
+  type: number
+  faculty: number
+  department: number
+  annotation: number
   status: number
   literature: number
   fileUrl: number
@@ -64,6 +79,11 @@ export type SubmissionCountAggregateOutputType = {
 
 export type SubmissionMinAggregateInputType = {
   id?: true
+  topic?: true
+  type?: true
+  faculty?: true
+  department?: true
+  annotation?: true
   status?: true
   literature?: true
   fileUrl?: true
@@ -76,6 +96,11 @@ export type SubmissionMinAggregateInputType = {
 
 export type SubmissionMaxAggregateInputType = {
   id?: true
+  topic?: true
+  type?: true
+  faculty?: true
+  department?: true
+  annotation?: true
   status?: true
   literature?: true
   fileUrl?: true
@@ -88,6 +113,11 @@ export type SubmissionMaxAggregateInputType = {
 
 export type SubmissionCountAggregateInputType = {
   id?: true
+  topic?: true
+  type?: true
+  faculty?: true
+  department?: true
+  annotation?: true
   status?: true
   literature?: true
   fileUrl?: true
@@ -173,12 +203,17 @@ export type SubmissionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type SubmissionGroupByOutputType = {
   id: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation: string | null
   status: $Enums.Status
   literature: string | null
   fileUrl: string | null
   submissionDate: Date
   assignmentId: string
-  opponentId: string
+  opponentId: string | null
   createdAt: Date
   updatedAt: Date
   _count: SubmissionCountAggregateOutputType | null
@@ -206,32 +241,42 @@ export type SubmissionWhereInput = {
   OR?: Prisma.SubmissionWhereInput[]
   NOT?: Prisma.SubmissionWhereInput | Prisma.SubmissionWhereInput[]
   id?: Prisma.StringFilter<"Submission"> | string
+  topic?: Prisma.StringFilter<"Submission"> | string
+  type?: Prisma.EnumTypeFilter<"Submission"> | $Enums.Type
+  faculty?: Prisma.EnumFacultyFilter<"Submission"> | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFilter<"Submission"> | $Enums.Department
+  annotation?: Prisma.StringNullableFilter<"Submission"> | string | null
   status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
   literature?: Prisma.StringNullableFilter<"Submission"> | string | null
   fileUrl?: Prisma.StringNullableFilter<"Submission"> | string | null
   submissionDate?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringFilter<"Submission"> | string
-  opponentId?: Prisma.StringFilter<"Submission"> | string
+  opponentId?: Prisma.StringNullableFilter<"Submission"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignment?: Prisma.XOR<Prisma.AssignmentScalarRelationFilter, Prisma.AssignmentWhereInput>
-  opponent?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
+  opponent?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type SubmissionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  faculty?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  annotation?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   literature?: Prisma.SortOrderInput | Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  opponentId?: Prisma.SortOrder
+  opponentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   assignment?: Prisma.AssignmentOrderByWithRelationInput
   opponent?: Prisma.UserOrderByWithRelationInput
-  review?: Prisma.ReviewOrderByWithRelationInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -239,27 +284,37 @@ export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SubmissionWhereInput | Prisma.SubmissionWhereInput[]
   OR?: Prisma.SubmissionWhereInput[]
   NOT?: Prisma.SubmissionWhereInput | Prisma.SubmissionWhereInput[]
+  topic?: Prisma.StringFilter<"Submission"> | string
+  type?: Prisma.EnumTypeFilter<"Submission"> | $Enums.Type
+  faculty?: Prisma.EnumFacultyFilter<"Submission"> | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFilter<"Submission"> | $Enums.Department
+  annotation?: Prisma.StringNullableFilter<"Submission"> | string | null
   status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
   literature?: Prisma.StringNullableFilter<"Submission"> | string | null
   fileUrl?: Prisma.StringNullableFilter<"Submission"> | string | null
   submissionDate?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringFilter<"Submission"> | string
-  opponentId?: Prisma.StringFilter<"Submission"> | string
+  opponentId?: Prisma.StringNullableFilter<"Submission"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignment?: Prisma.XOR<Prisma.AssignmentScalarRelationFilter, Prisma.AssignmentWhereInput>
-  opponent?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
+  opponent?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviews?: Prisma.ReviewListRelationFilter
 }, "id">
 
 export type SubmissionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  faculty?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  annotation?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   literature?: Prisma.SortOrderInput | Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   submissionDate?: Prisma.SortOrder
   assignmentId?: Prisma.SortOrder
-  opponentId?: Prisma.SortOrder
+  opponentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SubmissionCountOrderByAggregateInput
@@ -272,18 +327,28 @@ export type SubmissionScalarWhereWithAggregatesInput = {
   OR?: Prisma.SubmissionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SubmissionScalarWhereWithAggregatesInput | Prisma.SubmissionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Submission"> | string
+  topic?: Prisma.StringWithAggregatesFilter<"Submission"> | string
+  type?: Prisma.EnumTypeWithAggregatesFilter<"Submission"> | $Enums.Type
+  faculty?: Prisma.EnumFacultyWithAggregatesFilter<"Submission"> | $Enums.Faculty
+  department?: Prisma.EnumDepartmentWithAggregatesFilter<"Submission"> | $Enums.Department
+  annotation?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
   status?: Prisma.EnumStatusWithAggregatesFilter<"Submission"> | $Enums.Status
   literature?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
   fileUrl?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
   submissionDate?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
-  opponentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
+  opponentId?: Prisma.StringNullableWithAggregatesFilter<"Submission"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
 }
 
 export type SubmissionCreateInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
@@ -291,25 +356,35 @@ export type SubmissionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
-  review?: Prisma.ReviewCreateNestedOneWithoutSubmissionInput
+  opponent?: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutSubmissionInput
 }
 
 export type SubmissionUncheckedCreateInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
   submissionDate?: Date | string
   assignmentId: string
-  opponentId: string
+  opponentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutSubmissionInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type SubmissionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -317,37 +392,52 @@ export type SubmissionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
-  review?: Prisma.ReviewUpdateOneWithoutSubmissionNestedInput
+  opponent?: Prisma.UserUpdateOneWithoutOpponentSubmissionsNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
+  opponentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  review?: Prisma.ReviewUncheckedUpdateOneWithoutSubmissionNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type SubmissionCreateManyInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
   submissionDate?: Date | string
   assignmentId: string
-  opponentId: string
+  opponentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type SubmissionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -358,12 +448,17 @@ export type SubmissionUpdateManyMutationInput = {
 
 export type SubmissionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
+  opponentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,6 +475,11 @@ export type SubmissionOrderByRelationAggregateInput = {
 
 export type SubmissionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  faculty?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  annotation?: Prisma.SortOrder
   status?: Prisma.SortOrder
   literature?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
@@ -392,6 +492,11 @@ export type SubmissionCountOrderByAggregateInput = {
 
 export type SubmissionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  faculty?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  annotation?: Prisma.SortOrder
   status?: Prisma.SortOrder
   literature?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
@@ -404,6 +509,11 @@ export type SubmissionMaxOrderByAggregateInput = {
 
 export type SubmissionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  faculty?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  annotation?: Prisma.SortOrder
   status?: Prisma.SortOrder
   literature?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
@@ -507,22 +617,27 @@ export type EnumStatusFieldUpdateOperationsInput = {
   set?: $Enums.Status
 }
 
-export type SubmissionCreateNestedOneWithoutReviewInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutReviewInput
+export type SubmissionCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewsInput, Prisma.SubmissionUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutReviewsInput
   connect?: Prisma.SubmissionWhereUniqueInput
 }
 
-export type SubmissionUpdateOneRequiredWithoutReviewNestedInput = {
-  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
-  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutReviewInput
-  upsert?: Prisma.SubmissionUpsertWithoutReviewInput
+export type SubmissionUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewsInput, Prisma.SubmissionUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.SubmissionCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.SubmissionUpsertWithoutReviewsInput
   connect?: Prisma.SubmissionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SubmissionUpdateToOneWithWhereWithoutReviewInput, Prisma.SubmissionUpdateWithoutReviewInput>, Prisma.SubmissionUncheckedUpdateWithoutReviewInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SubmissionUpdateToOneWithWhereWithoutReviewsInput, Prisma.SubmissionUpdateWithoutReviewsInput>, Prisma.SubmissionUncheckedUpdateWithoutReviewsInput>
 }
 
 export type SubmissionCreateWithoutOpponentInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
@@ -530,11 +645,16 @@ export type SubmissionCreateWithoutOpponentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  review?: Prisma.ReviewCreateNestedOneWithoutSubmissionInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutSubmissionInput
 }
 
 export type SubmissionUncheckedCreateWithoutOpponentInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
@@ -542,7 +662,7 @@ export type SubmissionUncheckedCreateWithoutOpponentInput = {
   assignmentId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutSubmissionInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type SubmissionCreateOrConnectWithoutOpponentInput = {
@@ -576,38 +696,53 @@ export type SubmissionScalarWhereInput = {
   OR?: Prisma.SubmissionScalarWhereInput[]
   NOT?: Prisma.SubmissionScalarWhereInput | Prisma.SubmissionScalarWhereInput[]
   id?: Prisma.StringFilter<"Submission"> | string
+  topic?: Prisma.StringFilter<"Submission"> | string
+  type?: Prisma.EnumTypeFilter<"Submission"> | $Enums.Type
+  faculty?: Prisma.EnumFacultyFilter<"Submission"> | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFilter<"Submission"> | $Enums.Department
+  annotation?: Prisma.StringNullableFilter<"Submission"> | string | null
   status?: Prisma.EnumStatusFilter<"Submission"> | $Enums.Status
   literature?: Prisma.StringNullableFilter<"Submission"> | string | null
   fileUrl?: Prisma.StringNullableFilter<"Submission"> | string | null
   submissionDate?: Prisma.DateTimeFilter<"Submission"> | Date | string
   assignmentId?: Prisma.StringFilter<"Submission"> | string
-  opponentId?: Prisma.StringFilter<"Submission"> | string
+  opponentId?: Prisma.StringNullableFilter<"Submission"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
 }
 
 export type SubmissionCreateWithoutAssignmentInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
   submissionDate?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
-  review?: Prisma.ReviewCreateNestedOneWithoutSubmissionInput
+  opponent?: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutSubmissionInput
 }
 
 export type SubmissionUncheckedCreateWithoutAssignmentInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
   submissionDate?: Date | string
-  opponentId: string
+  opponentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutSubmissionInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type SubmissionCreateOrConnectWithoutAssignmentInput = {
@@ -636,8 +771,13 @@ export type SubmissionUpdateManyWithWhereWithoutAssignmentInput = {
   data: Prisma.XOR<Prisma.SubmissionUpdateManyMutationInput, Prisma.SubmissionUncheckedUpdateManyWithoutAssignmentInput>
 }
 
-export type SubmissionCreateWithoutReviewInput = {
+export type SubmissionCreateWithoutReviewsInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
@@ -645,39 +785,49 @@ export type SubmissionCreateWithoutReviewInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
-  opponent: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
+  opponent?: Prisma.UserCreateNestedOneWithoutOpponentSubmissionsInput
 }
 
-export type SubmissionUncheckedCreateWithoutReviewInput = {
+export type SubmissionUncheckedCreateWithoutReviewsInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
   submissionDate?: Date | string
   assignmentId: string
-  opponentId: string
+  opponentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type SubmissionCreateOrConnectWithoutReviewInput = {
+export type SubmissionCreateOrConnectWithoutReviewsInput = {
   where: Prisma.SubmissionWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
+  create: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewsInput, Prisma.SubmissionUncheckedCreateWithoutReviewsInput>
 }
 
-export type SubmissionUpsertWithoutReviewInput = {
-  update: Prisma.XOR<Prisma.SubmissionUpdateWithoutReviewInput, Prisma.SubmissionUncheckedUpdateWithoutReviewInput>
-  create: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewInput, Prisma.SubmissionUncheckedCreateWithoutReviewInput>
+export type SubmissionUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.SubmissionUpdateWithoutReviewsInput, Prisma.SubmissionUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.SubmissionCreateWithoutReviewsInput, Prisma.SubmissionUncheckedCreateWithoutReviewsInput>
   where?: Prisma.SubmissionWhereInput
 }
 
-export type SubmissionUpdateToOneWithWhereWithoutReviewInput = {
+export type SubmissionUpdateToOneWithWhereWithoutReviewsInput = {
   where?: Prisma.SubmissionWhereInput
-  data: Prisma.XOR<Prisma.SubmissionUpdateWithoutReviewInput, Prisma.SubmissionUncheckedUpdateWithoutReviewInput>
+  data: Prisma.XOR<Prisma.SubmissionUpdateWithoutReviewsInput, Prisma.SubmissionUncheckedUpdateWithoutReviewsInput>
 }
 
-export type SubmissionUpdateWithoutReviewInput = {
+export type SubmissionUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -685,23 +835,33 @@ export type SubmissionUpdateWithoutReviewInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
+  opponent?: Prisma.UserUpdateOneWithoutOpponentSubmissionsNestedInput
 }
 
-export type SubmissionUncheckedUpdateWithoutReviewInput = {
+export type SubmissionUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
+  opponentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubmissionCreateManyOpponentInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
@@ -713,6 +873,11 @@ export type SubmissionCreateManyOpponentInput = {
 
 export type SubmissionUpdateWithoutOpponentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -720,11 +885,16 @@ export type SubmissionUpdateWithoutOpponentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  review?: Prisma.ReviewUpdateOneWithoutSubmissionNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateWithoutOpponentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -732,11 +902,16 @@ export type SubmissionUncheckedUpdateWithoutOpponentInput = {
   assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  review?: Prisma.ReviewUncheckedUpdateOneWithoutSubmissionNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateManyWithoutOpponentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -748,54 +923,108 @@ export type SubmissionUncheckedUpdateManyWithoutOpponentInput = {
 
 export type SubmissionCreateManyAssignmentInput = {
   id?: string
+  topic: string
+  type: $Enums.Type
+  faculty: $Enums.Faculty
+  department: $Enums.Department
+  annotation?: string | null
   status: $Enums.Status
   literature?: string | null
   fileUrl?: string | null
   submissionDate?: Date | string
-  opponentId: string
+  opponentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type SubmissionUpdateWithoutAssignmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  opponent?: Prisma.UserUpdateOneRequiredWithoutOpponentSubmissionsNestedInput
-  review?: Prisma.ReviewUpdateOneWithoutSubmissionNestedInput
+  opponent?: Prisma.UserUpdateOneWithoutOpponentSubmissionsNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateWithoutAssignmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
+  opponentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  review?: Prisma.ReviewUncheckedUpdateOneWithoutSubmissionNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type SubmissionUncheckedUpdateManyWithoutAssignmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type
+  faculty?: Prisma.EnumFacultyFieldUpdateOperationsInput | $Enums.Faculty
+  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
+  annotation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   literature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  opponentId?: Prisma.StringFieldUpdateOperationsInput | string
+  opponentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
+/**
+ * Count Type SubmissionCountOutputType
+ */
+
+export type SubmissionCountOutputType = {
+  reviews: number
+}
+
+export type SubmissionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reviews?: boolean | SubmissionCountOutputTypeCountReviewsArgs
+}
+
+/**
+ * SubmissionCountOutputType without action
+ */
+export type SubmissionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubmissionCountOutputType
+   */
+  select?: Prisma.SubmissionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SubmissionCountOutputType without action
+ */
+export type SubmissionCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
 
 export type SubmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  topic?: boolean
+  type?: boolean
+  faculty?: boolean
+  department?: boolean
+  annotation?: boolean
   status?: boolean
   literature?: boolean
   fileUrl?: boolean
@@ -805,12 +1034,18 @@ export type SubmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  review?: boolean | Prisma.Submission$reviewArgs<ExtArgs>
+  opponent?: boolean | Prisma.Submission$opponentArgs<ExtArgs>
+  reviews?: boolean | Prisma.Submission$reviewsArgs<ExtArgs>
+  _count?: boolean | Prisma.SubmissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["submission"]>
 
 export type SubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  topic?: boolean
+  type?: boolean
+  faculty?: boolean
+  department?: boolean
+  annotation?: boolean
   status?: boolean
   literature?: boolean
   fileUrl?: boolean
@@ -820,11 +1055,16 @@ export type SubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  opponent?: boolean | Prisma.Submission$opponentArgs<ExtArgs>
 }, ExtArgs["result"]["submission"]>
 
 export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  topic?: boolean
+  type?: boolean
+  faculty?: boolean
+  department?: boolean
+  annotation?: boolean
   status?: boolean
   literature?: boolean
   fileUrl?: boolean
@@ -834,11 +1074,16 @@ export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  opponent?: boolean | Prisma.Submission$opponentArgs<ExtArgs>
 }, ExtArgs["result"]["submission"]>
 
 export type SubmissionSelectScalar = {
   id?: boolean
+  topic?: boolean
+  type?: boolean
+  faculty?: boolean
+  department?: boolean
+  annotation?: boolean
   status?: boolean
   literature?: boolean
   fileUrl?: boolean
@@ -849,36 +1094,42 @@ export type SubmissionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "literature" | "fileUrl" | "submissionDate" | "assignmentId" | "opponentId" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
+export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "topic" | "type" | "faculty" | "department" | "annotation" | "status" | "literature" | "fileUrl" | "submissionDate" | "assignmentId" | "opponentId" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
 export type SubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  review?: boolean | Prisma.Submission$reviewArgs<ExtArgs>
+  opponent?: boolean | Prisma.Submission$opponentArgs<ExtArgs>
+  reviews?: boolean | Prisma.Submission$reviewsArgs<ExtArgs>
+  _count?: boolean | Prisma.SubmissionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubmissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  opponent?: boolean | Prisma.Submission$opponentArgs<ExtArgs>
 }
 export type SubmissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
-  opponent?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  opponent?: boolean | Prisma.Submission$opponentArgs<ExtArgs>
 }
 
 export type $SubmissionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Submission"
   objects: {
     assignment: Prisma.$AssignmentPayload<ExtArgs>
-    opponent: Prisma.$UserPayload<ExtArgs>
-    review: Prisma.$ReviewPayload<ExtArgs> | null
+    opponent: Prisma.$UserPayload<ExtArgs> | null
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    topic: string
+    type: $Enums.Type
+    faculty: $Enums.Faculty
+    department: $Enums.Department
+    annotation: string | null
     status: $Enums.Status
     literature: string | null
     fileUrl: string | null
     submissionDate: Date
     assignmentId: string
-    opponentId: string
+    opponentId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["submission"]>
@@ -1276,8 +1527,8 @@ readonly fields: SubmissionFieldRefs;
 export interface Prisma__SubmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assignment<T extends Prisma.AssignmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssignmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AssignmentClient<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  opponent<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  review<T extends Prisma.Submission$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Submission$reviewArgs<ExtArgs>>): Prisma.Prisma__ReviewClient<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  opponent<T extends Prisma.Submission$opponentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Submission$opponentArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reviews<T extends Prisma.Submission$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Submission$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1308,6 +1559,11 @@ export interface Prisma__SubmissionClient<T, Null = never, ExtArgs extends runti
  */
 export interface SubmissionFieldRefs {
   readonly id: Prisma.FieldRef<"Submission", 'String'>
+  readonly topic: Prisma.FieldRef<"Submission", 'String'>
+  readonly type: Prisma.FieldRef<"Submission", 'Type'>
+  readonly faculty: Prisma.FieldRef<"Submission", 'Faculty'>
+  readonly department: Prisma.FieldRef<"Submission", 'Department'>
+  readonly annotation: Prisma.FieldRef<"Submission", 'String'>
   readonly status: Prisma.FieldRef<"Submission", 'Status'>
   readonly literature: Prisma.FieldRef<"Submission", 'String'>
   readonly fileUrl: Prisma.FieldRef<"Submission", 'String'>
@@ -1717,9 +1973,28 @@ export type SubmissionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * Submission.review
+ * Submission.opponent
  */
-export type Submission$reviewArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Submission$opponentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * Submission.reviews
+ */
+export type Submission$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Review
    */
@@ -1733,6 +2008,11 @@ export type Submission$reviewArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.ReviewInclude<ExtArgs> | null
   where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

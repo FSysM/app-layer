@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "generated"
@@ -31,14 +26,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // ASSIGNMENTS
   studentAssignments    Assignment[] @relation("StudentAssignments")
   supervisorAssignments Assignment[] @relation("SupervisorAssignments")
 
-  // SUBMISSIONS
   opponentSubmissions Submission[] @relation("OpponentSubmissions")
 
-  // REVIEWS
   reviews Review[]
 }
 
@@ -62,46 +54,44 @@ model Assignment {
 
   taken Boolean @default(false)
 
-  // FK
   studentId    String?
   supervisorId String
 
-  // RELATIONS
-  student User? @relation("StudentAssignments", fields: [studentId], references: [id])
-
-  supervisor User @relation("SupervisorAssignments", fields: [supervisorId], references: [id])
+  student    User? @relation("StudentAssignments", fields: [studentId], references: [id])
+  supervisor User  @relation("SupervisorAssignments", fields: [supervisorId], references: [id])
 
   submissions Submission[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   assignmentDate DateTime @default(now())
 }
 
-// ================== SUBMISSIONS  ======================
+// ================== SUBMISSIONS ======================
 
 model Submission {
   id String @id @default(uuid())
 
-  status Status
+  // Student-editable copy of assignment data
+  topic      String
+  type       Type
+  faculty    Faculty
+  department Department
+  annotation String?
 
+  status    Status
   literature String?
-
-  fileUrl String?
+  fileUrl    String?
 
   submissionDate DateTime @default(now())
 
-  // FK
   assignmentId String
-  opponentId   String
+  opponentId   String?
 
-  // RELATIONS
   assignment Assignment @relation(fields: [assignmentId], references: [id])
+  opponent   User?      @relation("OpponentSubmissions", fields: [opponentId], references: [id])
 
-  opponent User @relation("OpponentSubmissions", fields: [opponentId], references: [id])
-
-  review Review?
+  reviews Review[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -134,26 +124,24 @@ enum Department {
 }
 
 // ================== REVIEWS ======================
+
 model Review {
   id String @id @default(uuid())
 
-  grade Grade
-
+  grade   Grade
   comment String?
+  type    ReviewType
 
-  type ReviewType?
-
-  // FK
-  submissionId String @unique
+  submissionId String
   reviewerId   String
 
-  // RELATIONS
   submission Submission @relation(fields: [submissionId], references: [id])
-
-  reviewer User @relation(fields: [reviewerId], references: [id])
+  reviewer   User       @relation(fields: [reviewerId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([submissionId, type])
 }
 
 enum Grade {

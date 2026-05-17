@@ -215,11 +215,11 @@ export type EnumGradeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumGradeFilter<$PrismaModel> | $Enums.Grade
 }
 
-export type EnumReviewTypeNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumReviewTypeNullableFilter<$PrismaModel> | $Enums.ReviewType | null
+export type EnumReviewTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReviewTypeFilter<$PrismaModel> | $Enums.ReviewType
 }
 
 export type EnumGradeWithAggregatesFilter<$PrismaModel = never> = {
@@ -232,14 +232,14 @@ export type EnumGradeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumGradeFilter<$PrismaModel>
 }
 
-export type EnumReviewTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumReviewTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ReviewType | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumReviewTypeNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumReviewTypeNullableFilter<$PrismaModel>
+export type EnumReviewTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReviewTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReviewType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReviewTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReviewTypeFilter<$PrismaModel>
 }
 
 export type NestedStringFilter<$PrismaModel = never> = {
@@ -456,11 +456,11 @@ export type NestedEnumGradeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumGradeFilter<$PrismaModel> | $Enums.Grade
 }
 
-export type NestedEnumReviewTypeNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumReviewTypeNullableFilter<$PrismaModel> | $Enums.ReviewType | null
+export type NestedEnumReviewTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReviewTypeFilter<$PrismaModel> | $Enums.ReviewType
 }
 
 export type NestedEnumGradeWithAggregatesFilter<$PrismaModel = never> = {
@@ -473,14 +473,14 @@ export type NestedEnumGradeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumGradeFilter<$PrismaModel>
 }
 
-export type NestedEnumReviewTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumReviewTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ReviewType | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumReviewTypeNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumReviewTypeNullableFilter<$PrismaModel>
+export type NestedEnumReviewTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReviewType | Prisma.EnumReviewTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReviewType[] | Prisma.ListEnumReviewTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReviewTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReviewType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReviewTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReviewTypeFilter<$PrismaModel>
 }
 
 
