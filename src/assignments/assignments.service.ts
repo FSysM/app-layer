@@ -10,8 +10,8 @@ const BASE_SELECT = {
   annotation: true,
   assignmentDate: true,
   taken: true,
-  student: { select: { name: true } },
-  supervisor: { select: { name: true } },
+  student: { select: { id: true, name: true } },
+  supervisor: { select: { id: true, name: true } },
 } as const;
 
 @Injectable()
@@ -41,7 +41,6 @@ export class AssignmentsService {
         faculty: data.faculty,
         department: data.department,
         annotation: data.annotation,
-
         supervisorId,
       },
     });
@@ -56,51 +55,29 @@ export class AssignmentsService {
         faculty: data.faculty,
         department: data.department,
         annotation: data.annotation,
-        assignmentDate: data.assignmentDate,
-        taken: data.taken,
         supervisorId,
       },
     });
   }
 
-  deleteAssignment(data: any, supervisorId: string) {
-    return this.prisma.assignment.delete({
-      where: { id: data.id },
-    });
+  deleteAssignment(data: any) {
+    return this.prisma.assignment.delete({ where: { id: data.id } });
   }
 
   async pickAssignment(id: string, studentId: string) {
-    const assignment = await this.prisma.assignment.findUnique({
-      where: { id },
-    });
-
-    if (!assignment) {
-      throw new Error('Assignment not found');
-    }
-
-    if (assignment.taken) {
-      throw new Error('Assignment already taken');
-    }
-
+    const assignment = await this.prisma.assignment.findUnique({ where: { id } });
+    if (!assignment) throw new Error('Assignment not found');
+    if (assignment.taken) throw new Error('Assignment already taken');
     return this.prisma.assignment.update({
       where: { id },
       data: { taken: true, studentId },
     });
   }
 
-  async unpickAssignment(id: string, studentId: string) {
-    const assignment = await this.prisma.assignment.findUnique({
-      where: { id },
-    });
-
-    if (!assignment) {
-      throw new Error('Assignment not found');
-    }
-
-    if (!assignment.taken) {
-      throw new Error('Assignment is not taken');
-    }
-
+  async unpickAssignment(id: string) {
+    const assignment = await this.prisma.assignment.findUnique({ where: { id } });
+    if (!assignment) throw new Error('Assignment not found');
+    if (!assignment.taken) throw new Error('Assignment is not taken');
     return this.prisma.assignment.update({
       where: { id },
       data: { taken: false, studentId: null },

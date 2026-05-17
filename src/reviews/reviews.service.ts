@@ -1,37 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
-
 type Grade = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
+type ReviewType = 'SUPERVISOR' | 'OPPONENT';
 
-export const REVIEW_SELECT = {
-  id: true,
-  grade: true,
-  comment: true,
-  type: true,
-
-  submission: {
-    select: {
-      assignment: {
-        select: {
-          topic: true,
-          student: {
-            select: { name: true },
-          },
-          supervisor: {
-            select: { name: true },
-          },
-        },
-      },
-    },
-  },
-
-  reviewer: {
-    select: { name: true },
-  },
-} as const;
-
-export const REVIEW_WRITE_SELECT = {
+const REVIEW_SELECT = {
   id: true,
   grade: true,
   comment: true,
@@ -44,9 +17,7 @@ export class ReviewsService {
 
   async getReviewsBySubmission(submissionId: string) {
     return this.prisma.review.findMany({
-      where: {
-        submissionId,
-      },
+      where: { submissionId },
       select: REVIEW_SELECT,
     });
   }
@@ -55,31 +26,36 @@ export class ReviewsService {
     submissionId: string;
     reviewerId: string;
     grade: Grade;
-    comment: string;
+    comment?: string;
+    type: ReviewType;
   }) {
+    const submission = await this.prisma.submission.findUnique({
+      where: { id: data.submissionId },
+      select: { status: true },
+    });
+
+    if (!submission || submission.status !== 'COMPLETED') {
+      throw new BadRequestException('Submission must be approved before writing a review');
+    }
+
     return this.prisma.review.create({
-      data,
-      select: REVIEW_WRITE_SELECT,
+      data: data as any,
+      select: REVIEW_SELECT,
     });
   }
 
-  async updateReview(
-    reviewId: string,
-    data: { grade: Grade; comment?: string },
-  ) {
+  async updateReview(reviewId: string, data: { grade: Grade; comment?: string }) {
     return this.prisma.review.update({
       where: { id: reviewId },
       data,
-      select: REVIEW_WRITE_SELECT,
+      select: REVIEW_SELECT,
     });
   }
 
   async deleteReview(reviewId: string) {
     return this.prisma.review.delete({
-      where: {
-        id: reviewId,
-      },
-      select: REVIEW_WRITE_SELECT,
+      where: { id: reviewId },
+      select: REVIEW_SELECT,
     });
   }
 }

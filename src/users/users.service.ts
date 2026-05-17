@@ -5,18 +5,17 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async getUserById(id: string) {
+  getUserById(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        name: true,
-        phone: true,
-        address: true,
-      },
+      select: { id: true, username: true, email: true, role: true, name: true },
+    });
+  }
+
+  getTeachers() {
+    return this.prisma.user.findMany({
+      where: { role: 'TEACHER' },
+      select: { id: true, name: true },
     });
   }
 }

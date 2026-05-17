@@ -3,6 +3,11 @@ import { PrismaService } from '../prisma/prisma.service';
 
 const BASE_SELECT = {
   id: true,
+  topic: true,
+  type: true,
+  faculty: true,
+  department: true,
+  annotation: true,
   status: true,
   literature: true,
   fileUrl: true,
@@ -11,130 +16,103 @@ const BASE_SELECT = {
   assignment: {
     select: {
       id: true,
-      topic: true,
-      type: true,
-      faculty: true,
-      department: true,
-      annotation: true,
       assignmentDate: true,
-
-      student: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-
-      supervisor: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      student: { select: { id: true, name: true } },
+      supervisor: { select: { id: true, name: true } },
     },
   },
 
   opponent: {
-    select: {
-      id: true,
-      name: true,
-    },
+    select: { id: true, name: true },
   },
 
-  review: true,
+  reviews: {
+    select: { id: true, grade: true, comment: true, type: true },
+  },
 } as const;
 
 @Injectable()
 export class SubmissionsService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllSubmissions() {
-    return this.prisma.submission.findMany({
-      select: BASE_SELECT,
-    });
+  getAllSubmissions() {
+    return this.prisma.submission.findMany({ select: BASE_SELECT });
   }
 
-  async getSubmissions(user?: { userId: string; role: string }) {
-    if (!user) {
+  getSubmissions(user?: { userId: string; role: string }) {
+    if (user?.role === 'STUDENT') {
       return this.prisma.submission.findMany({
+        where: { assignment: { studentId: user.userId } },
         select: BASE_SELECT,
       });
     }
 
-    if (user.role === 'STUDENT') {
+    if (user?.role === 'TEACHER') {
       return this.prisma.submission.findMany({
         where: {
-          assignment: {
-            studentId: user.userId,
-          },
+          OR: [
+            { assignment: { supervisorId: user.userId } },
+            { opponentId: user.userId },
+          ],
         },
         select: BASE_SELECT,
       });
     }
 
-    if (user.role === 'TEACHER') {
-      return this.prisma.submission.findMany({
-        where: {
-          assignment: {
-            supervisorId: user.userId,
-          },
-        },
-        select: BASE_SELECT,
-      });
-    }
-
-    return this.prisma.submission.findMany({
-      where: {
-        opponentId: user.userId,
-      },
-      select: BASE_SELECT,
-    });
+    return this.prisma.submission.findMany({ select: BASE_SELECT });
   }
 
-  createSubmission(data: any, studentId: string) {
+  createSubmission(data: any) {
     return this.prisma.submission.create({
       data: {
         assignmentId: data.assignmentId,
-        opponentId: studentId,
         status: 'PENDING',
+        topic: data.topic,
+        type: data.type,
+        faculty: data.faculty,
+        department: data.department,
+        annotation: data.annotation,
         literature: data.literature,
         fileUrl: data.fileUrl,
-      },
-    });
-  }
-
-  updateSubmission(data: any, studentId: string) {
-    const { id, ...updateData } = data;
-
-    return this.prisma.submission.update({
-      where: { id },
-      data: updateData,
+      } as any,
       select: BASE_SELECT,
     });
   }
-  deleteSubmission(data: any, studentId: string) {
-    return this.prisma.submission.delete({
-      where: { id: data.id },
-    });
-  }
 
-  approveSubmission(id: string, teacherId: string) {
+  updateSubmission(data: any) {
+    const { id, ...fields } = data;
     return this.prisma.submission.update({
       where: { id },
       data: {
-        status: 'COMPLETED',
-        opponentId: teacherId,
-      },
+        topic: fields.topic,
+        type: fields.type,
+        faculty: fields.faculty,
+        department: fields.department,
+        annotation: fields.annotation,
+        literature: fields.literature,
+        fileUrl: fields.fileUrl,
+      } as any,
+      select: BASE_SELECT,
     });
   }
 
-  rejectSubmission(id: string, teacherId: string) {
+  deleteSubmission(data: any) {
+    return this.prisma.submission.delete({ where: { id: data.id } });
+  }
+
+  approveSubmission(id: string, opponentId: string) {
     return this.prisma.submission.update({
       where: { id },
-      data: {
-        status: 'REJECTED',
-        opponentId: teacherId,
-      },
+      data: { status: 'COMPLETED', opponentId },
+      select: BASE_SELECT,
+    });
+  }
+
+  rejectSubmission(id: string) {
+    return this.prisma.submission.update({
+      where: { id },
+      data: { status: 'REJECTED' },
+      select: BASE_SELECT,
     });
   }
 }
