@@ -1,5 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateSubmissionDto } from './dto/create-submission.dto';
+import { UpdateSubmissionDto } from './dto/update-submission.dto';
 
 const BASE_SELECT = {
   id: true,
@@ -62,42 +64,53 @@ export class SubmissionsService {
     return this.prisma.submission.findMany({ select: BASE_SELECT });
   }
 
-  createSubmission(data: any) {
+  createSubmission(dto: CreateSubmissionDto) {
     return this.prisma.submission.create({
       data: {
-        assignmentId: data.assignmentId,
+        assignmentId: dto.assignmentId,
         status: 'PENDING',
-        topic: data.topic,
-        type: data.type,
-        faculty: data.faculty,
-        department: data.department,
-        annotation: data.annotation,
-        literature: data.literature,
-        fileUrl: data.fileUrl,
-      } as any,
+        topic: dto.topic,
+        type: dto.type as any,
+        faculty: dto.faculty as any,
+        department: dto.department as any,
+        annotation: dto.annotation,
+        literature: dto.literature,
+        fileUrl: dto.fileUrl,
+      },
       select: BASE_SELECT,
     });
   }
 
-  updateSubmission(data: any) {
-    const { id, ...fields } = data;
+  async updateSubmission(dto: UpdateSubmissionDto, studentId: string) {
+    const submission = await this.prisma.submission.findUnique({
+      where: { id: dto.id },
+      select: { assignment: { select: { studentId: true } } },
+    });
+    if (!submission) throw new NotFoundException('Submission not found');
+    if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only edit your own submission');
     return this.prisma.submission.update({
-      where: { id },
+      where: { id: dto.id },
       data: {
-        topic: fields.topic,
-        type: fields.type,
-        faculty: fields.faculty,
-        department: fields.department,
-        annotation: fields.annotation,
-        literature: fields.literature,
-        fileUrl: fields.fileUrl,
-      } as any,
+        topic: dto.topic,
+        type: dto.type as any,
+        faculty: dto.faculty as any,
+        department: dto.department as any,
+        annotation: dto.annotation,
+        literature: dto.literature,
+        fileUrl: dto.fileUrl,
+      },
       select: BASE_SELECT,
     });
   }
 
-  deleteSubmission(data: any) {
-    return this.prisma.submission.delete({ where: { id: data.id } });
+  async deleteSubmission(id: string, studentId: string) {
+    const submission = await this.prisma.submission.findUnique({
+      where: { id },
+      select: { assignment: { select: { studentId: true } } },
+    });
+    if (!submission) throw new NotFoundException('Submission not found');
+    if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only delete your own submission');
+    return this.prisma.submission.delete({ where: { id } });
   }
 
   approveSubmission(id: string, opponentId: string) {
