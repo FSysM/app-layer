@@ -78,8 +78,8 @@ export class AssignmentsService {
 
   async pickAssignment(id: string, studentId: string) {
     const assignment = await this.prisma.assignment.findUnique({ where: { id } });
-    if (!assignment) throw new Error('Assignment not found');
-    if (assignment.taken) throw new Error('Assignment already taken');
+    if (!assignment) throw new NotFoundException('Assignment not found');
+    if (assignment.taken) throw new ConflictException('Assignment already taken');
     return this.prisma.assignment.update({
       where: { id },
       data: { taken: true, studentId },
@@ -88,8 +88,8 @@ export class AssignmentsService {
 
   async unpickAssignment(id: string, userId: string) {
     const assignment = await this.prisma.assignment.findUnique({ where: { id } });
-    if (!assignment) throw new Error('Assignment not found');
-    if (!assignment.taken) throw new Error('Assignment is not taken');
+    if (!assignment) throw new NotFoundException('Assignment not found');
+    if (!assignment.taken) throw new BadRequestException('Assignment is not taken');
     if (assignment.studentId !== userId) throw new ForbiddenException('You can only unpick your own assignment');
     return this.prisma.assignment.update({
       where: { id },
