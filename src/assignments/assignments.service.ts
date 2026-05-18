@@ -1,5 +1,7 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateAssignmentDto } from './dto/create-assignment.dto';
+import { UpdateAssignmentDto } from './dto/update-assignment.dto';
 
 const BASE_SELECT = {
   id: true,
@@ -40,35 +42,38 @@ export class AssignmentsService {
     return this.prisma.assignment.findMany({ select: BASE_SELECT });
   }
 
-  createAssignment(data: any, supervisorId: string) {
+  createAssignment(dto: CreateAssignmentDto, supervisorId: string) {
     return this.prisma.assignment.create({
       data: {
-        topic: data.topic,
-        type: data.type,
-        faculty: data.faculty,
-        department: data.department,
-        annotation: data.annotation,
+        topic: dto.topic,
+        type: dto.type as any,
+        faculty: dto.faculty as any,
+        department: dto.department as any,
+        annotation: dto.annotation,
         supervisorId,
       },
     });
   }
 
-  updateAssignment(data: any, supervisorId: string) {
+  updateAssignment(dto: UpdateAssignmentDto, supervisorId: string) {
     return this.prisma.assignment.update({
-      where: { id: data.id },
+      where: { id: dto.id },
       data: {
-        topic: data.topic,
-        type: data.type,
-        faculty: data.faculty,
-        department: data.department,
-        annotation: data.annotation,
+        topic: dto.topic,
+        type: dto.type as any,
+        faculty: dto.faculty as any,
+        department: dto.department as any,
+        annotation: dto.annotation,
         supervisorId,
       },
     });
   }
 
-  deleteAssignment(data: any) {
-    return this.prisma.assignment.delete({ where: { id: data.id } });
+  async deleteAssignment(id: string, supervisorId: string) {
+    const assignment = await this.prisma.assignment.findUnique({ where: { id } });
+    if (!assignment) throw new NotFoundException('Assignment not found');
+    if (assignment.supervisorId !== supervisorId) throw new ForbiddenException('You can only delete your own assignments');
+    return this.prisma.assignment.delete({ where: { id } });
   }
 
   async pickAssignment(id: string, studentId: string) {
