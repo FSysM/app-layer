@@ -7,6 +7,7 @@ import {
   Req,
   UseGuards,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AssignmentsService } from './assignments.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -22,8 +23,8 @@ export class AssignmentsController {
 
   @Get()
   @UseGuards(new JwtAuthGuard({ optional: true }))
-  async getAssignments(@Req() req) {
-    return this.assignmentsService.getAssignments(req.user);
+  async getAssignments(@Req() req, @Query('filter') filter?: string) {
+    return this.assignmentsService.getAssignments(req.user, filter);
   }
 
   @Post()
@@ -56,6 +57,6 @@ export class AssignmentsController {
   @Post(':id/unpick')
   @UseGuards(JwtAuthGuard)
   async unpickAssignment(@Req() req) {
-    return this.assignmentsService.unpickAssignment(req.params.id);
+    return this.assignmentsService.unpickAssignment(req.params.id, req.user.userId);
   }
 }

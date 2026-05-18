@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 const BASE_SELECT = {
@@ -22,10 +22,17 @@ export class AssignmentsService {
     return this.prisma.assignment.findMany({ select: BASE_SELECT });
   }
 
-  getAssignments(user?: { userId: string; role: string }) {
-    if (user?.role === 'TEACHER') {
+  getAssignments(user?: { userId: string; role: string }, filter?: string) {
+    if (user?.role === 'TEACHER' && filter === 'my') {
       return this.prisma.assignment.findMany({
         where: { supervisorId: user.userId },
+        select: BASE_SELECT,
+      });
+    }
+
+    if (user?.role === 'STUDENT' && filter === 'my') {
+      return this.prisma.assignment.findMany({
+        where: { studentId: user.userId },
         select: BASE_SELECT,
       });
     }
@@ -74,10 +81,11 @@ export class AssignmentsService {
     });
   }
 
-  async unpickAssignment(id: string) {
+  async unpickAssignment(id: string, userId: string) {
     const assignment = await this.prisma.assignment.findUnique({ where: { id } });
     if (!assignment) throw new Error('Assignment not found');
     if (!assignment.taken) throw new Error('Assignment is not taken');
+    if (assignment.studentId !== userId) throw new ForbiddenException('You can only unpick your own assignment');
     return this.prisma.assignment.update({
       where: { id },
       data: { taken: false, studentId: null },
