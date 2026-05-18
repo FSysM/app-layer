@@ -1,16 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Param,
-  Body,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Req, UseGuards } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { CreateReviewDto } from './dto/create-review.dto';
+import { UpdateReviewDto } from './dto/update-review.dto';
+import { AuthenticatedRequest } from '../common/types/request.types';
 
 @Controller('reviews')
 @UseGuards(JwtAuthGuard)
@@ -23,26 +18,32 @@ export class ReviewsController {
   }
 
   @Post()
-  createReview(@Body() body: any, @Req() req: any) {
+  @UseGuards(RolesGuard)
+  @Roles('TEACHER')
+  createReview(@Body() dto: CreateReviewDto, @Req() req: AuthenticatedRequest) {
     return this.reviewsService.createReview({
-      submissionId: body.submissionId,
+      submissionId: dto.submissionId,
       reviewerId: req.user.userId,
-      grade: body.grade,
-      comment: body.comment,
-      type: body.type,
+      grade: dto.grade as any,
+      comment: dto.comment,
+      type: dto.type as any,
     });
   }
 
   @Put()
-  updateReview(@Body() body: any) {
-    return this.reviewsService.updateReview(body.id, {
-      grade: body.grade,
-      comment: body.comment,
+  @UseGuards(RolesGuard)
+  @Roles('TEACHER')
+  updateReview(@Body() dto: UpdateReviewDto, @Req() req: AuthenticatedRequest) {
+    return this.reviewsService.updateReview(dto.id, req.user.userId, {
+      grade: dto.grade as any,
+      comment: dto.comment,
     });
   }
 
   @Delete()
-  deleteReview(@Body() body: any) {
-    return this.reviewsService.deleteReview(body.id);
+  @UseGuards(RolesGuard)
+  @Roles('TEACHER')
+  deleteReview(@Body() dto: UpdateReviewDto, @Req() req: AuthenticatedRequest) {
+    return this.reviewsService.deleteReview(dto.id, req.user.userId);
   }
 }

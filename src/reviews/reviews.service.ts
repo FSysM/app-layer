@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 type Grade = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
@@ -44,7 +44,10 @@ export class ReviewsService {
     });
   }
 
-  async updateReview(reviewId: string, data: { grade: Grade; comment?: string }) {
+  async updateReview(reviewId: string, userId: string, data: { grade: Grade; comment?: string }) {
+    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) throw new NotFoundException('Review not found');
+    if (review.reviewerId !== userId) throw new ForbiddenException('You can only edit your own reviews');
     return this.prisma.review.update({
       where: { id: reviewId },
       data,
@@ -52,7 +55,10 @@ export class ReviewsService {
     });
   }
 
-  async deleteReview(reviewId: string) {
+  async deleteReview(reviewId: string, userId: string) {
+    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) throw new NotFoundException('Review not found');
+    if (review.reviewerId !== userId) throw new ForbiddenException('You can only delete your own reviews');
     return this.prisma.review.delete({
       where: { id: reviewId },
       select: REVIEW_SELECT,
