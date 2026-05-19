@@ -1,7 +1,10 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { FileManagerService, FileFolder } from '../filemanager/filemanager.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
+import { FileUploadUrlDto } from './dto/file-upload-url.dto';
+import { FileConfirmDto } from './dto/file-confirm.dto';
 
 const BASE_SELECT = {
   id: true,
@@ -35,7 +38,10 @@ const BASE_SELECT = {
 
 @Injectable()
 export class SubmissionsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private fileManager: FileManagerService,
+  ) {}
 
   getAllSubmissions() {
     return this.prisma.submission.findMany({ select: BASE_SELECT });
@@ -127,5 +133,43 @@ export class SubmissionsService {
       data: { status: 'REJECTED' },
       select: BASE_SELECT,
     });
+  }
+
+  // ── File management ──────────────────────────────────────────────────────────
+
+  async getFileUploadUrl(submissionId: string, dto: FileUploadUrlDto, studentId: string) {
+    await this.ensureStudentOwnsSubmission(submissionId, studentId);
+    return this.fileManager.getUploadUrl(submissionId, dto.folder as FileFolder, dto.filename, dto.contentType);
+  }
+
+  async confirmFileUpload(submissionId: string, dto: FileConfirmDto, studentId: string) {
+    await this.ensureStudentOwnsSubmission(submissionId, studentId);
+    return this.fileManager.confirmUpload({
+      key: dto.key,
+      filename: dto.filename,
+      contentType: dto.contentType,
+      folder: dto.folder as FileFolder,
+      submissionId,
+      uploadedById: studentId,
+      size: dto.size,
+    });
+  }
+
+  async deleteSubmissionFile(submissionId: string, fileId: string, studentId: string) {
+    await this.ensureStudentOwnsSubmission(submissionId, studentId);
+    return this.fileManager.deleteFile(fileId, studentId);
+  }
+
+  listSubmissionFiles(submissionId: string) {
+    return this.fileManager.listSubmissionFiles(submissionId);
+  }
+
+  private async ensureStudentOwnsSubmission(submissionId: string, studentId: string) {
+    const submission = await this.prisma.submission.findUnique({
+      where: { id: submissionId },
+      select: { assignment: { select: { studentId: true } } },
+    });
+    if (!submission) throw new NotFoundException('Submission not found');
+    if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only manage files for your own submission');
   }
 }
