@@ -1,7 +1,10 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { NotificationEvent } from '../notifications/notifications.events';
+import type { AssignmentPayload } from '../notifications/notifications.events';
 
 const BASE_SELECT = {
   id: true,
@@ -18,7 +21,10 @@ const BASE_SELECT = {
 
 @Injectable()
 export class AssignmentsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private eventEmitter: EventEmitter2,
+  ) {}
 
   getAllAssignments() {
     return this.prisma.assignment.findMany({ select: BASE_SELECT });
@@ -77,23 +83,51 @@ export class AssignmentsService {
   }
 
   async pickAssignment(id: string, studentId: string) {
-    const assignment = await this.prisma.assignment.findUnique({ where: { id } });
+    const assignment = await this.prisma.assignment.findUnique({
+      where: { id },
+      select: { topic: true, taken: true, supervisorId: true },
+    });
     if (!assignment) throw new NotFoundException('Assignment not found');
     if (assignment.taken) throw new ConflictException('Assignment already taken');
-    return this.prisma.assignment.update({
-      where: { id },
-      data: { taken: true, studentId },
-    });
+
+    const [result, student] = await Promise.all([
+      this.prisma.assignment.update({ where: { id }, data: { taken: true, studentId } }),
+      this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } }),
+    ]);
+
+    this.eventEmitter.emit(NotificationEvent.ASSIGNMENT_PICKED, {
+      recipientIds: [assignment.supervisorId],
+      actorName: student?.name ?? 'Student',
+      entityId: id,
+      entityType: 'assignment',
+      assignmentTopic: assignment.topic,
+    } satisfies AssignmentPayload);
+
+    return result;
   }
 
   async unpickAssignment(id: string, userId: string) {
-    const assignment = await this.prisma.assignment.findUnique({ where: { id } });
+    const assignment = await this.prisma.assignment.findUnique({
+      where: { id },
+      select: { topic: true, taken: true, studentId: true, supervisorId: true },
+    });
     if (!assignment) throw new NotFoundException('Assignment not found');
     if (!assignment.taken) throw new BadRequestException('Assignment is not taken');
     if (assignment.studentId !== userId) throw new ForbiddenException('You can only unpick your own assignment');
-    return this.prisma.assignment.update({
-      where: { id },
-      data: { taken: false, studentId: null },
-    });
+
+    const [result, student] = await Promise.all([
+      this.prisma.assignment.update({ where: { id }, data: { taken: false, studentId: null } }),
+      this.prisma.user.findUnique({ where: { id: userId }, select: { name: true } }),
+    ]);
+
+    this.eventEmitter.emit(NotificationEvent.ASSIGNMENT_UNPICKED, {
+      recipientIds: [assignment.supervisorId],
+      actorName: student?.name ?? 'Student',
+      entityId: id,
+      entityType: 'assignment',
+      assignmentTopic: assignment.topic,
+    } satisfies AssignmentPayload);
+
+    return result;
   }
 }

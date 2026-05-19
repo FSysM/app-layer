@@ -1,6 +1,9 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 import { FileManagerService, FileFolder } from '../filemanager/filemanager.service';
+import { NotificationEvent } from '../notifications/notifications.events';
+import type { SubmissionPayload, FilePayload } from '../notifications/notifications.events';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
 import { FileUploadUrlDto } from './dto/file-upload-url.dto';
@@ -41,6 +44,7 @@ export class SubmissionsService {
   constructor(
     private prisma: PrismaService,
     private fileManager: FileManagerService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   getAllSubmissions() {
@@ -70,8 +74,8 @@ export class SubmissionsService {
     return this.prisma.submission.findMany({ select: BASE_SELECT });
   }
 
-  createSubmission(dto: CreateSubmissionDto) {
-    return this.prisma.submission.create({
+  async createSubmission(dto: CreateSubmissionDto) {
+    const result = await this.prisma.submission.create({
       data: {
         assignmentId: dto.assignmentId,
         status: 'PENDING',
@@ -85,6 +89,16 @@ export class SubmissionsService {
       },
       select: BASE_SELECT,
     });
+
+    this.eventEmitter.emit(NotificationEvent.SUBMISSION_SUBMITTED, {
+      recipientIds: [result.assignment.supervisor.id],
+      actorName: result.assignment.student?.name ?? 'Student',
+      entityId: result.id,
+      entityType: 'submission',
+      submissionTopic: result.topic,
+    } satisfies SubmissionPayload);
+
+    return result;
   }
 
   async updateSubmission(dto: UpdateSubmissionDto, studentId: string) {
@@ -94,7 +108,8 @@ export class SubmissionsService {
     });
     if (!submission) throw new NotFoundException('Submission not found');
     if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only edit your own submission');
-    return this.prisma.submission.update({
+
+    const result = await this.prisma.submission.update({
       where: { id: dto.id },
       data: {
         topic: dto.topic,
@@ -107,35 +122,104 @@ export class SubmissionsService {
       },
       select: BASE_SELECT,
     });
+
+    this.eventEmitter.emit(NotificationEvent.SUBMISSION_EDITED, {
+      recipientIds: [result.assignment.supervisor.id],
+      actorName: result.assignment.student?.name ?? 'Student',
+      entityId: result.id,
+      entityType: 'submission',
+      submissionTopic: result.topic,
+    } satisfies SubmissionPayload);
+
+    return result;
   }
 
   async deleteSubmission(id: string, studentId: string) {
     const submission = await this.prisma.submission.findUnique({
       where: { id },
-      select: { assignment: { select: { studentId: true } } },
+      select: {
+        topic: true,
+        assignment: {
+          select: {
+            studentId: true,
+            supervisorId: true,
+            student: { select: { name: true } },
+          },
+        },
+      },
     });
     if (!submission) throw new NotFoundException('Submission not found');
     if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only delete your own submission');
-    return this.prisma.submission.delete({ where: { id } });
+
+    const result = await this.prisma.submission.delete({ where: { id } });
+
+    this.eventEmitter.emit(NotificationEvent.SUBMISSION_DELETED, {
+      recipientIds: [submission.assignment.supervisorId],
+      actorName: submission.assignment.student?.name ?? 'Student',
+      entityId: id,
+      entityType: 'submission',
+      submissionTopic: submission.topic,
+    } satisfies SubmissionPayload);
+
+    return result;
   }
 
-  approveSubmission(id: string, opponentId: string) {
-    return this.prisma.submission.update({
+  async approveSubmission(id: string, opponentId: string, supervisorId: string) {
+    const result = await this.prisma.submission.update({
       where: { id },
       data: { status: 'COMPLETED', opponentId },
       select: BASE_SELECT,
     });
+
+    const supervisor = await this.prisma.user.findUnique({ where: { id: supervisorId }, select: { name: true } });
+    const supervisorName = supervisor?.name ?? 'Supervisor';
+    const studentId = result.assignment.student?.id;
+
+    if (studentId) {
+      this.eventEmitter.emit(NotificationEvent.SUBMISSION_APPROVED, {
+        recipientIds: [studentId],
+        actorName: supervisorName,
+        entityId: id,
+        entityType: 'submission',
+        submissionTopic: result.topic,
+      } satisfies SubmissionPayload);
+    }
+
+    this.eventEmitter.emit(NotificationEvent.SUBMISSION_OPPONENT_ASSIGNED, {
+      recipientIds: [opponentId],
+      actorName: supervisorName,
+      entityId: id,
+      entityType: 'submission',
+      submissionTopic: result.topic,
+    } satisfies SubmissionPayload);
+
+    return result;
   }
 
-  rejectSubmission(id: string) {
-    return this.prisma.submission.update({
+  async rejectSubmission(id: string, supervisorId: string) {
+    const result = await this.prisma.submission.update({
       where: { id },
       data: { status: 'REJECTED' },
       select: BASE_SELECT,
     });
+
+    const supervisor = await this.prisma.user.findUnique({ where: { id: supervisorId }, select: { name: true } });
+    const studentId = result.assignment.student?.id;
+
+    if (studentId) {
+      this.eventEmitter.emit(NotificationEvent.SUBMISSION_REJECTED, {
+        recipientIds: [studentId],
+        actorName: supervisor?.name ?? 'Supervisor',
+        entityId: id,
+        entityType: 'submission',
+        submissionTopic: result.topic,
+      } satisfies SubmissionPayload);
+    }
+
+    return result;
   }
 
-  // ── File management ──────────────────────────────────────────────────────────
+  // ── File management ────────────────────────────────────────────────────────
 
   async getFileUploadUrl(submissionId: string, dto: FileUploadUrlDto, studentId: string) {
     await this.ensureStudentOwnsSubmission(submissionId, studentId);
@@ -143,8 +227,8 @@ export class SubmissionsService {
   }
 
   async confirmFileUpload(submissionId: string, dto: FileConfirmDto, studentId: string) {
-    await this.ensureStudentOwnsSubmission(submissionId, studentId);
-    return this.fileManager.confirmUpload({
+    const { supervisorId, topic } = await this.ensureStudentOwnsSubmission(submissionId, studentId);
+    const file = await this.fileManager.confirmUpload({
       key: dto.key,
       filename: dto.filename,
       contentType: dto.contentType,
@@ -153,11 +237,45 @@ export class SubmissionsService {
       uploadedById: studentId,
       size: dto.size,
     });
+
+    const student = await this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } });
+    const event = dto.folder === 'TEXT' ? NotificationEvent.FILE_MAIN_UPLOADED : NotificationEvent.FILE_ATTACHMENT_UPLOADED;
+
+    this.eventEmitter.emit(event, {
+      recipientIds: [supervisorId],
+      actorName: student?.name ?? 'Student',
+      entityId: file.id,
+      entityType: 'file',
+      filename: dto.filename,
+      submissionTopic: topic,
+    } satisfies FilePayload);
+
+    return file;
   }
 
   async deleteSubmissionFile(submissionId: string, fileId: string, studentId: string) {
-    await this.ensureStudentOwnsSubmission(submissionId, studentId);
-    return this.fileManager.deleteFile(fileId, studentId);
+    const { supervisorId, topic } = await this.ensureStudentOwnsSubmission(submissionId, studentId);
+
+    const file = await this.prisma.submissionFile.findUnique({
+      where: { id: fileId },
+      select: { filename: true, folder: true },
+    });
+
+    await this.fileManager.deleteFile(fileId, studentId);
+
+    if (file) {
+      const student = await this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } });
+      const event = file.folder === 'TEXT' ? NotificationEvent.FILE_MAIN_DELETED : NotificationEvent.FILE_ATTACHMENT_DELETED;
+
+      this.eventEmitter.emit(event, {
+        recipientIds: [supervisorId],
+        actorName: student?.name ?? 'Student',
+        entityId: fileId,
+        entityType: 'file',
+        filename: file.filename,
+        submissionTopic: topic,
+      } satisfies FilePayload);
+    }
   }
 
   listSubmissionFiles(submissionId: string) {
@@ -167,9 +285,13 @@ export class SubmissionsService {
   private async ensureStudentOwnsSubmission(submissionId: string, studentId: string) {
     const submission = await this.prisma.submission.findUnique({
       where: { id: submissionId },
-      select: { assignment: { select: { studentId: true } } },
+      select: {
+        topic: true,
+        assignment: { select: { studentId: true, supervisorId: true } },
+      },
     });
     if (!submission) throw new NotFoundException('Submission not found');
     if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only manage files for your own submission');
+    return { supervisorId: submission.assignment.supervisorId, topic: submission.topic };
   }
 }

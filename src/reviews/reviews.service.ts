@@ -1,6 +1,9 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 import { FileManagerService } from '../filemanager/filemanager.service';
+import { NotificationEvent } from '../notifications/notifications.events';
+import type { ReviewPayload, FilePayload } from '../notifications/notifications.events';
 import { ReviewFileUploadUrlDto } from './dto/file-upload-url.dto';
 import { ReviewFileConfirmDto } from './dto/file-confirm.dto';
 
@@ -19,6 +22,7 @@ export class ReviewsService {
   constructor(
     private prisma: PrismaService,
     private fileManager: FileManagerService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async getReviewsBySubmission(submissionId: string) {
@@ -37,41 +41,108 @@ export class ReviewsService {
   }) {
     const submission = await this.prisma.submission.findUnique({
       where: { id: data.submissionId },
-      select: { status: true },
+      select: {
+        status: true,
+        topic: true,
+        assignment: { select: { studentId: true } },
+      },
     });
 
     if (!submission || submission.status !== 'COMPLETED') {
       throw new BadRequestException('Submission must be approved before writing a review');
     }
 
-    return this.prisma.review.create({
-      data: data as any,
-      select: REVIEW_SELECT,
-    });
+    const result = await this.prisma.review.create({ data: data as any, select: REVIEW_SELECT });
+
+    const reviewer = await this.prisma.user.findUnique({ where: { id: data.reviewerId }, select: { name: true } });
+
+    if (submission.assignment.studentId) {
+      this.eventEmitter.emit(NotificationEvent.REVIEW_CREATED, {
+        recipientIds: [submission.assignment.studentId],
+        actorName: reviewer?.name ?? 'Teacher',
+        entityId: result.id,
+        entityType: 'review',
+        reviewType: data.type,
+        submissionTopic: submission.topic,
+      } satisfies ReviewPayload);
+    }
+
+    return result;
   }
 
   async updateReview(reviewId: string, userId: string, data: { grade: Grade; comment?: string }) {
-    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    const review = await this.prisma.review.findUnique({
+      where: { id: reviewId },
+      select: {
+        reviewerId: true,
+        type: true,
+        submission: {
+          select: {
+            topic: true,
+            assignment: { select: { studentId: true } },
+          },
+        },
+      },
+    });
     if (!review) throw new NotFoundException('Review not found');
     if (review.reviewerId !== userId) throw new ForbiddenException('You can only edit your own reviews');
-    return this.prisma.review.update({
-      where: { id: reviewId },
-      data,
-      select: REVIEW_SELECT,
-    });
+
+    const result = await this.prisma.review.update({ where: { id: reviewId }, data, select: REVIEW_SELECT });
+
+    const reviewer = await this.prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
+    const studentId = review.submission.assignment.studentId;
+
+    if (studentId) {
+      this.eventEmitter.emit(NotificationEvent.REVIEW_EDITED, {
+        recipientIds: [studentId],
+        actorName: reviewer?.name ?? 'Teacher',
+        entityId: reviewId,
+        entityType: 'review',
+        reviewType: review.type as ReviewType,
+        submissionTopic: review.submission.topic,
+      } satisfies ReviewPayload);
+    }
+
+    return result;
   }
 
   async deleteReview(reviewId: string, userId: string) {
-    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    const review = await this.prisma.review.findUnique({
+      where: { id: reviewId },
+      select: {
+        reviewerId: true,
+        type: true,
+        submission: {
+          select: {
+            topic: true,
+            assignment: { select: { studentId: true } },
+          },
+        },
+      },
+    });
     if (!review) throw new NotFoundException('Review not found');
     if (review.reviewerId !== userId) throw new ForbiddenException('You can only delete your own reviews');
-    return this.prisma.review.delete({
-      where: { id: reviewId },
-      select: REVIEW_SELECT,
-    });
+
+    const result = await this.prisma.review.delete({ where: { id: reviewId }, select: REVIEW_SELECT });
+
+    const reviewer = await this.prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
+    const studentId = review.submission.assignment.studentId;
+
+    if (studentId) {
+      this.eventEmitter.emit(NotificationEvent.REVIEW_DELETED, {
+        recipientIds: [studentId],
+        actorName: reviewer?.name ?? 'Teacher',
+        entityId: reviewId,
+        entityType: 'review',
+        reviewType: review.type as ReviewType,
+        submissionTopic: review.submission.topic,
+      } satisfies ReviewPayload);
+    }
+
+    return result;
   }
 
-  // ── File management ──────────────────────────────────────────────────────────
+  // ── File management ────────────────────────────────────────────────────────
 
   async getFileUploadUrl(reviewId: string, dto: ReviewFileUploadUrlDto, reviewerId: string) {
     const review = await this.ensureReviewerOwnsReview(reviewId, reviewerId);
@@ -80,7 +151,7 @@ export class ReviewsService {
 
   async confirmFileUpload(reviewId: string, dto: ReviewFileConfirmDto, reviewerId: string) {
     const review = await this.ensureReviewerOwnsReview(reviewId, reviewerId);
-    return this.fileManager.confirmUpload({
+    const file = await this.fileManager.confirmUpload({
       key: dto.key,
       filename: dto.filename,
       contentType: dto.contentType,
@@ -90,11 +161,49 @@ export class ReviewsService {
       uploadedById: reviewerId,
       size: dto.size,
     });
+
+    const reviewer = await this.prisma.user.findUnique({ where: { id: reviewerId }, select: { name: true } });
+    const studentId = review.submission.assignment.studentId;
+
+    if (studentId) {
+      this.eventEmitter.emit(NotificationEvent.FILE_UPLOADED, {
+        recipientIds: [studentId],
+        actorName: reviewer?.name ?? 'Teacher',
+        entityId: file.id,
+        entityType: 'file',
+        filename: dto.filename,
+        submissionTopic: review.submission.topic,
+      } satisfies FilePayload);
+    }
+
+    return file;
   }
 
   async deleteReviewFile(reviewId: string, fileId: string, reviewerId: string) {
-    await this.ensureReviewerOwnsReview(reviewId, reviewerId);
-    return this.fileManager.deleteFile(fileId, reviewerId);
+    const review = await this.ensureReviewerOwnsReview(reviewId, reviewerId);
+
+    const file = await this.prisma.submissionFile.findUnique({
+      where: { id: fileId },
+      select: { filename: true },
+    });
+
+    await this.fileManager.deleteFile(fileId, reviewerId);
+
+    if (file) {
+      const reviewer = await this.prisma.user.findUnique({ where: { id: reviewerId }, select: { name: true } });
+      const studentId = review.submission.assignment.studentId;
+
+      if (studentId) {
+        this.eventEmitter.emit(NotificationEvent.FILE_DELETED, {
+          recipientIds: [studentId],
+          actorName: reviewer?.name ?? 'Teacher',
+          entityId: fileId,
+          entityType: 'file',
+          filename: file.filename,
+          submissionTopic: review.submission.topic,
+        } satisfies FilePayload);
+      }
+    }
   }
 
   listReviewFiles(reviewId: string) {
@@ -104,7 +213,16 @@ export class ReviewsService {
   private async ensureReviewerOwnsReview(reviewId: string, reviewerId: string) {
     const review = await this.prisma.review.findUnique({
       where: { id: reviewId },
-      select: { reviewerId: true, submissionId: true },
+      select: {
+        reviewerId: true,
+        submissionId: true,
+        submission: {
+          select: {
+            topic: true,
+            assignment: { select: { studentId: true } },
+          },
+        },
+      },
     });
     if (!review) throw new NotFoundException('Review not found');
     if (review.reviewerId !== reviewerId) throw new ForbiddenException('You can only manage files for your own review');

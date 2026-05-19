@@ -50,15 +50,15 @@ export class SubmissionsController {
   @Post('approve')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('TEACHER')
-  approveSubmission(@Body() dto: ApproveSubmissionDto) {
-    return this.submissionsService.approveSubmission(dto.id, dto.opponentId);
+  approveSubmission(@Body() dto: ApproveSubmissionDto, @Req() req: AuthenticatedRequest) {
+    return this.submissionsService.approveSubmission(dto.id, dto.opponentId, req.user.userId);
   }
 
   @Post('reject')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('TEACHER')
-  rejectSubmission(@Body() dto: UpdateSubmissionDto) {
-    return this.submissionsService.rejectSubmission(dto.id);
+  rejectSubmission(@Body() dto: UpdateSubmissionDto, @Req() req: AuthenticatedRequest) {
+    return this.submissionsService.rejectSubmission(dto.id, req.user.userId);
   }
 
   // ── File management ──────────────────────────────────────────────────────────
