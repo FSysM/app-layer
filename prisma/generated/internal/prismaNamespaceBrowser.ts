@@ -55,7 +55,8 @@ export const ModelName = {
   Assignment: 'Assignment',
   Submission: 'Submission',
   Review: 'Review',
-  SubmissionFile: 'SubmissionFile'
+  SubmissionFile: 'SubmissionFile',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -157,6 +158,20 @@ export const SubmissionFileScalarFieldEnum = {
 } as const
 
 export type SubmissionFileScalarFieldEnum = (typeof SubmissionFileScalarFieldEnum)[keyof typeof SubmissionFileScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  message: 'message',
+  read: 'read',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  recipientId: 'recipientId',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

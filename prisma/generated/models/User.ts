@@ -227,6 +227,7 @@ export type UserWhereInput = {
   opponentSubmissions?: Prisma.SubmissionListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   files?: Prisma.SubmissionFileListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -245,6 +246,7 @@ export type UserOrderByWithRelationInput = {
   opponentSubmissions?: Prisma.SubmissionOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   files?: Prisma.SubmissionFileOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -266,6 +268,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   opponentSubmissions?: Prisma.SubmissionListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   files?: Prisma.SubmissionFileListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -316,6 +319,7 @@ export type UserCreateInput = {
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -334,6 +338,7 @@ export type UserUncheckedCreateInput = {
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUpdateInput = {
@@ -352,6 +357,7 @@ export type UserUpdateInput = {
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -370,6 +376,7 @@ export type UserUncheckedUpdateInput = {
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -550,6 +557,20 @@ export type UserUpdateOneRequiredWithoutFilesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFilesInput, Prisma.UserUpdateWithoutFilesInput>, Prisma.UserUncheckedUpdateWithoutFilesInput>
 }
 
+export type UserCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.UserUpsertWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type UserCreateWithoutStudentAssignmentsInput = {
   id?: string
   username: string
@@ -565,6 +586,7 @@ export type UserCreateWithoutStudentAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUncheckedCreateWithoutStudentAssignmentsInput = {
@@ -582,6 +604,7 @@ export type UserUncheckedCreateWithoutStudentAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
 export type UserCreateOrConnectWithoutStudentAssignmentsInput = {
@@ -604,6 +627,7 @@ export type UserCreateWithoutSupervisorAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUncheckedCreateWithoutSupervisorAssignmentsInput = {
@@ -621,6 +645,7 @@ export type UserUncheckedCreateWithoutSupervisorAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
 export type UserCreateOrConnectWithoutSupervisorAssignmentsInput = {
@@ -654,6 +679,7 @@ export type UserUpdateWithoutStudentAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentAssignmentsInput = {
@@ -671,6 +697,7 @@ export type UserUncheckedUpdateWithoutStudentAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUpsertWithoutSupervisorAssignmentsInput = {
@@ -699,6 +726,7 @@ export type UserUpdateWithoutSupervisorAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupervisorAssignmentsInput = {
@@ -716,6 +744,7 @@ export type UserUncheckedUpdateWithoutSupervisorAssignmentsInput = {
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserCreateWithoutOpponentSubmissionsInput = {
@@ -733,6 +762,7 @@ export type UserCreateWithoutOpponentSubmissionsInput = {
   supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUncheckedCreateWithoutOpponentSubmissionsInput = {
@@ -750,6 +780,7 @@ export type UserUncheckedCreateWithoutOpponentSubmissionsInput = {
   supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
 export type UserCreateOrConnectWithoutOpponentSubmissionsInput = {
@@ -783,6 +814,7 @@ export type UserUpdateWithoutOpponentSubmissionsInput = {
   supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOpponentSubmissionsInput = {
@@ -800,6 +832,7 @@ export type UserUncheckedUpdateWithoutOpponentSubmissionsInput = {
   supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -817,6 +850,7 @@ export type UserCreateWithoutReviewsInput = {
   supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
   files?: Prisma.SubmissionFileCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -834,6 +868,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
   files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutUploadedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -867,6 +902,7 @@ export type UserUpdateWithoutReviewsInput = {
   supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
   files?: Prisma.SubmissionFileUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -884,6 +920,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
   files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutUploadedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserCreateWithoutFilesInput = {
@@ -901,6 +938,7 @@ export type UserCreateWithoutFilesInput = {
   supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
 export type UserUncheckedCreateWithoutFilesInput = {
@@ -918,6 +956,7 @@ export type UserUncheckedCreateWithoutFilesInput = {
   supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
   opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
 export type UserCreateOrConnectWithoutFilesInput = {
@@ -951,6 +990,7 @@ export type UserUpdateWithoutFilesInput = {
   supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFilesInput = {
@@ -968,6 +1008,95 @@ export type UserUncheckedUpdateWithoutFilesInput = {
   supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
   opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+}
+
+export type UserCreateWithoutNotificationsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  name?: string | null
+  role: $Enums.Role
+  phone?: string | null
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  studentAssignments?: Prisma.AssignmentCreateNestedManyWithoutStudentInput
+  supervisorAssignments?: Prisma.AssignmentCreateNestedManyWithoutSupervisorInput
+  opponentSubmissions?: Prisma.SubmissionCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
+  files?: Prisma.SubmissionFileCreateNestedManyWithoutUploadedByInput
+}
+
+export type UserUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  name?: string | null
+  role: $Enums.Role
+  phone?: string | null
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  studentAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutStudentInput
+  supervisorAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+  opponentSubmissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutOpponentInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
+  files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutUploadedByInput
+}
+
+export type UserCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+}
+
+export type UserUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studentAssignments?: Prisma.AssignmentUpdateManyWithoutStudentNestedInput
+  supervisorAssignments?: Prisma.AssignmentUpdateManyWithoutSupervisorNestedInput
+  opponentSubmissions?: Prisma.SubmissionUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
+  files?: Prisma.SubmissionFileUpdateManyWithoutUploadedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studentAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutStudentNestedInput
+  supervisorAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+  opponentSubmissions?: Prisma.SubmissionUncheckedUpdateManyWithoutOpponentNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutUploadedByNestedInput
 }
 
 
@@ -981,6 +1110,7 @@ export type UserCountOutputType = {
   opponentSubmissions: number
   reviews: number
   files: number
+  notifications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -989,6 +1119,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   opponentSubmissions?: boolean | UserCountOutputTypeCountOpponentSubmissionsArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   files?: boolean | UserCountOutputTypeCountFilesArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -1036,6 +1167,13 @@ export type UserCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.SubmissionFileWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1053,6 +1191,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   opponentSubmissions?: boolean | Prisma.User$opponentSubmissionsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   files?: boolean | Prisma.User$filesArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1102,6 +1241,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   opponentSubmissions?: boolean | Prisma.User$opponentSubmissionsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   files?: boolean | Prisma.User$filesArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1115,6 +1255,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     opponentSubmissions: Prisma.$SubmissionPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     files: Prisma.$SubmissionFilePayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1526,6 +1667,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   opponentSubmissions<T extends Prisma.User$opponentSubmissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$opponentSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   files<T extends Prisma.User$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2075,6 +2217,30 @@ export type User$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.SubmissionFileScalarFieldEnum | Prisma.SubmissionFileScalarFieldEnum[]
+}
+
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

@@ -64,3 +64,8 @@ export type Review = Prisma.ReviewModel
  * 
  */
 export type SubmissionFile = Prisma.SubmissionFileModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
