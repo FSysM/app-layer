@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { FileManagerModule } from './filemanager/filemanager.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ReviewsModule } from './reviews/reviews.module';
     AssignmentsModule,
     SubmissionsModule,
     ReviewsModule,
+    FileManagerModule,
   ],
   controllers: [HealthController],
 })
