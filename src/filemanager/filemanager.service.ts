@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { S3Client, DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { PrismaService } from '../prisma/prisma.service';
 import { randomUUID } from 'crypto';
@@ -78,5 +78,17 @@ export class FileManagerService {
       where: { reviewId },
       orderBy: { createdAt: 'asc' },
     });
+  }
+
+  async getDownloadUrl(fileId: string) {
+    const file = await this.prisma.submissionFile.findUnique({ where: { id: fileId } });
+    if (!file) throw new NotFoundException('File not found');
+    const command = new GetObjectCommand({
+      Bucket: this.bucket,
+      Key: file.key,
+      ResponseContentDisposition: `attachment; filename="${file.filename}"`,
+    });
+    const url = await getSignedUrl(this.s3, command, { expiresIn: 300 });
+    return { url };
   }
 }
