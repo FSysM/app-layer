@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   Assignment: 'Assignment',
   Submission: 'Submission',
-  Review: 'Review'
+  Review: 'Review',
+  SubmissionFile: 'SubmissionFile'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -139,6 +140,23 @@ export const ReviewScalarFieldEnum = {
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const SubmissionFileScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  filename: 'filename',
+  contentType: 'contentType',
+  size: 'size',
+  folder: 'folder',
+  submissionId: 'submissionId',
+  reviewId: 'reviewId',
+  uploadedById: 'uploadedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubmissionFileScalarFieldEnum = (typeof SubmissionFileScalarFieldEnum)[keyof typeof SubmissionFileScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -73,3 +73,12 @@ export const ReviewType = {
 } as const
 
 export type ReviewType = (typeof ReviewType)[keyof typeof ReviewType]
+
+
+export const FileFolder = {
+  REVIEWS: 'REVIEWS',
+  TEXT: 'TEXT',
+  FILES: 'FILES'
+} as const
+
+export type FileFolder = (typeof FileFolder)[keyof typeof FileFolder]

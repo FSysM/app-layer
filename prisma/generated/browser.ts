@@ -37,3 +37,8 @@ export type Submission = Prisma.SubmissionModel
  * 
  */
 export type Review = Prisma.ReviewModel
+/**
+ * Model SubmissionFile
+ * 
+ */
+export type SubmissionFile = Prisma.SubmissionFileModel

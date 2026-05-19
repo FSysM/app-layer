@@ -208,6 +208,7 @@ export type ReviewWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Review"> | Date | string
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
   reviewer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  files?: Prisma.SubmissionFileListRelationFilter
 }
 
 export type ReviewOrderByWithRelationInput = {
@@ -221,6 +222,7 @@ export type ReviewOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   submission?: Prisma.SubmissionOrderByWithRelationInput
   reviewer?: Prisma.UserOrderByWithRelationInput
+  files?: Prisma.SubmissionFileOrderByRelationAggregateInput
 }
 
 export type ReviewWhereUniqueInput = Prisma.AtLeast<{
@@ -238,6 +240,7 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Review"> | Date | string
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
   reviewer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  files?: Prisma.SubmissionFileListRelationFilter
 }, "id" | "submissionId_type">
 
 export type ReviewOrderByWithAggregationInput = {
@@ -277,6 +280,7 @@ export type ReviewCreateInput = {
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutReviewsInput
   reviewer: Prisma.UserCreateNestedOneWithoutReviewsInput
+  files?: Prisma.SubmissionFileCreateNestedManyWithoutReviewInput
 }
 
 export type ReviewUncheckedCreateInput = {
@@ -288,6 +292,7 @@ export type ReviewUncheckedCreateInput = {
   reviewerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutReviewInput
 }
 
 export type ReviewUpdateInput = {
@@ -299,6 +304,7 @@ export type ReviewUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutReviewsNestedInput
   reviewer?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
+  files?: Prisma.SubmissionFileUpdateManyWithoutReviewNestedInput
 }
 
 export type ReviewUncheckedUpdateInput = {
@@ -310,6 +316,7 @@ export type ReviewUncheckedUpdateInput = {
   reviewerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutReviewNestedInput
 }
 
 export type ReviewCreateManyInput = {
@@ -389,6 +396,11 @@ export type ReviewMinOrderByAggregateInput = {
   reviewerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ReviewNullableScalarRelationFilter = {
+  is?: Prisma.ReviewWhereInput | null
+  isNot?: Prisma.ReviewWhereInput | null
 }
 
 export type ReviewCreateNestedManyWithoutReviewerInput = {
@@ -483,6 +495,22 @@ export type EnumReviewTypeFieldUpdateOperationsInput = {
   set?: $Enums.ReviewType
 }
 
+export type ReviewCreateNestedOneWithoutFilesInput = {
+  create?: Prisma.XOR<Prisma.ReviewCreateWithoutFilesInput, Prisma.ReviewUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutFilesInput
+  connect?: Prisma.ReviewWhereUniqueInput
+}
+
+export type ReviewUpdateOneWithoutFilesNestedInput = {
+  create?: Prisma.XOR<Prisma.ReviewCreateWithoutFilesInput, Prisma.ReviewUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutFilesInput
+  upsert?: Prisma.ReviewUpsertWithoutFilesInput
+  disconnect?: Prisma.ReviewWhereInput | boolean
+  delete?: Prisma.ReviewWhereInput | boolean
+  connect?: Prisma.ReviewWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReviewUpdateToOneWithWhereWithoutFilesInput, Prisma.ReviewUpdateWithoutFilesInput>, Prisma.ReviewUncheckedUpdateWithoutFilesInput>
+}
+
 export type ReviewCreateWithoutReviewerInput = {
   id?: string
   grade: $Enums.Grade
@@ -491,6 +519,7 @@ export type ReviewCreateWithoutReviewerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutReviewsInput
+  files?: Prisma.SubmissionFileCreateNestedManyWithoutReviewInput
 }
 
 export type ReviewUncheckedCreateWithoutReviewerInput = {
@@ -501,6 +530,7 @@ export type ReviewUncheckedCreateWithoutReviewerInput = {
   submissionId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutReviewInput
 }
 
 export type ReviewCreateOrConnectWithoutReviewerInput = {
@@ -551,6 +581,7 @@ export type ReviewCreateWithoutSubmissionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   reviewer: Prisma.UserCreateNestedOneWithoutReviewsInput
+  files?: Prisma.SubmissionFileCreateNestedManyWithoutReviewInput
 }
 
 export type ReviewUncheckedCreateWithoutSubmissionInput = {
@@ -561,6 +592,7 @@ export type ReviewUncheckedCreateWithoutSubmissionInput = {
   reviewerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  files?: Prisma.SubmissionFileUncheckedCreateNestedManyWithoutReviewInput
 }
 
 export type ReviewCreateOrConnectWithoutSubmissionInput = {
@@ -589,6 +621,66 @@ export type ReviewUpdateManyWithWhereWithoutSubmissionInput = {
   data: Prisma.XOR<Prisma.ReviewUpdateManyMutationInput, Prisma.ReviewUncheckedUpdateManyWithoutSubmissionInput>
 }
 
+export type ReviewCreateWithoutFilesInput = {
+  id?: string
+  grade: $Enums.Grade
+  comment?: string | null
+  type: $Enums.ReviewType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submission: Prisma.SubmissionCreateNestedOneWithoutReviewsInput
+  reviewer: Prisma.UserCreateNestedOneWithoutReviewsInput
+}
+
+export type ReviewUncheckedCreateWithoutFilesInput = {
+  id?: string
+  grade: $Enums.Grade
+  comment?: string | null
+  type: $Enums.ReviewType
+  submissionId: string
+  reviewerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ReviewCreateOrConnectWithoutFilesInput = {
+  where: Prisma.ReviewWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReviewCreateWithoutFilesInput, Prisma.ReviewUncheckedCreateWithoutFilesInput>
+}
+
+export type ReviewUpsertWithoutFilesInput = {
+  update: Prisma.XOR<Prisma.ReviewUpdateWithoutFilesInput, Prisma.ReviewUncheckedUpdateWithoutFilesInput>
+  create: Prisma.XOR<Prisma.ReviewCreateWithoutFilesInput, Prisma.ReviewUncheckedCreateWithoutFilesInput>
+  where?: Prisma.ReviewWhereInput
+}
+
+export type ReviewUpdateToOneWithWhereWithoutFilesInput = {
+  where?: Prisma.ReviewWhereInput
+  data: Prisma.XOR<Prisma.ReviewUpdateWithoutFilesInput, Prisma.ReviewUncheckedUpdateWithoutFilesInput>
+}
+
+export type ReviewUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  grade?: Prisma.EnumGradeFieldUpdateOperationsInput | $Enums.Grade
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumReviewTypeFieldUpdateOperationsInput | $Enums.ReviewType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submission?: Prisma.SubmissionUpdateOneRequiredWithoutReviewsNestedInput
+  reviewer?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
+}
+
+export type ReviewUncheckedUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  grade?: Prisma.EnumGradeFieldUpdateOperationsInput | $Enums.Grade
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumReviewTypeFieldUpdateOperationsInput | $Enums.ReviewType
+  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ReviewCreateManyReviewerInput = {
   id?: string
   grade: $Enums.Grade
@@ -607,6 +699,7 @@ export type ReviewUpdateWithoutReviewerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutReviewsNestedInput
+  files?: Prisma.SubmissionFileUpdateManyWithoutReviewNestedInput
 }
 
 export type ReviewUncheckedUpdateWithoutReviewerInput = {
@@ -617,6 +710,7 @@ export type ReviewUncheckedUpdateWithoutReviewerInput = {
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutReviewNestedInput
 }
 
 export type ReviewUncheckedUpdateManyWithoutReviewerInput = {
@@ -647,6 +741,7 @@ export type ReviewUpdateWithoutSubmissionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewer?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
+  files?: Prisma.SubmissionFileUpdateManyWithoutReviewNestedInput
 }
 
 export type ReviewUncheckedUpdateWithoutSubmissionInput = {
@@ -657,6 +752,7 @@ export type ReviewUncheckedUpdateWithoutSubmissionInput = {
   reviewerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  files?: Prisma.SubmissionFileUncheckedUpdateManyWithoutReviewNestedInput
 }
 
 export type ReviewUncheckedUpdateManyWithoutSubmissionInput = {
@@ -670,6 +766,35 @@ export type ReviewUncheckedUpdateManyWithoutSubmissionInput = {
 }
 
 
+/**
+ * Count Type ReviewCountOutputType
+ */
+
+export type ReviewCountOutputType = {
+  files: number
+}
+
+export type ReviewCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  files?: boolean | ReviewCountOutputTypeCountFilesArgs
+}
+
+/**
+ * ReviewCountOutputType without action
+ */
+export type ReviewCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReviewCountOutputType
+   */
+  select?: Prisma.ReviewCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ReviewCountOutputType without action
+ */
+export type ReviewCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubmissionFileWhereInput
+}
+
 
 export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -682,6 +807,8 @@ export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  files?: boolean | Prisma.Review$filesArgs<ExtArgs>
+  _count?: boolean | Prisma.ReviewCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -725,6 +852,8 @@ export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type ReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  files?: boolean | Prisma.Review$filesArgs<ExtArgs>
+  _count?: boolean | Prisma.ReviewCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ReviewIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
@@ -740,6 +869,7 @@ export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     submission: Prisma.$SubmissionPayload<ExtArgs>
     reviewer: Prisma.$UserPayload<ExtArgs>
+    files: Prisma.$SubmissionFilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1146,6 +1276,7 @@ export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   submission<T extends Prisma.SubmissionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubmissionDefaultArgs<ExtArgs>>): Prisma.Prisma__SubmissionClient<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reviewer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  files<T extends Prisma.Review$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Review$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1581,6 +1712,30 @@ export type ReviewDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Reviews to delete.
    */
   limit?: number
+}
+
+/**
+ * Review.files
+ */
+export type Review$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubmissionFile
+   */
+  select?: Prisma.SubmissionFileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubmissionFile
+   */
+  omit?: Prisma.SubmissionFileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubmissionFileInclude<ExtArgs> | null
+  where?: Prisma.SubmissionFileWhereInput
+  orderBy?: Prisma.SubmissionFileOrderByWithRelationInput | Prisma.SubmissionFileOrderByWithRelationInput[]
+  cursor?: Prisma.SubmissionFileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubmissionFileScalarFieldEnum | Prisma.SubmissionFileScalarFieldEnum[]
 }
 
 /**

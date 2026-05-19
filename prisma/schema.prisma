@@ -32,6 +32,7 @@ model User {
   opponentSubmissions Submission[] @relation("OpponentSubmissions")
 
   reviews Review[]
+  files   SubmissionFile[]
 }
 
 enum Role {
@@ -92,6 +93,7 @@ model Submission {
   opponent   User?      @relation("OpponentSubmissions", fields: [opponentId], references: [id])
 
   reviews Review[]
+  files   SubmissionFile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -138,6 +140,8 @@ model Review {
   submission Submission @relation(fields: [submissionId], references: [id])
   reviewer   User       @relation(fields: [reviewerId], references: [id])
 
+  files SubmissionFile[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -156,4 +160,32 @@ enum Grade {
 enum ReviewType {
   SUPERVISOR
   OPPONENT
+}
+
+// ================== FILES ======================
+
+model SubmissionFile {
+  id          String     @id @default(uuid())
+  key         String     @unique
+  filename    String
+  contentType String
+  size        Int?
+  folder      FileFolder
+
+  submissionId String
+  reviewId     String?
+  uploadedById String
+
+  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  review     Review?    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  uploadedBy User       @relation(fields: [uploadedById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum FileFolder {
+  REVIEWS
+  TEXT
+  FILES
 }
