@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { NotificationsService } from './notifications.service';
+import { NotificationsGateway } from './notifications.gateway';
 import {
   NotificationEvent,
   SubmissionPayload,
@@ -11,7 +12,10 @@ import {
 
 @Injectable()
 export class NotificationsListener {
-  constructor(private readonly notifications: NotificationsService) {}
+  constructor(
+    private readonly notifications: NotificationsService,
+    private readonly gateway: NotificationsGateway,
+  ) {}
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -30,6 +34,16 @@ export class NotificationsListener {
         entityId: payload.entityId,
       })),
     );
+    const createdAt = new Date();
+    for (const recipientId of payload.recipientIds) {
+      this.gateway.emitToUser(recipientId, {
+        type,
+        message,
+        entityType: payload.entityType,
+        entityId: payload.entityId,
+        createdAt,
+      });
+    }
   }
 
   private reviewLabel(type: 'SUPERVISOR' | 'OPPONENT') {
