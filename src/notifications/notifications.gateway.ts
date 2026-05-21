@@ -18,12 +18,12 @@ export type NotificationEmitPayload = {
 
 @WebSocketGateway({
   namespace: '/notifications',
-  cors: { origin: '*', credentials: true },
+  cors: { origin: '*' },
 })
 export class NotificationsGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
-  @WebSocketServer() server: Server;
+  @WebSocketServer() server!: Server;
   private readonly logger = new Logger(NotificationsGateway.name);
 
   constructor(private readonly jwtService: JwtService) {}
@@ -48,7 +48,10 @@ export class NotificationsGateway
     );
   }
 
-  emitToUser(userId: string, data: NotificationEmitPayload) {
-    this.server.to(`user:${userId}`).emit('notification', data);
+  async emitToUser(userId: string, data: NotificationEmitPayload) {
+    const room = `user:${userId}`;
+    const sockets = await this.server.in(room).fetchSockets();
+    this.logger.log(`emitToUser → room=${room}, sockets in room=${sockets.length}`);
+    this.server.to(room).emit('notification', data);
   }
 }
