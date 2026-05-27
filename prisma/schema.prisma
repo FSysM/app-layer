@@ -20,8 +20,9 @@ model User {
 
   role Role
 
-  phone   String?
-  address String?
+  phone          String?
+  address        String?
+  profilePicture String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
