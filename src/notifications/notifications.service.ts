@@ -48,4 +48,10 @@ export class NotificationsService {
       data: { read: true },
     });
   }
+
+  delete(id: string, userId: string) {
+    return this.prisma.notification.delete({
+      where: { id, recipientId: userId },
+    });
+  }
 }
