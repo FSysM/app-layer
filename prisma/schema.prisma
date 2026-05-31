@@ -31,9 +31,8 @@ model User {
 
   opponentSubmissions Submission[] @relation("OpponentSubmissions")
 
-  reviews       Review[]
-  files         SubmissionFile[]
-  notifications Notification[]
+  reviews Review[]
+  files   SubmissionFile[]
 }
 
 enum Role {
