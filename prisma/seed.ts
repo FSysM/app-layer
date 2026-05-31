@@ -20,7 +20,6 @@ async function main() {
   console.log('🌱 Seeding database...');
 
   await prisma.review.deleteMany();
-  await prisma.submissionFile.deleteMany();
   await prisma.submission.deleteMany();
   await prisma.assignment.deleteMany();
   await prisma.user.deleteMany();

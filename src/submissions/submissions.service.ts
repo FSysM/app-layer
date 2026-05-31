@@ -1,11 +1,18 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { KafkaService } from '../kafka/kafka.service';
-import { FileManagerService, FileFolder } from '../filemanager/filemanager.service';
 import { NotificationEvent } from '../kafka/notification.events';
-import type { SubmissionPayload, FilePayload } from '../kafka/notification.events';
+import type {
+  SubmissionPayload,
+  FilePayload,
+} from '../kafka/notification.events';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
+import { FileManagerService, FileFolder } from '../filemanager/filemanager.service';
 import { FileUploadUrlDto } from './dto/file-upload-url.dto';
 import { FileConfirmDto } from './dto/file-confirm.dto';
 
@@ -107,7 +114,8 @@ export class SubmissionsService {
       select: { assignment: { select: { studentId: true } } },
     });
     if (!submission) throw new NotFoundException('Submission not found');
-    if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only edit your own submission');
+    if (submission.assignment.studentId !== studentId)
+      throw new ForbiddenException('You can only edit your own submission');
 
     const result = await this.prisma.submission.update({
       where: { id: dto.id },
@@ -149,7 +157,8 @@ export class SubmissionsService {
       },
     });
     if (!submission) throw new NotFoundException('Submission not found');
-    if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only delete your own submission');
+    if (submission.assignment.studentId !== studentId)
+      throw new ForbiddenException('You can only delete your own submission');
 
     const result = await this.prisma.submission.delete({ where: { id } });
 
@@ -164,14 +173,21 @@ export class SubmissionsService {
     return result;
   }
 
-  async approveSubmission(id: string, opponentId: string, supervisorId: string) {
+  async approveSubmission(
+    id: string,
+    opponentId: string,
+    supervisorId: string,
+  ) {
     const result = await this.prisma.submission.update({
       where: { id },
       data: { status: 'COMPLETED', opponentId },
       select: BASE_SELECT,
     });
 
-    const supervisor = await this.prisma.user.findUnique({ where: { id: supervisorId }, select: { name: true } });
+    const supervisor = await this.prisma.user.findUnique({
+      where: { id: supervisorId },
+      select: { name: true },
+    });
     const supervisorName = supervisor?.name ?? 'Supervisor';
     const studentId = result.assignment.student?.id;
 
@@ -203,7 +219,10 @@ export class SubmissionsService {
       select: BASE_SELECT,
     });
 
-    const supervisor = await this.prisma.user.findUnique({ where: { id: supervisorId }, select: { name: true } });
+    const supervisor = await this.prisma.user.findUnique({
+      where: { id: supervisorId },
+      select: { name: true },
+    });
     const studentId = result.assignment.student?.id;
 
     if (studentId) {
@@ -221,13 +240,29 @@ export class SubmissionsService {
 
   // ── File management ────────────────────────────────────────────────────────
 
-  async getFileUploadUrl(submissionId: string, dto: FileUploadUrlDto, studentId: string) {
+  async getFileUploadUrl(
+    submissionId: string,
+    dto: FileUploadUrlDto,
+    studentId: string,
+  ) {
     await this.ensureStudentOwnsSubmission(submissionId, studentId);
-    return this.fileManager.getUploadUrl(submissionId, dto.folder as FileFolder, dto.filename, dto.contentType);
+    return this.fileManager.getUploadUrl(
+      submissionId,
+      dto.folder as FileFolder,
+      dto.filename,
+      dto.contentType,
+    );
   }
 
-  async confirmFileUpload(submissionId: string, dto: FileConfirmDto, studentId: string) {
-    const { supervisorId, topic } = await this.ensureStudentOwnsSubmission(submissionId, studentId);
+  async confirmFileUpload(
+    submissionId: string,
+    dto: FileConfirmDto,
+    studentId: string,
+  ) {
+    const { supervisorId, topic } = await this.ensureStudentOwnsSubmission(
+      submissionId,
+      studentId,
+    );
     const file = await this.fileManager.confirmUpload({
       key: dto.key,
       filename: dto.filename,
@@ -238,8 +273,14 @@ export class SubmissionsService {
       size: dto.size,
     });
 
-    const student = await this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } });
-    const event = dto.folder === 'TEXT' ? NotificationEvent.FILE_MAIN_UPLOADED : NotificationEvent.FILE_ATTACHMENT_UPLOADED;
+    const student = await this.prisma.user.findUnique({
+      where: { id: studentId },
+      select: { name: true },
+    });
+    const event =
+      dto.folder === 'TEXT'
+        ? NotificationEvent.FILE_MAIN_UPLOADED
+        : NotificationEvent.FILE_ATTACHMENT_UPLOADED;
 
     this.kafka.emit(event, {
       recipientIds: [supervisorId],
@@ -253,36 +294,44 @@ export class SubmissionsService {
     return file;
   }
 
-  async deleteSubmissionFile(submissionId: string, fileId: string, studentId: string) {
-    const { supervisorId, topic } = await this.ensureStudentOwnsSubmission(submissionId, studentId);
+  async deleteSubmissionFile(
+    submissionId: string,
+    fileId: string,
+    studentId: string,
+  ) {
+    const { supervisorId, topic } = await this.ensureStudentOwnsSubmission(
+      submissionId,
+      studentId,
+    );
+    const file = await this.fileManager.deleteFile(fileId, studentId);
 
-    const file = await this.prisma.submissionFile.findUnique({
-      where: { id: fileId },
-      select: { filename: true, folder: true },
+    const student = await this.prisma.user.findUnique({
+      where: { id: studentId },
+      select: { name: true },
     });
+    const event =
+      file.folder === 'TEXT'
+        ? NotificationEvent.FILE_MAIN_DELETED
+        : NotificationEvent.FILE_ATTACHMENT_DELETED;
 
-    await this.fileManager.deleteFile(fileId, studentId);
-
-    if (file) {
-      const student = await this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } });
-      const event = file.folder === 'TEXT' ? NotificationEvent.FILE_MAIN_DELETED : NotificationEvent.FILE_ATTACHMENT_DELETED;
-
-      this.kafka.emit(event, {
-        recipientIds: [supervisorId],
-        actorName: student?.name ?? 'Student',
-        entityId: fileId,
-        entityType: 'file',
-        filename: file.filename,
-        submissionTopic: topic,
-      } satisfies FilePayload);
-    }
+    this.kafka.emit(event, {
+      recipientIds: [supervisorId],
+      actorName: student?.name ?? 'Student',
+      entityId: fileId,
+      entityType: 'file',
+      filename: file.filename,
+      submissionTopic: topic,
+    } satisfies FilePayload);
   }
 
   listSubmissionFiles(submissionId: string) {
     return this.fileManager.listSubmissionFiles(submissionId);
   }
 
-  private async ensureStudentOwnsSubmission(submissionId: string, studentId: string) {
+  private async ensureStudentOwnsSubmission(
+    submissionId: string,
+    studentId: string,
+  ) {
     const submission = await this.prisma.submission.findUnique({
       where: { id: submissionId },
       select: {
@@ -291,7 +340,13 @@ export class SubmissionsService {
       },
     });
     if (!submission) throw new NotFoundException('Submission not found');
-    if (submission.assignment.studentId !== studentId) throw new ForbiddenException('You can only manage files for your own submission');
-    return { supervisorId: submission.assignment.supervisorId, topic: submission.topic };
+    if (submission.assignment.studentId !== studentId)
+      throw new ForbiddenException(
+        'You can only manage files for your own submission',
+      );
+    return {
+      supervisorId: submission.assignment.supervisorId,
+      topic: submission.topic,
+    };
   }
 }

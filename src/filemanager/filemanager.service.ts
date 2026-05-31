@@ -1,39 +1,65 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { S3Client, DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { PrismaService } from '../prisma/prisma.service';
-import { randomUUID } from 'crypto';
 
 export type FileFolder = 'REVIEWS' | 'TEXT' | 'FILES';
 
+export interface FileRecord {
+  id: string;
+  key: string;
+  filename: string;
+  contentType: string;
+  size: number | null;
+  folder: FileFolder;
+  submissionId: string;
+  reviewId: string | null;
+  uploadedById: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 @Injectable()
 export class FileManagerService {
-  private readonly s3: S3Client;
-  private readonly bucket: string;
+  private readonly baseUrl: string;
 
-  constructor(config: ConfigService, private readonly prisma: PrismaService) {
-    const useSSL = config.get<string>('MINIO_USE_SSL') === 'true';
-    this.s3 = new S3Client({
-      endpoint: `${useSSL ? 'https' : 'http'}://${config.getOrThrow('MINIO_ENDPOINT')}:${config.getOrThrow('MINIO_PORT')}`,
-      region: 'us-east-1',
-      credentials: {
-        accessKeyId: config.getOrThrow('MINIO_ROOT_USER'),
-        secretAccessKey: config.getOrThrow('MINIO_ROOT_PASSWORD'),
-      },
-      forcePathStyle: true,
+  constructor(config: ConfigService) {
+    this.baseUrl = config.getOrThrow<string>('FILE_MANAGER_URL');
+  }
+
+  private async call<T>(path: string, method: string, body?: unknown): Promise<T> {
+    const init: RequestInit = { method };
+    if (body !== undefined) {
+      init.headers = { 'Content-Type': 'application/json' };
+      init.body = JSON.stringify(body);
+    }
+
+    const res = await fetch(`${this.baseUrl}${path}`, init);
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({ message: 'File manager error' }));
+      const message = (data as any).message ?? 'File manager error';
+      if (res.status === 404) throw new NotFoundException(message);
+      if (res.status === 403) throw new ForbiddenException(message);
+      throw new InternalServerErrorException(message);
+    }
+
+    return res.json() as Promise<T>;
+  }
+
+  getUploadUrl(submissionId: string, folder: FileFolder, filename: string, contentType: string) {
+    return this.call<{ uploadUrl: string; key: string }>('/files/upload-url', 'POST', {
+      submissionId,
+      folder,
+      filename,
+      contentType,
     });
-    this.bucket = config.getOrThrow('MINIO_BUCKET_NAME');
   }
 
-  async getUploadUrl(submissionId: string, folder: FileFolder, filename: string, contentType: string) {
-    const key = `${submissionId}/${folder.toLowerCase()}/${randomUUID()}/${filename}`;
-    const command = new PutObjectCommand({ Bucket: this.bucket, Key: key, ContentType: contentType });
-    const uploadUrl = await getSignedUrl(this.s3, command, { expiresIn: 900 });
-    return { uploadUrl, key };
-  }
-
-  async confirmUpload(data: {
+  confirmUpload(data: {
     key: string;
     filename: string;
     contentType: string;
@@ -43,52 +69,18 @@ export class FileManagerService {
     uploadedById: string;
     size?: number;
   }) {
-    return this.prisma.submissionFile.create({
-      data: {
-        key: data.key,
-        filename: data.filename,
-        contentType: data.contentType,
-        folder: data.folder as any,
-        submissionId: data.submissionId,
-        reviewId: data.reviewId,
-        uploadedById: data.uploadedById,
-        size: data.size,
-      },
-    });
+    return this.call<FileRecord>('/files/confirm', 'POST', data);
   }
 
-  async deleteFile(fileId: string, userId: string) {
-    const file = await this.prisma.submissionFile.findUnique({ where: { id: fileId } });
-    if (!file) throw new NotFoundException('File not found');
-    if (file.uploadedById !== userId) throw new ForbiddenException('You can only delete your own files');
-
-    await this.s3.send(new DeleteObjectCommand({ Bucket: this.bucket, Key: file.key }));
-    await this.prisma.submissionFile.delete({ where: { id: fileId } });
+  deleteFile(fileId: string, userId: string) {
+    return this.call<FileRecord>(`/files/${fileId}`, 'DELETE', { userId });
   }
 
   listSubmissionFiles(submissionId: string) {
-    return this.prisma.submissionFile.findMany({
-      where: { submissionId },
-      orderBy: [{ folder: 'asc' }, { createdAt: 'asc' }],
-    });
+    return this.call<FileRecord[]>(`/files/submission/${submissionId}`, 'GET');
   }
 
   listReviewFiles(reviewId: string) {
-    return this.prisma.submissionFile.findMany({
-      where: { reviewId },
-      orderBy: { createdAt: 'asc' },
-    });
-  }
-
-  async getDownloadUrl(fileId: string) {
-    const file = await this.prisma.submissionFile.findUnique({ where: { id: fileId } });
-    if (!file) throw new NotFoundException('File not found');
-    const command = new GetObjectCommand({
-      Bucket: this.bucket,
-      Key: file.key,
-      ResponseContentDisposition: `attachment; filename="${file.filename}"`,
-    });
-    const url = await getSignedUrl(this.s3, command, { expiresIn: 300 });
-    return { url };
+    return this.call<FileRecord[]>(`/files/review/${reviewId}`, 'GET');
   }
 }
