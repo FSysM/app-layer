@@ -1,9 +1,9 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
+import { KafkaService } from '../kafka/kafka.service';
 import { FileManagerService, FileFolder } from '../filemanager/filemanager.service';
-import { NotificationEvent } from '../notifications/notifications.events';
-import type { SubmissionPayload, FilePayload } from '../notifications/notifications.events';
+import { NotificationEvent } from '../kafka/notification.events';
+import type { SubmissionPayload, FilePayload } from '../kafka/notification.events';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
 import { FileUploadUrlDto } from './dto/file-upload-url.dto';
@@ -44,7 +44,7 @@ export class SubmissionsService {
   constructor(
     private prisma: PrismaService,
     private fileManager: FileManagerService,
-    private eventEmitter: EventEmitter2,
+    private kafka: KafkaService,
   ) {}
 
   getAllSubmissions() {
@@ -90,7 +90,7 @@ export class SubmissionsService {
       select: BASE_SELECT,
     });
 
-    this.eventEmitter.emit(NotificationEvent.SUBMISSION_SUBMITTED, {
+    this.kafka.emit(NotificationEvent.SUBMISSION_SUBMITTED, {
       recipientIds: [result.assignment.supervisor.id],
       actorName: result.assignment.student?.name ?? 'Student',
       entityId: result.id,
@@ -123,7 +123,7 @@ export class SubmissionsService {
       select: BASE_SELECT,
     });
 
-    this.eventEmitter.emit(NotificationEvent.SUBMISSION_EDITED, {
+    this.kafka.emit(NotificationEvent.SUBMISSION_EDITED, {
       recipientIds: [result.assignment.supervisor.id],
       actorName: result.assignment.student?.name ?? 'Student',
       entityId: result.id,
@@ -153,7 +153,7 @@ export class SubmissionsService {
 
     const result = await this.prisma.submission.delete({ where: { id } });
 
-    this.eventEmitter.emit(NotificationEvent.SUBMISSION_DELETED, {
+    this.kafka.emit(NotificationEvent.SUBMISSION_DELETED, {
       recipientIds: [submission.assignment.supervisorId],
       actorName: submission.assignment.student?.name ?? 'Student',
       entityId: id,
@@ -176,7 +176,7 @@ export class SubmissionsService {
     const studentId = result.assignment.student?.id;
 
     if (studentId) {
-      this.eventEmitter.emit(NotificationEvent.SUBMISSION_APPROVED, {
+      this.kafka.emit(NotificationEvent.SUBMISSION_APPROVED, {
         recipientIds: [studentId],
         actorName: supervisorName,
         entityId: id,
@@ -185,7 +185,7 @@ export class SubmissionsService {
       } satisfies SubmissionPayload);
     }
 
-    this.eventEmitter.emit(NotificationEvent.SUBMISSION_OPPONENT_ASSIGNED, {
+    this.kafka.emit(NotificationEvent.SUBMISSION_OPPONENT_ASSIGNED, {
       recipientIds: [opponentId],
       actorName: supervisorName,
       entityId: id,
@@ -207,7 +207,7 @@ export class SubmissionsService {
     const studentId = result.assignment.student?.id;
 
     if (studentId) {
-      this.eventEmitter.emit(NotificationEvent.SUBMISSION_REJECTED, {
+      this.kafka.emit(NotificationEvent.SUBMISSION_REJECTED, {
         recipientIds: [studentId],
         actorName: supervisor?.name ?? 'Supervisor',
         entityId: id,
@@ -241,7 +241,7 @@ export class SubmissionsService {
     const student = await this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } });
     const event = dto.folder === 'TEXT' ? NotificationEvent.FILE_MAIN_UPLOADED : NotificationEvent.FILE_ATTACHMENT_UPLOADED;
 
-    this.eventEmitter.emit(event, {
+    this.kafka.emit(event, {
       recipientIds: [supervisorId],
       actorName: student?.name ?? 'Student',
       entityId: file.id,
@@ -267,7 +267,7 @@ export class SubmissionsService {
       const student = await this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } });
       const event = file.folder === 'TEXT' ? NotificationEvent.FILE_MAIN_DELETED : NotificationEvent.FILE_ATTACHMENT_DELETED;
 
-      this.eventEmitter.emit(event, {
+      this.kafka.emit(event, {
         recipientIds: [supervisorId],
         actorName: student?.name ?? 'Student',
         entityId: fileId,

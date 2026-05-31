@@ -1,10 +1,10 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
+import { KafkaService } from '../kafka/kafka.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
-import { NotificationEvent } from '../notifications/notifications.events';
-import type { AssignmentPayload } from '../notifications/notifications.events';
+import { NotificationEvent } from '../kafka/notification.events';
+import type { AssignmentPayload } from '../kafka/notification.events';
 
 const BASE_SELECT = {
   id: true,
@@ -23,7 +23,7 @@ const BASE_SELECT = {
 export class AssignmentsService {
   constructor(
     private prisma: PrismaService,
-    private eventEmitter: EventEmitter2,
+    private kafka: KafkaService,
   ) {}
 
   getAllAssignments() {
@@ -95,7 +95,7 @@ export class AssignmentsService {
       this.prisma.user.findUnique({ where: { id: studentId }, select: { name: true } }),
     ]);
 
-    this.eventEmitter.emit(NotificationEvent.ASSIGNMENT_PICKED, {
+    this.kafka.emit(NotificationEvent.ASSIGNMENT_PICKED, {
       recipientIds: [assignment.supervisorId],
       actorName: student?.name ?? 'Student',
       entityId: id,
@@ -120,7 +120,7 @@ export class AssignmentsService {
       this.prisma.user.findUnique({ where: { id: userId }, select: { name: true } }),
     ]);
 
-    this.eventEmitter.emit(NotificationEvent.ASSIGNMENT_UNPICKED, {
+    this.kafka.emit(NotificationEvent.ASSIGNMENT_UNPICKED, {
       recipientIds: [assignment.supervisorId],
       actorName: student?.name ?? 'Student',
       entityId: id,

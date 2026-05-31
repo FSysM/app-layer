@@ -1,9 +1,9 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
+import { KafkaService } from '../kafka/kafka.service';
 import { FileManagerService } from '../filemanager/filemanager.service';
-import { NotificationEvent } from '../notifications/notifications.events';
-import type { ReviewPayload, FilePayload } from '../notifications/notifications.events';
+import { NotificationEvent } from '../kafka/notification.events';
+import type { ReviewPayload, FilePayload } from '../kafka/notification.events';
 import { ReviewFileUploadUrlDto } from './dto/file-upload-url.dto';
 import { ReviewFileConfirmDto } from './dto/file-confirm.dto';
 
@@ -22,7 +22,7 @@ export class ReviewsService {
   constructor(
     private prisma: PrismaService,
     private fileManager: FileManagerService,
-    private eventEmitter: EventEmitter2,
+    private kafka: KafkaService,
   ) {}
 
   async getReviewsBySubmission(submissionId: string) {
@@ -57,7 +57,7 @@ export class ReviewsService {
     const reviewer = await this.prisma.user.findUnique({ where: { id: data.reviewerId }, select: { name: true } });
 
     if (submission.assignment.studentId) {
-      this.eventEmitter.emit(NotificationEvent.REVIEW_CREATED, {
+      this.kafka.emit(NotificationEvent.REVIEW_CREATED, {
         recipientIds: [submission.assignment.studentId],
         actorName: reviewer?.name ?? 'Teacher',
         entityId: result.id,
@@ -93,7 +93,7 @@ export class ReviewsService {
     const studentId = review.submission.assignment.studentId;
 
     if (studentId) {
-      this.eventEmitter.emit(NotificationEvent.REVIEW_EDITED, {
+      this.kafka.emit(NotificationEvent.REVIEW_EDITED, {
         recipientIds: [studentId],
         actorName: reviewer?.name ?? 'Teacher',
         entityId: reviewId,
@@ -129,7 +129,7 @@ export class ReviewsService {
     const studentId = review.submission.assignment.studentId;
 
     if (studentId) {
-      this.eventEmitter.emit(NotificationEvent.REVIEW_DELETED, {
+      this.kafka.emit(NotificationEvent.REVIEW_DELETED, {
         recipientIds: [studentId],
         actorName: reviewer?.name ?? 'Teacher',
         entityId: reviewId,
@@ -166,7 +166,7 @@ export class ReviewsService {
     const studentId = review.submission.assignment.studentId;
 
     if (studentId) {
-      this.eventEmitter.emit(NotificationEvent.FILE_UPLOADED, {
+      this.kafka.emit(NotificationEvent.FILE_UPLOADED, {
         recipientIds: [studentId],
         actorName: reviewer?.name ?? 'Teacher',
         entityId: file.id,
@@ -194,7 +194,7 @@ export class ReviewsService {
       const studentId = review.submission.assignment.studentId;
 
       if (studentId) {
-        this.eventEmitter.emit(NotificationEvent.FILE_DELETED, {
+        this.kafka.emit(NotificationEvent.FILE_DELETED, {
           recipientIds: [studentId],
           actorName: reviewer?.name ?? 'Teacher',
           entityId: fileId,
