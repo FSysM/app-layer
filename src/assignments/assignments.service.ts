@@ -61,7 +61,12 @@ export class AssignmentsService {
     });
   }
 
-  updateAssignment(dto: UpdateAssignmentDto, supervisorId: string) {
+  async updateAssignment(dto: UpdateAssignmentDto, supervisorId: string) {
+    const assignment = await this.prisma.assignment.findUnique({ where: { id: dto.id } });
+    if (!assignment) throw new NotFoundException('Assignment not found');
+    if (assignment.supervisorId !== supervisorId)
+      throw new ForbiddenException('You can only edit your own assignments');
+
     return this.prisma.assignment.update({
       where: { id: dto.id },
       data: {
@@ -70,16 +75,37 @@ export class AssignmentsService {
         faculty: dto.faculty as any,
         department: dto.department as any,
         annotation: dto.annotation,
-        supervisorId,
       },
     });
   }
 
   async deleteAssignment(id: string, supervisorId: string) {
-    const assignment = await this.prisma.assignment.findUnique({ where: { id } });
+    const assignment = await this.prisma.assignment.findUnique({
+      where: { id },
+      select: {
+        supervisorId: true,
+        submissions: { select: { status: true, reviews: { select: { type: true } } } },
+      },
+    });
     if (!assignment) throw new NotFoundException('Assignment not found');
-    if (assignment.supervisorId !== supervisorId) throw new ForbiddenException('You can only delete your own assignments');
-    return this.prisma.assignment.delete({ where: { id } });
+    if (assignment.supervisorId !== supervisorId)
+      throw new ForbiddenException('You can only delete your own assignments');
+
+    for (const s of assignment.submissions) {
+      if (s.status === 'REJECTED') continue;
+      if (s.status !== 'COMPLETED')
+        throw new BadRequestException('Cannot delete assignment with pending submissions');
+      const hasSupReview = s.reviews.some((r) => r.type === 'SUPERVISOR');
+      const hasOppReview = s.reviews.some((r) => r.type === 'OPPONENT');
+      if (!hasSupReview || !hasOppReview)
+        throw new BadRequestException('Cannot delete assignment until all reviews are completed');
+    }
+
+    await this.prisma.$transaction([
+      this.prisma.review.deleteMany({ where: { submission: { assignmentId: id } } }),
+      this.prisma.submission.deleteMany({ where: { assignmentId: id } }),
+      this.prisma.assignment.delete({ where: { id } }),
+    ]);
   }
 
   async pickAssignment(id: string, studentId: string) {
@@ -109,11 +135,13 @@ export class AssignmentsService {
   async unpickAssignment(id: string, userId: string) {
     const assignment = await this.prisma.assignment.findUnique({
       where: { id },
-      select: { topic: true, taken: true, studentId: true, supervisorId: true },
+      select: { topic: true, taken: true, studentId: true, supervisorId: true, _count: { select: { submissions: true } } },
     });
     if (!assignment) throw new NotFoundException('Assignment not found');
     if (!assignment.taken) throw new BadRequestException('Assignment is not taken');
     if (assignment.studentId !== userId) throw new ForbiddenException('You can only unpick your own assignment');
+    if (assignment._count.submissions > 0)
+      throw new BadRequestException('Cannot unpick an assignment that already has a submission');
 
     const [result, student] = await Promise.all([
       this.prisma.assignment.update({ where: { id }, data: { taken: false, studentId: null } }),
