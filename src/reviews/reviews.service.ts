@@ -196,6 +196,12 @@ export class ReviewsService {
     reviewerId: string,
   ) {
     const review = await this.ensureReviewerOwnsReview(reviewId, reviewerId);
+
+    const existing = await this.fileManager.listReviewFiles(reviewId);
+    for (const f of existing) {
+      await this.fileManager.deleteFile(f.id, reviewerId);
+    }
+
     const file = await this.fileManager.confirmUpload({
       key: dto.key,
       filename: dto.filename,
