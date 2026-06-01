@@ -29,8 +29,8 @@ export class SubmissionsController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('STUDENT')
-  createSubmission(@Body() dto: CreateSubmissionDto) {
-    return this.submissionsService.createSubmission(dto);
+  createSubmission(@Body() dto: CreateSubmissionDto, @Req() req: AuthenticatedRequest) {
+    return this.submissionsService.createSubmission(dto, req.user.userId);
   }
 
   @Put()

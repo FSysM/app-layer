@@ -1,4 +1,6 @@
 import {
+  BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -81,7 +83,20 @@ export class SubmissionsService {
     return this.prisma.submission.findMany({ select: BASE_SELECT });
   }
 
-  async createSubmission(dto: CreateSubmissionDto) {
+  async createSubmission(dto: CreateSubmissionDto, studentId: string) {
+    const assignment = await this.prisma.assignment.findUnique({
+      where: { id: dto.assignmentId },
+      select: { studentId: true },
+    });
+    if (!assignment) throw new NotFoundException('Assignment not found');
+    if (assignment.studentId !== studentId)
+      throw new ForbiddenException('You can only submit for your own assignment');
+
+    const existing = await this.prisma.submission.findFirst({
+      where: { assignmentId: dto.assignmentId },
+    });
+    if (existing) throw new ConflictException('A submission for this assignment already exists');
+
     const result = await this.prisma.submission.create({
       data: {
         assignmentId: dto.assignmentId,
@@ -111,11 +126,13 @@ export class SubmissionsService {
   async updateSubmission(dto: UpdateSubmissionDto, studentId: string) {
     const submission = await this.prisma.submission.findUnique({
       where: { id: dto.id },
-      select: { assignment: { select: { studentId: true } } },
+      select: { status: true, assignment: { select: { studentId: true } } },
     });
     if (!submission) throw new NotFoundException('Submission not found');
     if (submission.assignment.studentId !== studentId)
       throw new ForbiddenException('You can only edit your own submission');
+    if (submission.status === 'COMPLETED')
+      throw new BadRequestException('Cannot edit an approved submission');
 
     const result = await this.prisma.submission.update({
       where: { id: dto.id },
