@@ -99,8 +99,9 @@ model Submission {
 
 enum Status {
   PENDING
-  COMPLETED
+  SUBMITTED
   IN_PROGRESS
+  COMPLETED
   REJECTED
 }
 
