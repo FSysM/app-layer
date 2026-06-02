@@ -49,11 +49,12 @@ export class ReviewsService {
       select: {
         status: true,
         topic: true,
+        assignmentId: true,
         assignment: { select: { studentId: true } },
       },
     });
 
-    if (!submission || submission.status !== 'COMPLETED') {
+    if (!submission || submission.status !== 'IN_PROGRESS') {
       throw new BadRequestException(
         'Submission must be approved before writing a review',
       );
@@ -78,6 +79,18 @@ export class ReviewsService {
         reviewType: data.type,
         submissionTopic: submission.topic,
       } satisfies ReviewPayload);
+    }
+
+    const reviewCount = await this.prisma.review.count({
+      where: { submissionId: data.submissionId },
+    });
+
+    if (reviewCount === 2) {
+      await this.prisma.$transaction([
+        this.prisma.review.deleteMany({ where: { submission: { assignmentId: submission.assignmentId } } }),
+        this.prisma.submission.deleteMany({ where: { assignmentId: submission.assignmentId } }),
+        this.prisma.assignment.delete({ where: { id: submission.assignmentId } }),
+      ]);
     }
 
     return result;

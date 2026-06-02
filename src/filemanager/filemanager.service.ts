@@ -83,4 +83,8 @@ export class FileManagerService {
   listReviewFiles(reviewId: string) {
     return this.call<FileRecord[]>(`/files/review/${reviewId}`, 'GET');
   }
+
+  getDownloadUrl(fileId: string) {
+    return this.call<{ url: string }>(`/files/${fileId}/download-url`, 'GET');
+  }
 }

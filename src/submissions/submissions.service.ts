@@ -100,7 +100,7 @@ export class SubmissionsService {
     const result = await this.prisma.submission.create({
       data: {
         assignmentId: dto.assignmentId,
-        status: 'PENDING',
+        status: 'SUBMITTED',
         topic: dto.topic,
         type: dto.type as any,
         faculty: dto.faculty as any,
@@ -131,7 +131,7 @@ export class SubmissionsService {
     if (!submission) throw new NotFoundException('Submission not found');
     if (submission.assignment.studentId !== studentId)
       throw new ForbiddenException('You can only edit your own submission');
-    if (submission.status === 'COMPLETED')
+    if (submission.status === 'IN_PROGRESS' || submission.status === 'COMPLETED')
       throw new BadRequestException('Cannot edit an approved submission');
 
     const result = await this.prisma.submission.update({
@@ -197,7 +197,7 @@ export class SubmissionsService {
   ) {
     const result = await this.prisma.submission.update({
       where: { id },
-      data: { status: 'COMPLETED', opponentId },
+      data: { status: 'IN_PROGRESS', opponentId },
       select: BASE_SELECT,
     });
 
