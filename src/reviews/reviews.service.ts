@@ -54,7 +54,7 @@ export class ReviewsService {
       },
     });
 
-    if (!submission || submission.status !== 'IN_PROGRESS') {
+    if (!submission || !['APPROVED', 'REVIEWING'].includes(submission.status)) {
       throw new BadRequestException(
         'Submission must be approved before writing a review',
       );
@@ -85,7 +85,16 @@ export class ReviewsService {
       where: { submissionId: data.submissionId },
     });
 
-    if (reviewCount === 2) {
+    if (reviewCount === 1) {
+      await this.prisma.submission.update({
+        where: { id: data.submissionId },
+        data: { status: 'REVIEWING' },
+      });
+    } else if (reviewCount >= 2) {
+      await this.prisma.submission.update({
+        where: { id: data.submissionId },
+        data: { status: 'COMPLETED' },
+      });
       await this.prisma.$transaction([
         this.prisma.review.deleteMany({ where: { submission: { assignmentId: submission.assignmentId } } }),
         this.prisma.submission.deleteMany({ where: { assignmentId: submission.assignmentId } }),

@@ -131,7 +131,7 @@ export class SubmissionsService {
     if (!submission) throw new NotFoundException('Submission not found');
     if (submission.assignment.studentId !== studentId)
       throw new ForbiddenException('You can only edit your own submission');
-    if (submission.status === 'IN_PROGRESS' || submission.status === 'COMPLETED')
+    if (['APPROVED', 'REVIEWING', 'COMPLETED'].includes(submission.status))
       throw new BadRequestException('Cannot edit an approved submission');
 
     const result = await this.prisma.submission.update({
@@ -195,9 +195,17 @@ export class SubmissionsService {
     opponentId: string,
     supervisorId: string,
   ) {
+    const submission = await this.prisma.submission.findUnique({
+      where: { id },
+      select: { status: true },
+    });
+    if (!submission) throw new NotFoundException('Submission not found');
+    if (submission.status !== 'SUBMITTED')
+      throw new BadRequestException('Only submitted submissions can be approved');
+
     const result = await this.prisma.submission.update({
       where: { id },
-      data: { status: 'IN_PROGRESS', opponentId },
+      data: { status: 'APPROVED', opponentId },
       select: BASE_SELECT,
     });
 
