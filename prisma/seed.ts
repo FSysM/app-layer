@@ -209,7 +209,7 @@ async function main() {
     data: [
       {
         assignmentId: assignment1.id,
-        status: 'PENDING',
+        status: 'SUBMITTED',
         topic: assignment1.topic,
         type: assignment1.type,
         faculty: assignment1.faculty,
@@ -219,7 +219,7 @@ async function main() {
       },
       {
         assignmentId: assignment2.id,
-        status: 'PENDING',
+        status: 'SUBMITTED',
         topic: assignment2.topic,
         type: assignment2.type,
         faculty: assignment2.faculty,
@@ -229,7 +229,7 @@ async function main() {
       },
       {
         assignmentId: assignment4.id,
-        status: 'PENDING',
+        status: 'SUBMITTED',
         topic: assignment4.topic,
         type: assignment4.type,
         faculty: assignment4.faculty,
@@ -239,7 +239,7 @@ async function main() {
       },
       {
         assignmentId: assignment5.id,
-        status: 'PENDING',
+        status: 'SUBMITTED',
         topic: assignment5.topic,
         type: assignment5.type,
         faculty: assignment5.faculty,

@@ -112,13 +112,15 @@ export class SubmissionsService {
       select: BASE_SELECT,
     });
 
-    this.kafka.emit(NotificationEvent.SUBMISSION_SUBMITTED, {
-      recipientIds: [result.assignment.supervisor.id],
-      actorName: result.assignment.student?.name ?? 'Student',
-      entityId: result.id,
-      entityType: 'submission',
-      submissionTopic: result.topic,
-    } satisfies SubmissionPayload);
+    if (result.assignment) {
+      this.kafka.emit(NotificationEvent.SUBMISSION_SUBMITTED, {
+        recipientIds: [result.assignment.supervisor.id],
+        actorName: result.assignment.student?.name ?? 'Student',
+        entityId: result.id,
+        entityType: 'submission',
+        submissionTopic: result.topic,
+      } satisfies SubmissionPayload);
+    }
 
     return result;
   }
@@ -129,7 +131,7 @@ export class SubmissionsService {
       select: { status: true, assignment: { select: { studentId: true } } },
     });
     if (!submission) throw new NotFoundException('Submission not found');
-    if (submission.assignment.studentId !== studentId)
+    if (submission.assignment?.studentId !== studentId)
       throw new ForbiddenException('You can only edit your own submission');
     if (['APPROVED', 'REVIEWING', 'COMPLETED'].includes(submission.status))
       throw new BadRequestException('Cannot edit an approved submission');
@@ -148,13 +150,15 @@ export class SubmissionsService {
       select: BASE_SELECT,
     });
 
-    this.kafka.emit(NotificationEvent.SUBMISSION_EDITED, {
-      recipientIds: [result.assignment.supervisor.id],
-      actorName: result.assignment.student?.name ?? 'Student',
-      entityId: result.id,
-      entityType: 'submission',
-      submissionTopic: result.topic,
-    } satisfies SubmissionPayload);
+    if (result.assignment) {
+      this.kafka.emit(NotificationEvent.SUBMISSION_EDITED, {
+        recipientIds: [result.assignment.supervisor.id],
+        actorName: result.assignment.student?.name ?? 'Student',
+        entityId: result.id,
+        entityType: 'submission',
+        submissionTopic: result.topic,
+      } satisfies SubmissionPayload);
+    }
 
     return result;
   }
@@ -174,18 +178,20 @@ export class SubmissionsService {
       },
     });
     if (!submission) throw new NotFoundException('Submission not found');
-    if (submission.assignment.studentId !== studentId)
+    if (submission.assignment?.studentId !== studentId)
       throw new ForbiddenException('You can only delete your own submission');
 
     const result = await this.prisma.submission.delete({ where: { id } });
 
-    this.kafka.emit(NotificationEvent.SUBMISSION_DELETED, {
-      recipientIds: [submission.assignment.supervisorId],
-      actorName: submission.assignment.student?.name ?? 'Student',
-      entityId: id,
-      entityType: 'submission',
-      submissionTopic: submission.topic,
-    } satisfies SubmissionPayload);
+    if (submission.assignment) {
+      this.kafka.emit(NotificationEvent.SUBMISSION_DELETED, {
+        recipientIds: [submission.assignment.supervisorId],
+        actorName: submission.assignment.student?.name ?? 'Student',
+        entityId: id,
+        entityType: 'submission',
+        submissionTopic: submission.topic,
+      } satisfies SubmissionPayload);
+    }
 
     return result;
   }
@@ -214,7 +220,7 @@ export class SubmissionsService {
       select: { name: true },
     });
     const supervisorName = supervisor?.name ?? 'Supervisor';
-    const studentId = result.assignment.student?.id;
+    const studentId = result.assignment?.student?.id;
 
     if (studentId) {
       this.kafka.emit(NotificationEvent.SUBMISSION_APPROVED, {
@@ -248,7 +254,7 @@ export class SubmissionsService {
       where: { id: supervisorId },
       select: { name: true },
     });
-    const studentId = result.assignment.student?.id;
+    const studentId = result.assignment?.student?.id;
 
     if (studentId) {
       this.kafka.emit(NotificationEvent.SUBMISSION_REJECTED, {
@@ -365,7 +371,7 @@ export class SubmissionsService {
       },
     });
     if (!submission) throw new NotFoundException('Submission not found');
-    if (submission.assignment.studentId !== studentId)
+    if (!submission.assignment || submission.assignment.studentId !== studentId)
       throw new ForbiddenException(
         'You can only manage files for your own submission',
       );

@@ -85,11 +85,11 @@ model Submission {
 
   submissionDate DateTime @default(now())
 
-  assignmentId String
+  assignmentId String?
   opponentId   String?
 
-  assignment Assignment @relation(fields: [assignmentId], references: [id])
-  opponent   User?      @relation("OpponentSubmissions", fields: [opponentId], references: [id])
+  assignment Assignment? @relation(fields: [assignmentId], references: [id], onDelete: SetNull)
+  opponent   User?       @relation("OpponentSubmissions", fields: [opponentId], references: [id])
 
   reviews Review[]
 

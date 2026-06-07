@@ -70,9 +70,10 @@ export class ReviewsService {
       select: { name: true },
     });
 
-    if (submission.assignment.studentId) {
+    const studentId = submission.assignment?.studentId;
+    if (studentId) {
       this.kafka.emit(NotificationEvent.REVIEW_CREATED, {
-        recipientIds: [submission.assignment.studentId],
+        recipientIds: [studentId],
         actorName: reviewer?.name ?? 'Teacher',
         entityId: result.id,
         entityType: 'review',
@@ -95,11 +96,11 @@ export class ReviewsService {
         where: { id: data.submissionId },
         data: { status: 'COMPLETED' },
       });
-      await this.prisma.$transaction([
-        this.prisma.review.deleteMany({ where: { submission: { assignmentId: submission.assignmentId } } }),
-        this.prisma.submission.deleteMany({ where: { assignmentId: submission.assignmentId } }),
-        this.prisma.assignment.delete({ where: { id: submission.assignmentId } }),
-      ]);
+      // Delete only the assignment — submission and reviews are kept as archive.
+      // The onDelete: SetNull constraint automatically nulls submission.assignmentId.
+      if (submission.assignmentId) {
+        await this.prisma.assignment.delete({ where: { id: submission.assignmentId } });
+      }
     }
 
     return result;
@@ -137,7 +138,7 @@ export class ReviewsService {
       where: { id: userId },
       select: { name: true },
     });
-    const studentId = review.submission.assignment.studentId;
+    const studentId = review.submission.assignment?.studentId;
 
     if (studentId) {
       this.kafka.emit(NotificationEvent.REVIEW_EDITED, {
@@ -180,7 +181,7 @@ export class ReviewsService {
       where: { id: userId },
       select: { name: true },
     });
-    const studentId = review.submission.assignment.studentId;
+    const studentId = review.submission.assignment?.studentId;
 
     if (studentId) {
       this.kafka.emit(NotificationEvent.REVIEW_DELETED, {
@@ -239,7 +240,7 @@ export class ReviewsService {
       where: { id: reviewerId },
       select: { name: true },
     });
-    const studentId = review.submission.assignment.studentId;
+    const studentId = review.submission.assignment?.studentId;
 
     if (studentId) {
       this.kafka.emit(NotificationEvent.FILE_UPLOADED, {
@@ -263,7 +264,7 @@ export class ReviewsService {
       where: { id: reviewerId },
       select: { name: true },
     });
-    const studentId = review.submission.assignment.studentId;
+    const studentId = review.submission.assignment?.studentId;
 
     if (studentId) {
       this.kafka.emit(NotificationEvent.FILE_DELETED, {
